@@ -12,6 +12,14 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        serif: ["Georgia", "Cambria", '"Times New Roman"', "Times", "serif"],
+        sans: ['"Helvetica Neue"', "Arial", "sans-serif"],
+      },
+      rotate: {
+        'y-180': 'rotateY(180deg)',
+        // Add any other custom rotations here
+      }
     },
   },
   plugins: [],
