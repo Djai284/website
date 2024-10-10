@@ -97,7 +97,7 @@ const MeshRippleEffect: React.FC<MeshRippleEffectProps> = ({ children }) => {
     propagateWave();
 
     const nodes = nodesRef.current;
-    for (let node of nodes) {
+    for (const node of nodes) {
       node.update();
       node.draw(ctx);
     }
@@ -144,7 +144,7 @@ const MeshRippleEffect: React.FC<MeshRippleEffectProps> = ({ children }) => {
     const nodes = nodesRef.current;
     const maxDistance = Math.max(canvas.width, canvas.height) / 8;
 
-    for (let node of nodes) {
+    for (const node of nodes) {
       const dx = node.x - x;
       const dy = node.baseY - y;
       const distance = Math.sqrt(dx * dx + dy * dy);

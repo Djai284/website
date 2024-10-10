@@ -69,7 +69,7 @@ export const Content: React.FC = () => {
                 getTextColor()
               )}
             >
-              hey, i'm jai <span className={theme.accentColor}>👋</span>
+              hey, i&apos;m jai <span className={theme.accentColor}>👋</span>
             </h1>
             <p
               className={twMerge(
@@ -77,7 +77,7 @@ export const Content: React.FC = () => {
                 getTextColor()
               )}
             >
-              i'm a passionate builder who dabbles in many things. welcome to my
+              i&apos;m a passionate builder who dabbles in many things. welcome to my
               mind (it is a bit of a mess 😂)
             </p>
             <nav>

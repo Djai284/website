@@ -156,7 +156,7 @@ const RippleEffect: React.FC<RippleEffectProps> = ({ children }) => {
 
     const maxDistance = Math.min(canvas.width, canvas.height) / 8;
 
-    for (let node of nodesRef.current) {
+    for (const node of nodesRef.current) {
       const dx = node.x - x;
       const dy = node.y - y;
       const distance = Math.sqrt(dx * dx + dy * dy);
