@@ -7,7 +7,7 @@ import { Content } from "@/components/landing";
 const App: React.FC = () => {
   return (
     <ThemeProvider>
-      <FloatingNetworkBackground nodeCount={50} connectionDistance={150} maxNodes={100}>
+      <FloatingNetworkBackground nodeCount={30} connectionDistance={150} maxNodes={70}>
         <Content />
       </FloatingNetworkBackground>
     </ThemeProvider>
