@@ -8,7 +8,15 @@ import pfp from "../app/images/jai.png";
 export const Content: React.FC = () => {
   const theme = useTheme();
 
-  const navItems = ["Blog", "Projects", "Resume"];
+  const navItems = [
+    { name: "Blog", url: "https://blog.jai.place/" },
+    { name: "Projects", url: "/projects" },
+    {
+      name: "Resume",
+      url: "https://firebasestorage.googleapis.com/v0/b/personal-website-f0071.appspot.com/o/dhananjai-ft-resume.pdf?alt=media&token=8f2b6f88-6298-44db-b3f5-21c9307682cd",
+    },
+  ];
+
   const socialLinks = [
     { name: "GitHub", url: "https://github.com/Djai284" },
     {
@@ -30,29 +38,28 @@ export const Content: React.FC = () => {
   };
 
   const getTextColor = () => {
-    console.log(theme.name);
     return theme.type === "light" ? "text-gray-800" : "text-white";
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-center p-4 pointer-events-none">
-      <div className={twMerge("p-8 rounded-lg shadow-lg max-w-4xl w-full pointer-events-auto", getContainerStyle())}>
+      <div
+        className={twMerge(
+          "p-8 rounded-lg shadow-lg max-w-4xl w-full pointer-events-auto",
+          getContainerStyle()
+        )}
+      >
         <div className="flex flex-col md:flex-row items-center justify-center mb-8">
           <div className="md:w-1/3 mb-6 md:mb-0">
-            <AnimatedImage
-              src={pfp}
-              alt="Jai"
-              width={192}
-              height={192}
-            />
-            <div className="flex justify-center space-x-4">
+            <AnimatedImage src={pfp} alt="Jai" width={192} height={192} />
+            <div className="flex justify-center space-x-4 mt-4">
               {socialLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.url}
                   className={twMerge(
                     "text-sm hover:underline transition-colors duration-300",
-                    theme.accentColor
+                    `text-[${theme.accentColor}]`
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -69,7 +76,8 @@ export const Content: React.FC = () => {
                 getTextColor()
               )}
             >
-              hey, i&apos;m jai <span className={theme.accentColor}>👋</span>
+              hey, i&apos;m jai{" "}
+              <span className={`text-[${theme.accentColor}]`}>👋</span>
             </h1>
             <p
               className={twMerge(
@@ -77,21 +85,29 @@ export const Content: React.FC = () => {
                 getTextColor()
               )}
             >
-              i&apos;m a passionate builder who dabbles in many things. welcome to my
-              mind (it is a bit of a mess 😂)
+              i&apos;m a passionate builder who dabbles in many things. welcome
+              to my mind (it is a bit of a mess 😂)
             </p>
             <nav>
               <ul className="flex flex-wrap justify-center space-x-4 font-sans text-lg">
                 {navItems.map((item) => (
-                  <li key={item}>
+                  <li key={item.name}>
                     <a
-                      href={`#${item.toLowerCase()}`}
+                      href={item.url}
                       className={twMerge(
                         "transition-colors duration-300 border-b-2 border-transparent hover:border-current px-2 py-1",
-                        theme.baseColor
+                        `text-[${theme.baseColor}]`
                       )}
+                      target={
+                        item.url.startsWith("http") ? "_blank" : undefined
+                      }
+                      rel={
+                        item.url.startsWith("http")
+                          ? "noopener noreferrer"
+                          : undefined
+                      }
                     >
-                      {item}
+                      {item.name}
                     </a>
                   </li>
                 ))}
