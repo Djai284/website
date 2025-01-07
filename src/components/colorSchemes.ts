@@ -1,19 +1,10 @@
-"use client";
-
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useRef,
-} from "react";
-
 interface Theme {
   baseColor: string;
   accentColor: string;
   name: string;
   type: "light" | "mid" | "dark";
 }
+
 
 const colorSchemes: Theme[] = [
   // Light themes
@@ -115,12 +106,12 @@ const colorSchemes: Theme[] = [
     name: "mid-cyan",
     type: "mid",
   },
-  // {
-  //   baseColor: "#FFFF00",
-  //   accentColor: "#0000FF",
-  //   name: "mid-blue",
-  //   type: "mid",
-  // },
+  {
+    baseColor: "#000000",
+    accentColor: "#0000FF",
+    name: "mid-blue",
+    type: "mid",
+  },
   {
     baseColor: "#98FB98",
     accentColor: "#8A2BE2",
@@ -202,45 +193,3 @@ const colorSchemes: Theme[] = [
     type: "dark",
   },
 ];
-
-const ThemeContext = createContext<Theme | null>(null);
-
-export const useTheme = () => {
-  const theme = useContext(ThemeContext);
-  if (!theme) {
-    throw new Error("useTheme must be used within a ThemeProvider");
-  }
-  return theme;
-};
-
-interface ThemeProviderProps {
-  children: React.ReactNode;
-}
-
-export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>(colorSchemes[0]);
-  const hasSetTheme = useRef(false);
-
-  useEffect(() => {
-    if (!hasSetTheme.current) {
-      const randomScheme =
-        colorSchemes[Math.floor(Math.random() * colorSchemes.length)];
-      setTheme(randomScheme);
-      hasSetTheme.current = true;
-    }
-  }, []);
-
-  return (
-    <ThemeContext.Provider value={theme}>
-      <div
-        style={{
-          backgroundColor: theme.baseColor,
-          color: theme.accentColor,
-          minHeight: "100vh",
-        }}
-      >
-        {children}
-      </div>
-    </ThemeContext.Provider>
-  );
-};

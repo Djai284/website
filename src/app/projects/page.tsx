@@ -12,6 +12,8 @@ import {
 import { useTheme } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 
+import projectImage from '../images/logo-alt-with-background.jpeg';
+
 interface Project {
   id: number;
   title: string;
@@ -23,30 +25,26 @@ interface Project {
   details: string;
 }
 
-// Sample project data - replace with your actual projects
 const projectsData: Project[] = [
   {
     id: 1,
     title: "E-commerce Platform",
-    description:
-      "A full-stack e-commerce platform built with React and Node.js",
-    image: "/api/placeholder/400/250",
+    description: "A full-stack e-commerce platform built with React and Node.js",
+    image: projectImage?.src || '/images/logo-alt-with-background.jpeg',
     timeline: "Jan 2024 - Present",
     status: "In Progress",
     types: ["Frontend", "Backend", "Full Stack"],
-    details:
-      "This project implements a modern e-commerce solution with features including user authentication, product management, shopping cart, and payment processing integration...",
+    details: "This project implements a modern e-commerce solution with features including user authentication, product management, shopping cart, and payment processing integration...",
   },
   {
     id: 2,
     title: "Machine Learning Model",
     description: "Image classification model using TensorFlow",
-    image: "/api/placeholder/400/250",
+    image: projectImage?.src || '/images/logo-alt-with-background.jpeg',
     timeline: "Nov 2023 - Dec 2023",
     status: "Completed",
     types: ["AI/ML", "Python"],
-    details:
-      "Developed a deep learning model for image classification using TensorFlow. The model achieves 95% accuracy on the test dataset...",
+    details: "Developed a deep learning model for image classification using TensorFlow. The model achieves 95% accuracy on the test dataset...",
   },
 ];
 
@@ -57,12 +55,10 @@ const ProjectPortfolio: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const theme = useTheme();
 
-  // Get unique project types
   const allTypes = Array.from(
     new Set(projectsData.flatMap((project) => project.types))
   );
 
-  // Filter projects based on search term and selected types
   const filteredProjects = projectsData.filter((project) => {
     const matchesSearch =
       project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -73,18 +69,19 @@ const ProjectPortfolio: React.FC = () => {
     return matchesSearch && matchesTypes;
   });
 
-  // Toggle type filter
   const toggleType = (type: string) => {
     setSelectedTypes((prev) =>
       prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
     );
   };
 
-  interface StatusBadgeProps {
-    status: Project["status"];
-  }
+  const getButtonStyle = (isActive: boolean) => ({
+    backgroundColor: isActive ? theme.accentColor : 'transparent',
+    color: isActive ? theme.baseColor : theme.accentColor,
+    borderColor: theme.accentColor,
+  });
 
-  const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
+  const StatusBadge: React.FC<{ status: Project["status"] }> = ({ status }) => {
     const getStatusColor = () => {
       switch (status.toLowerCase()) {
         case "completed":
@@ -105,11 +102,7 @@ const ProjectPortfolio: React.FC = () => {
     );
   };
 
-  interface TypeBadgeProps {
-    type: string;
-  }
-
-  const TypeBadge: React.FC<TypeBadgeProps> = ({ type }) => (
+  const TypeBadge: React.FC<{ type: string }> = ({ type }) => (
     <span className="px-2 py-1 rounded-full text-sm bg-purple-100 text-purple-800 mr-2 mb-2">
       {type}
     </span>
@@ -120,10 +113,8 @@ const ProjectPortfolio: React.FC = () => {
       <div className="max-w-4xl mx-auto p-6">
         <button
           onClick={() => setSelectedProject(null)}
-          className={cn(
-            "flex items-center mb-4 transition-colors duration-300",
-            `text-[${theme.baseColor}] hover:text-[${theme.accentColor}]`
-          )}
+          style={{ color: theme.baseColor }}
+          className="flex items-center mb-4 hover:opacity-80 transition-opacity duration-300"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Projects
@@ -166,24 +157,21 @@ const ProjectPortfolio: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto p-6">
       <div className="mb-8">
-        <h1
-          className={cn("text-3xl font-bold mb-4", `text-[${theme.baseColor}]`)}
-        >
+
+        <h1 style={{ color: theme.accentColor }} className="text-4xl font-bold mb-2">
           My Projects
         </h1>
-
-        {/* Search and View Toggle */}
         <div className="flex flex-wrap gap-4 mb-6">
           <div className="relative flex-grow max-w-md">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <input
               type="text"
               placeholder="Search projects..."
-              className={cn(
-                "w-full pl-10 pr-4 py-2 border rounded-lg",
-                "focus:outline-none focus:ring-2",
-                `focus:ring-[${theme.accentColor}]`
-              )}
+              style={{ 
+                borderColor: theme.accentColor,
+                '--tw-ring-color': theme.accentColor 
+              } as React.CSSProperties}
+              className="w-full text-gray-900 pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -191,41 +179,28 @@ const ProjectPortfolio: React.FC = () => {
           <div className="flex gap-2">
             <button
               onClick={() => setView("grid")}
-              className={cn(
-                "p-2 rounded transition-colors duration-300",
-                view === "grid"
-                  ? `bg-[${theme.accentColor}] text-[${theme.baseColor}]`
-                  : `hover:bg-[${theme.accentColor}] hover:text-[${theme.baseColor}]`
-              )}
+              style={getButtonStyle(view === "grid")}
+              className="p-2 rounded border-2 transition-colors duration-300"
             >
               <Grid className="w-5 h-5" />
             </button>
             <button
               onClick={() => setView("list")}
-              className={cn(
-                "p-2 rounded transition-colors duration-300",
-                view === "list"
-                  ? `bg-[${theme.accentColor}] text-[${theme.baseColor}]`
-                  : `hover:bg-[${theme.accentColor}] hover:text-[${theme.baseColor}]`
-              )}
+              style={getButtonStyle(view === "list")}
+              className="p-2 rounded border-2 transition-colors duration-300"
             >
               <List className="w-5 h-5" />
             </button>
           </div>
         </div>
 
-        {/* Type Filters */}
         <div className="flex flex-wrap gap-2 mb-6">
           {allTypes.map((type) => (
             <button
               key={type}
               onClick={() => toggleType(type)}
-              className={cn(
-                "px-3 py-1 rounded-full text-sm transition-colors duration-300",
-                selectedTypes.includes(type)
-                  ? `bg-[${theme.baseColor}] text-[${theme.accentColor}]`
-                  : `bg-muted hover:bg-[${theme.baseColor}/20] text-muted-foreground`
-              )}
+              style={getButtonStyle(selectedTypes.includes(type))}
+              className="px-3 py-1 rounded-full text-sm border transition-colors duration-300"
             >
               {type}
               {selectedTypes.includes(type) && (
@@ -236,7 +211,6 @@ const ProjectPortfolio: React.FC = () => {
         </div>
       </div>
 
-      {/* Project Grid/List View */}
       <div
         className={cn(
           "grid gap-6",
@@ -248,10 +222,14 @@ const ProjectPortfolio: React.FC = () => {
         {filteredProjects.map((project) => (
           <Card
             key={project.id}
-            className={cn(
-              "cursor-pointer transition-shadow hover:shadow-lg",
-              `hover:border-[${theme.accentColor}]`
-            )}
+            className="cursor-pointer transition-all duration-300 hover:shadow-lg border-2"
+            style={{ borderColor: 'transparent' }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLDivElement).style.borderColor = theme.accentColor;
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLDivElement).style.borderColor = 'transparent';
+            }}
             onClick={() => setSelectedProject(project)}
           >
             {project.image && view === "grid" && (
