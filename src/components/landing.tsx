@@ -13,7 +13,7 @@ export const Content: React.FC = () => {
     { name: "Projects", url: "/projects" },
     {
       name: "Resume",
-      url: "https://firebasestorage.googleapis.com/v0/b/personal-website-f0071.appspot.com/o/dhananjai-ft-resume.pdf?alt=media&token=8f2b6f88-6298-44db-b3f5-21c9307682cd",
+      url: "https://firebasestorage.googleapis.com/v0/b/personal-website-f0071.appspot.com/o/Dhananjai%20Resume.pdf?alt=media&token=d0e1625e-4780-40ef-9081-9209c7adc270",
     },
   ];
 
@@ -86,7 +86,7 @@ export const Content: React.FC = () => {
               )}
             >
               i&apos;m a passionate builder who dabbles in many things. welcome
-              to my mind (it is a bit of a mess 😂)
+              to my corner of the internet!
             </p>
             <nav>
               <ul className="flex flex-wrap justify-center space-x-4 font-sans text-lg">

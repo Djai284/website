@@ -1,144 +1,292 @@
 "use client";
-import React, { useRef, useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { useTheme } from "../../components/theme-provider";
-import { twMerge } from "tailwind-merge";
+
+import React, { useState } from "react";
+import { Search, Grid, List, ArrowLeft, X } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useTheme } from "@/components/theme-provider";
+import { cn } from "@/lib/utils";
 
 interface Project {
-  id: string;
-  name: string;
+  id: number;
+  title: string;
   description: string;
-  startDate: string;
-  endDate: string | null;
-  skills: string[];
-  url?: string;
+  image?: string;
+  timeline: string;
+  status: "In Progress" | "Completed" | "Planned";
+  types: string[];
+  details: string;
 }
 
-const projects: Project[] = [
+// Sample project data - replace with your actual projects
+const projectsData: Project[] = [
   {
-    id: "1",
-    name: "Personal Website",
-    description: "A showcase of my work and skills using Next.js and Tailwind CSS.",
-    startDate: "2023-01-01",
-    endDate: null,
-    skills: ["Next.js", "TailwindCSS"],
-    url: "https://jai.place",
+    id: 1,
+    title: "E-commerce Platform",
+    description:
+      "A full-stack e-commerce platform built with React and Node.js",
+    image: "/api/placeholder/400/250",
+    timeline: "Jan 2024 - Present",
+    status: "In Progress",
+    types: ["Frontend", "Backend", "Full Stack"],
+    details:
+      "This project implements a modern e-commerce solution with features including user authentication, product management, shopping cart, and payment processing integration...",
   },
   {
-    id: "2",
-    name: "AI Chatbot",
-    description: "Developing an AI-powered chatbot using natural language processing.",
-    startDate: "2023-03-15",
-    endDate: null,
-    skills: ["Python", "NLP"],
-  },
-  {
-    id: "3",
-    name: "Mobile App",
-    description: "A cross-platform mobile app built with React Native.",
-    startDate: "2022-11-01",
-    endDate: "2023-02-28",
-    skills: ["React Native", "Expo"],
-    url: "https://github.com/Djai284/mobile-app",
+    id: 2,
+    title: "Machine Learning Model",
+    description: "Image classification model using TensorFlow",
+    image: "/api/placeholder/400/250",
+    timeline: "Nov 2023 - Dec 2023",
+    status: "Completed",
+    types: ["AI/ML", "Python"],
+    details:
+      "Developed a deep learning model for image classification using TensorFlow. The model achieves 95% accuracy on the test dataset...",
   },
 ];
 
-const ProjectsTimeline: React.FC = () => {
+const ProjectPortfolio: React.FC = () => {
+  const [view, setView] = useState<"grid" | "list">("grid");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const theme = useTheme();
-  const [visibleItems, setVisibleItems] = useState<number[]>([]);
-  const timelineRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const itemId = Number(entry.target.getAttribute("data-id"));
-            setVisibleItems((prev) => [...prev, itemId]);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.2, root: null }
+  // Get unique project types
+  const allTypes = Array.from(
+    new Set(projectsData.flatMap((project) => project.types))
+  );
+
+  // Filter projects based on search term and selected types
+  const filteredProjects = projectsData.filter((project) => {
+    const matchesSearch =
+      project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      project.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesTypes =
+      selectedTypes.length === 0 ||
+      selectedTypes.some((type) => project.types.includes(type));
+    return matchesSearch && matchesTypes;
+  });
+
+  // Toggle type filter
+  const toggleType = (type: string) => {
+    setSelectedTypes((prev) =>
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
     );
+  };
 
-    const items = timelineRef.current?.querySelectorAll(".timeline-item");
-    items?.forEach((item) => observer.observe(item));
+  interface StatusBadgeProps {
+    status: Project["status"];
+  }
 
-    return () => observer.disconnect();
-  }, []);
+  const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
+    const getStatusColor = () => {
+      switch (status.toLowerCase()) {
+        case "completed":
+          return "bg-green-100 text-green-800";
+        case "in progress":
+          return "bg-blue-100 text-blue-800";
+        case "planned":
+          return "bg-yellow-100 text-yellow-800";
+        default:
+          return "bg-gray-100 text-gray-800";
+      }
+    };
+
+    return (
+      <span className={cn("px-2 py-1 rounded-full text-sm", getStatusColor())}>
+        {status}
+      </span>
+    );
+  };
+
+  interface TypeBadgeProps {
+    type: string;
+  }
+
+  const TypeBadge: React.FC<TypeBadgeProps> = ({ type }) => (
+    <span className="px-2 py-1 rounded-full text-sm bg-purple-100 text-purple-800 mr-2 mb-2">
+      {type}
+    </span>
+  );
+
+  if (selectedProject) {
+    return (
+      <div className="max-w-4xl mx-auto p-6">
+        <button
+          onClick={() => setSelectedProject(null)}
+          className={cn(
+            "flex items-center mb-4 transition-colors duration-300",
+            `text-[${theme.baseColor}] hover:text-[${theme.accentColor}]`
+          )}
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to Projects
+        </button>
+
+        <Card>
+          {selectedProject.image && (
+            <img
+              src={selectedProject.image}
+              alt={selectedProject.title}
+              className="w-full h-64 object-cover rounded-t-lg"
+            />
+          )}
+          <CardHeader>
+            <div className="flex justify-between items-start">
+              <CardTitle className="text-2xl font-bold">
+                {selectedProject.title}
+              </CardTitle>
+              <StatusBadge status={selectedProject.status} />
+            </div>
+            <CardDescription>
+              Timeline: {selectedProject.timeline}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap mb-4">
+              {selectedProject.types.map((type) => (
+                <TypeBadge key={type} type={type} />
+              ))}
+            </div>
+            <p className="text-gray-700 whitespace-pre-line">
+              {selectedProject.details}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen p-8" style={{ backgroundColor: theme.baseColor, color: theme.accentColor }}>
-      <h1 className="text-4xl font-bold mb-12 text-center">
-        My Projects Roadmap
-      </h1>
-      <div className="relative max-w-4xl mx-auto" ref={timelineRef}>
-        <div className="absolute w-1 bg-gray-300 h-full left-1/2 transform -translate-x-1/2" style={{ backgroundColor: theme.accentColor }}></div>
-        {projects.map((project, index) => (
-          <motion.div
+    <div className="max-w-6xl mx-auto p-6">
+      <div className="mb-8">
+        <h1
+          className={cn("text-3xl font-bold mb-4", `text-[${theme.baseColor}]`)}
+        >
+          My Projects
+        </h1>
+
+        {/* Search and View Toggle */}
+        <div className="flex flex-wrap gap-4 mb-6">
+          <div className="relative flex-grow max-w-md">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <input
+              type="text"
+              placeholder="Search projects..."
+              className={cn(
+                "w-full pl-10 pr-4 py-2 border rounded-lg",
+                "focus:outline-none focus:ring-2",
+                `focus:ring-[${theme.accentColor}]`
+              )}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setView("grid")}
+              className={cn(
+                "p-2 rounded transition-colors duration-300",
+                view === "grid"
+                  ? `bg-[${theme.accentColor}] text-[${theme.baseColor}]`
+                  : `hover:bg-[${theme.accentColor}] hover:text-[${theme.baseColor}]`
+              )}
+            >
+              <Grid className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setView("list")}
+              className={cn(
+                "p-2 rounded transition-colors duration-300",
+                view === "list"
+                  ? `bg-[${theme.accentColor}] text-[${theme.baseColor}]`
+                  : `hover:bg-[${theme.accentColor}] hover:text-[${theme.baseColor}]`
+              )}
+            >
+              <List className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Type Filters */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          {allTypes.map((type) => (
+            <button
+              key={type}
+              onClick={() => toggleType(type)}
+              className={cn(
+                "px-3 py-1 rounded-full text-sm transition-colors duration-300",
+                selectedTypes.includes(type)
+                  ? `bg-[${theme.baseColor}] text-[${theme.accentColor}]`
+                  : `bg-muted hover:bg-[${theme.baseColor}/20] text-muted-foreground`
+              )}
+            >
+              {type}
+              {selectedTypes.includes(type) && (
+                <X className="w-3 h-3 ml-1 inline-block" />
+              )}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Project Grid/List View */}
+      <div
+        className={cn(
+          "grid gap-6",
+          view === "grid"
+            ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+            : "grid-cols-1"
+        )}
+      >
+        {filteredProjects.map((project) => (
+          <Card
             key={project.id}
-            data-id={index}
-            className={`timeline-item mb-16 relative flex ${
-              index % 2 === 0 ? "flex-row-reverse" : "flex-row"
-            }`}
-            initial={{ opacity: 0, y: 50 }}
-            animate={visibleItems.includes(index) ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
+            className={cn(
+              "cursor-pointer transition-shadow hover:shadow-lg",
+              `hover:border-[${theme.accentColor}]`
+            )}
+            onClick={() => setSelectedProject(project)}
           >
-            <div
-              className={`w-10 h-10 absolute top-0 rounded-full flex items-center justify-center z-10 ${
-                index % 2 === 0 ? "-left-5" : "-right-5"
-              } border-4 shadow-lg`}
-              style={{ backgroundColor: theme.baseColor, borderColor: theme.accentColor, color: theme.accentColor }}
-            >
-              {index + 1}
-            </div>
-            <div
-              className={`w-5/12 p-6 shadow-xl rounded-lg ${
-                index % 2 === 0 ? "mr-auto" : "ml-auto"
-              }`}
-              style={{ backgroundColor: theme.baseColor, borderColor: theme.accentColor, borderWidth: '1px' }}
-            >
-              <h2 className="text-2xl font-semibold mb-3" style={{ color: theme.accentColor }}>
-                {project.name}
-              </h2>
-              <p className="mb-4" style={{ color: theme.accentColor }}>
-                {project.description}
-              </p>
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-sm" style={{ color: theme.accentColor }}>
-                  {project.startDate} - {project.endDate || "Present"}
-                </span>
+            {project.image && view === "grid" && (
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-48 object-cover rounded-t-lg"
+              />
+            )}
+            <CardHeader>
+              <div className="flex justify-between items-start">
+                <CardTitle>{project.title}</CardTitle>
+                <StatusBadge status={project.status} />
               </div>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {project.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="text-xs px-2 py-1 rounded-full"
-                    style={{ backgroundColor: theme.accentColor, color: theme.baseColor }}
-                  >
-                    {skill}
-                  </span>
+              <CardDescription>Timeline: {project.timeline}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-700 mb-4">{project.description}</p>
+              <div className="flex flex-wrap gap-2">
+                {project.types.map((type) => (
+                  <TypeBadge key={type} type={type} />
                 ))}
               </div>
-              {project.url && (
-                <a
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm font-semibold hover:opacity-80 transition-opacity"
-                  style={{ color: theme.accentColor }}
-                >
-                  View Project →
-                </a>
-              )}
-            </div>
-          </motion.div>
+            </CardContent>
+          </Card>
         ))}
       </div>
+
+      {filteredProjects.length === 0 && (
+        <div className="text-center text-gray-500 py-8">
+          No projects found matching your criteria
+        </div>
+      )}
     </div>
   );
 };
 
-export default ProjectsTimeline;
+export default ProjectPortfolio;
