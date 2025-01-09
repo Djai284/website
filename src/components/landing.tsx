@@ -57,10 +57,8 @@ export const Content: React.FC = () => {
                 <a
                   key={link.name}
                   href={link.url}
-                  className={twMerge(
-                    "text-sm hover:underline transition-colors duration-300",
-                    `text-[${theme.accentColor}]`
-                  )}
+                  className="text-sm hover:underline transition-colors duration-300"
+                  style={{ color: theme.accentColor }}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -76,8 +74,8 @@ export const Content: React.FC = () => {
                 getTextColor()
               )}
             >
-              hey, i&apos;m jai{" "}
-              <span className={`text-[${theme.accentColor}]`}>👋</span>
+              <span>hey, i&apos;m jai</span>
+              <span style={{ color: theme.accentColor }}> 👋</span>
             </h1>
             <p
               className={twMerge(
@@ -94,13 +92,9 @@ export const Content: React.FC = () => {
                   <li key={item.name}>
                     <a
                       href={item.url}
-                      className={twMerge(
-                        "transition-colors duration-300 border-b-2 border-transparent hover:border-current px-2 py-1",
-                        `text-[${theme.baseColor}]`
-                      )}
-                      target={
-                        item.url.startsWith("http") ? "_blank" : undefined
-                      }
+                      className="transition-colors duration-300 border-b-2 border-transparent hover:border-current px-2 py-1"
+                      style={{ color: theme.baseColor }}
+                      target={item.url.startsWith("http") ? "_blank" : undefined}
                       rel={
                         item.url.startsWith("http")
                           ? "noopener noreferrer"

@@ -6,7 +6,7 @@ interface Theme {
 }
 
 
-const colorSchemes: Theme[] = [
+export const colorSchemes: Theme[] = [
   // Light themes
   // {
   //   baseColor: "#0000FF",

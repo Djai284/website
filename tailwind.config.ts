@@ -55,12 +55,12 @@ const config: Config = {
   			serif: [
   				'Georgia',
   				'Cambria',
-  				'Times New Roman"',
+  				'Times New Roman',
   				'Times',
   				'serif'
   			],
   			sans: [
-  				'Helvetica Neue"',
+  				'Helvetica Neue',
   				'Arial',
   				'sans-serif'
   			]
