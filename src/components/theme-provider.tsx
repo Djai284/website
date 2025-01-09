@@ -16,6 +16,14 @@ interface Theme {
   type: "light" | "mid" | "dark";
 }
 
+// Define a neutral initial theme
+const initialTheme: Theme = {
+  baseColor: "#000000",
+  accentColor: "#ffffff",
+  name: "initial",
+  type: "light",
+};
+
 const ThemeContext = createContext<Theme | null>(null);
 
 export const useTheme = () => {
@@ -31,16 +39,16 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>(colorSchemes[0]);
-  const hasSetTheme = useRef(false);
-
+  // Use the neutral initial theme
+  const [theme, setTheme] = useState<Theme>(initialTheme);
+  
   useEffect(() => {
-    if (!hasSetTheme.current) {
-      const randomScheme =
-        colorSchemes[Math.floor(Math.random() * colorSchemes.length)];
-      setTheme(randomScheme);
-      hasSetTheme.current = true;
-    }
+    // Set random theme immediately on mount
+    const randomScheme = colorSchemes[Math.floor(Math.random() * colorSchemes.length)];
+    console.log('Current theme:', randomScheme.name, 
+      '\nBase color:', randomScheme.baseColor, 
+      '\nAccent color:', randomScheme.accentColor);
+    setTheme(randomScheme);
   }, []);
 
   return (
@@ -50,6 +58,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
           backgroundColor: theme.baseColor,
           color: theme.accentColor,
           minHeight: "100vh",
+          transition: "background-color 0.3s, color 0.3s", // Add smooth transition
         }}
       >
         {children}

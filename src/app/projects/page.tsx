@@ -26,7 +26,36 @@ interface Project {
 }
 
 // Project data remains the same...
-const projectsData: Project[] = [/* your existing project data */];
+const projectsData: Project[] = [
+  {
+    id: 1,
+    title: "Project 1",
+    description: "Project 1 description",
+    image: projectImage.src,
+    timeline: "2021 - 2022",
+    status: "In Progress",
+    types: ["Type 1", "Type 2"],
+    details: "Project 1 details",
+  },
+  {
+    id: 2,
+    title: "Project 2",
+    description: "Project 2 description",
+    timeline: "2020 - 2021",
+    status: "Completed",
+    types: ["Type 2", "Type 3"],
+    details: "Project 2 details",
+  },
+  {
+    id: 3,
+    title: "Project 3",
+    description: "Project 3 description",
+    timeline: "2022 - 2023",
+    status: "Planned",
+    types: ["Type 1", "Type 3"],
+    details: "Project 3 details",
+  }
+];
 
 const ProjectPortfolio: React.FC = () => {
   const [view, setView] = useState<"grid" | "list">("grid");
@@ -142,15 +171,16 @@ const ProjectPortfolio: React.FC = () => {
         </h1>
         <div className="flex flex-wrap gap-4 mb-6">
           <div className="relative flex-grow max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <Search style={{color: theme.accentColor}}className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <input
               type="text"
-              placeholder="Search projects..."
               style={{ 
                 borderColor: theme.accentColor,
-                outlineColor: theme.accentColor 
+                outlineColor: theme.accentColor,
+                backgroundColor: theme.baseColor, 
+                color: theme.accentColor
               }}
-              className="w-full text-gray-900 pl-10 pr-4 py-2 border rounded-lg focus:outline focus:outline-2"
+              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline focus:outline-2"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -238,7 +268,7 @@ const ProjectPortfolio: React.FC = () => {
       </div>
 
       {filteredProjects.length === 0 && (
-        <div className="text-center text-gray-500 py-8">
+        <div style={{color: theme.accentColor}} className="text-center text-gray-500 py-8">
           No projects found matching your criteria
         </div>
       )}

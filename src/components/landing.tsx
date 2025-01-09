@@ -58,7 +58,6 @@ export const Content: React.FC = () => {
                   key={link.name}
                   href={link.url}
                   className="text-sm hover:underline transition-colors duration-300"
-                  style={{ color: theme.accentColor }}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -93,7 +92,6 @@ export const Content: React.FC = () => {
                     <a
                       href={item.url}
                       className="transition-colors duration-300 border-b-2 border-transparent hover:border-current px-2 py-1"
-                      style={{ color: theme.baseColor }}
                       target={item.url.startsWith("http") ? "_blank" : undefined}
                       rel={
                         item.url.startsWith("http")
