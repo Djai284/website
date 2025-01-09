@@ -5,7 +5,6 @@ import React, {
   useContext,
   useState,
   useEffect,
-  useRef,
 } from "react";
 import { colorSchemes } from "../lib/color-schemes";
 
