@@ -143,7 +143,7 @@ const ProjectPortfolio: React.FC = () => {
   };
 
   const getButtonStyle = (isActive: boolean) => ({
-    backgroundColor: isActive ? theme.accentColor : "transparent",
+    backgroundColor: isActive ? theme.accentColor : `${theme.baseColor}80`,
     color: isActive ? theme.baseColor : theme.accentColor,
     borderColor: theme.accentColor,
   });
