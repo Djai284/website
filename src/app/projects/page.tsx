@@ -71,8 +71,8 @@ const getTextColors = (themeType: "light" | "mid" | "dark") => {
     case "dark":
       return {
         title: "text-white",
-        description: "text-gray-300",
-        content: "text-gray-200",
+        description: "text-white",
+        content: "text-white",
       };
     case "light":
       return {
@@ -177,16 +177,12 @@ const ProjectPortfolio: React.FC = () => {
 
   if (selectedProject) {
     return (
-      <FloatingNetworkBackground
-        nodeCount={nodeCount}
-        connectionDistance={150}
-        maxNodes={maxNodes}
-      >
+      <FloatingNetworkBackground nodeCount={nodeCount} connectionDistance={150} maxNodes={maxNodes} >
         <div className="max-w-4xl mx-auto p-4 md:p-6 min-h-screen">
           <button
             onClick={() => setSelectedProject(null)}
             style={{ color: theme.accentColor }}
-            className="text-2xl font-bold flex items-center mb-4 hover:underline"
+            className="text-2xl font-bold flex items-center mb-4 hover:underline pointer-events-auto pointer-events-auto"
           >
             <ArrowLeft className="w-8 h-8 mr-2" />
             Back to Projects
@@ -197,7 +193,7 @@ const ProjectPortfolio: React.FC = () => {
               <img
                 src={selectedProject.image}
                 alt={selectedProject.title}
-                className="w-full h-64 object-cover rounded-lg"
+                className="w-full h-64 object-cover rounded-lg pointer-events-auto"
               />
             )}
             <CardHeader>
@@ -249,7 +245,7 @@ const ProjectPortfolio: React.FC = () => {
         <div className="mb-8">
           <h1
             style={{ color: theme.accentColor }}
-            className="text-3xl font-bold mb-2 flex items-center"
+            className="text-3xl font-bold mb-2 flex items-center pointer-events-auto"
           >
             <Home
               className="w-8 h-8 inline-block mr-2 hover:cursor-pointer"
@@ -258,7 +254,7 @@ const ProjectPortfolio: React.FC = () => {
             My Projects
           </h1>
           <div className="flex flex-wrap gap-4 mb-6">
-            <div className="relative flex-grow max-w-md">
+            <div className="relative flex-grow max-w-md pointer-events-auto">
               <Search
                 style={{ color: theme.accentColor }}
                 className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4"
@@ -276,7 +272,7 @@ const ProjectPortfolio: React.FC = () => {
                 onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSearchTerm(e.target.value)}
               />
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 pointer-events-auto">
               <button
                 onClick={() => setView("grid")}
                 style={getButtonStyle(view === "grid")}
@@ -300,7 +296,7 @@ const ProjectPortfolio: React.FC = () => {
                 key={type}
                 onClick={() => toggleType(type)}
                 style={getButtonStyle(selectedTypes.includes(type))}
-                className="px-3 py-1 rounded-full text-sm border-2 transition-colors duration-300"
+                className="px-3 py-1 rounded-full text-sm border-2 transition-colors duration-300 pointer-events-auto"
               >
                 {type}
                 {selectedTypes.includes(type) && (
@@ -322,7 +318,7 @@ const ProjectPortfolio: React.FC = () => {
           {filteredProjects.map((project) => (
             <Card
               key={project.id}
-              className="cursor-pointer transition-all duration-300 hover:shadow-lg border-2"
+              className="cursor-pointer transition-all duration-300 hover:shadow-lg border-2 pointer-events-auto"
               style={{
                 borderColor: "transparent",
                 background: `${theme.accentColor}CC`,

@@ -46,7 +46,9 @@ const FloatingNetworkBackground: React.FC<FloatingNetworkBackgroundProps> = ({
     (width: number, height: number) => {
       nodesRef.current = [];
       for (let i = 0; i < nodeCountState; i++) {
-        nodesRef.current.push(createNode(Math.random() * width, Math.random() * height));
+        nodesRef.current.push(
+          createNode(Math.random() * width, Math.random() * height)
+        );
       }
     },
     [nodeCountState, createNode]
@@ -149,7 +151,9 @@ const FloatingNetworkBackground: React.FC<FloatingNetworkBackgroundProps> = ({
             ctx.lineTo(otherNode.x, otherNode.y);
             const opacity = 1 - dist / connectionDistance;
             // alpha channel in hex
-            const alpha = Math.floor(opacity * 255).toString(16).padStart(2, "0");
+            const alpha = Math.floor(opacity * 255)
+              .toString(16)
+              .padStart(2, "0");
             ctx.strokeStyle = `${theme.accentColor}${alpha}`;
             ctx.stroke();
           }
@@ -167,7 +171,7 @@ const FloatingNetworkBackground: React.FC<FloatingNetworkBackgroundProps> = ({
 
   return (
     <div style={{ position: "relative" }}>
-      {/* Fixed background layer */}
+      {/* Fixed background with pointerEvents: auto (so canvas can get clicks). */}
       <div
         style={{
           position: "fixed",
@@ -178,6 +182,7 @@ const FloatingNetworkBackground: React.FC<FloatingNetworkBackgroundProps> = ({
           overflow: "hidden",
           cursor: "pointer",
           zIndex: 0,
+          pointerEvents: "auto",
         }}
         onClick={handleCanvasClick}
       >
@@ -190,8 +195,14 @@ const FloatingNetworkBackground: React.FC<FloatingNetworkBackgroundProps> = ({
         />
       </div>
 
-      {/* Normal page content */}
-      <div style={{ position: "relative", zIndex: 1 }}>
+      {/* Children container with pointerEvents: none by default. */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          pointerEvents: "none",
+        }}
+      >
         {children}
       </div>
     </div>
