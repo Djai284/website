@@ -5,28 +5,9 @@ import { Github, Linkedin, Mail, Terminal } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTheme } from "@/components/theme-provider";
 import FloatingNetworkBackground from "@/components/floating-network";
-import { cn } from "@/lib/utils";
 
 const AboutPage: React.FC = () => {
   const theme = useTheme();
-
-  const socialLinks = [
-    {
-      icon: <Github className="w-6 h-6" />,
-      href: "https://github.com/Djai284",
-      label: "GitHub",
-    },
-    {
-      icon: <Linkedin className="w-6 h-6" />,
-      href: "https://linkedin.com/in/yourprofile",
-      label: "LinkedIn",
-    },
-    {
-      icon: <Mail className="w-6 h-6" />,
-      href: "mailto:dhananjai284@gmail.com",
-      label: "Email",
-    },
-  ];
 
   return (
     <FloatingNetworkBackground nodeCount={30} connectionDistance={150} maxNodes={70}>
@@ -50,7 +31,7 @@ const AboutPage: React.FC = () => {
           <CardContent>
             <div className={"space-y-6"}>
               <p>
-                I'm a Computer Science student at Northeastern University, passionate about building innovative solutions using cutting-edge technologies.
+                I&apos;m a Computer Science student at Northeastern University, passionate about building innovative solutions using cutting-edge technologies.
               </p>
               
               <div>
@@ -81,7 +62,7 @@ const AboutPage: React.FC = () => {
                 </h2>
                 <p>
                   Currently working as a Software Engineering Intern at Cloud303, 
-                  where I'm developing ML pipelines and fullstack applications, 
+                  where I&apos;m developing ML pipelines and fullstack applications, 
                   while also exploring innovative solutions in bio-informatics.
                 </p>
               </div>
