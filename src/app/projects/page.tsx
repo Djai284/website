@@ -82,9 +82,9 @@ const getTextColors = (themeType: "light" | "mid" | "dark") => {
       };
     case "mid":
       return {
-        title: "text-gray-900",
-        description: "text-gray-700",
-        content: "text-gray-800",
+        title: "text-white",
+        description: "text-white",
+        content: "text-white",
       };
   }
 };
@@ -182,7 +182,7 @@ const ProjectPortfolio: React.FC = () => {
         connectionDistance={150}
         maxNodes={maxNodes}
       >
-        <div className="max-w-4xl mx-auto p-4 md:p-6 overflow-y-auto min-h-screen">
+        <div className="max-w-4xl mx-auto p-4 md:p-6 min-h-screen">
           <button
             onClick={() => setSelectedProject(null)}
             style={{ color: theme.accentColor }}
@@ -245,7 +245,7 @@ const ProjectPortfolio: React.FC = () => {
       connectionDistance={150}
       maxNodes={maxNodes}
     >
-      <div className="max-w-6xl mx-auto p-4 md:p-6 min-h-screen overflow-y-auto">
+      <div className="max-w-6xl mx-auto p-4 md:p-6 min-h-screen">
         <div className="mb-8">
           <h1
             style={{ color: theme.accentColor }}
@@ -261,19 +261,19 @@ const ProjectPortfolio: React.FC = () => {
             <div className="relative flex-grow max-w-md">
               <Search
                 style={{ color: theme.accentColor }}
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4"
               />
               <input
                 type="text"
                 style={{
                   borderColor: theme.accentColor,
                   outlineColor: theme.accentColor,
-                  backgroundColor: theme.baseColor,
+                  backgroundColor: `${theme.baseColor}80`,
                   color: theme.accentColor,
                 }}
                 className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline focus:outline-2"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSearchTerm(e.target.value)}
               />
             </div>
             <div className="flex gap-2">

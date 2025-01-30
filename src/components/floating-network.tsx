@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useRef, useCallback, useState } from "react";
 import { useTheme } from "./theme-provider";
 
@@ -24,13 +25,13 @@ const FloatingNetworkBackground: React.FC<FloatingNetworkBackgroundProps> = ({
   connectionDistance = 150,
   maxNodes = 50,
 }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const nodesRef = useRef<Node[]>([]);
   const [nodeCountState, setNodeCountState] = useState(nodeCount);
   const theme = useTheme();
 
   const createNode = useCallback(
-    (x: number, y: number, isNew: boolean = false): Node => ({
+    (x: number, y: number, isNew = false): Node => ({
       x,
       y,
       vx: (Math.random() - 0.5) * 0.5,
@@ -45,9 +46,7 @@ const FloatingNetworkBackground: React.FC<FloatingNetworkBackgroundProps> = ({
     (width: number, height: number) => {
       nodesRef.current = [];
       for (let i = 0; i < nodeCountState; i++) {
-        nodesRef.current.push(
-          createNode(Math.random() * width, Math.random() * height)
-        );
+        nodesRef.current.push(createNode(Math.random() * width, Math.random() * height));
       }
     },
     [nodeCountState, createNode]
@@ -69,7 +68,7 @@ const FloatingNetworkBackground: React.FC<FloatingNetworkBackgroundProps> = ({
         nodesRef.current.push(createNode(x, y, true));
         setNodeCountState((prev) => prev + 1);
       } else {
-        // Replace the oldest node
+        // Replace oldest node
         nodesRef.current.shift();
         nodesRef.current.push(createNode(x, y, true));
       }
@@ -79,24 +78,24 @@ const FloatingNetworkBackground: React.FC<FloatingNetworkBackgroundProps> = ({
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) return; // no canvas yet
 
     const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    if (!ctx) return; // no 2D context
 
-    const resizeCanvas = () => {
+    function resizeCanvas() {
+      if (!canvas) return;
+
       const oldWidth = canvas.width;
       const oldHeight = canvas.height;
 
-      // Set new canvas dimensions
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 
+      // If this is first load or we want to scale nodes
       if (nodesRef.current.length === 0) {
-        // Only initialize nodes if the array is empty (i.e., the first load)
         initNodes(canvas.width, canvas.height);
       } else {
-        // Optionally adjust node positions to keep them proportional to the new canvas size
         const widthRatio = canvas.width / oldWidth;
         const heightRatio = canvas.height / oldHeight;
 
@@ -106,106 +105,95 @@ const FloatingNetworkBackground: React.FC<FloatingNetworkBackgroundProps> = ({
           y: node.y * heightRatio,
         }));
       }
-    };
+    }
 
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    const animate = () => {
+    function animate() {
+      // again, check for canvas & context
+      if (!canvas) return;
+      if (!ctx) return;
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Update and draw nodes
+      // update & draw nodes
       nodesRef.current.forEach((node, i) => {
         node.x += node.vx;
         node.y += node.vy;
-
-        // Bounce off edges
         if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
         if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
 
-        // Draw node
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+
         if (node.isNew) {
-          // Draw a glow around the new node for some frames
           ctx.shadowBlur = 10;
           ctx.shadowColor = theme.accentColor;
           ctx.fillStyle = "white";
-          node.isNew = false; // Reset the isNew flag after drawing
+          node.isNew = false;
         } else {
           ctx.shadowBlur = 0;
           ctx.fillStyle = theme.accentColor;
         }
-
         ctx.fill();
 
-        // Draw connections
+        // draw connections
         nodesRef.current.slice(i + 1).forEach((otherNode) => {
           const dx = node.x - otherNode.x;
           const dy = node.y - otherNode.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < connectionDistance) {
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < connectionDistance) {
             ctx.beginPath();
             ctx.moveTo(node.x, node.y);
             ctx.lineTo(otherNode.x, otherNode.y);
-            const opacity = 1 - distance / connectionDistance;
-            ctx.strokeStyle = `${theme.accentColor}${Math.floor(opacity * 255)
-              .toString(16)
-              .padStart(2, "0")}`;
+            const opacity = 1 - dist / connectionDistance;
+            // alpha channel in hex
+            const alpha = Math.floor(opacity * 255).toString(16).padStart(2, "0");
+            ctx.strokeStyle = `${theme.accentColor}${alpha}`;
             ctx.stroke();
           }
         });
       });
 
       requestAnimationFrame(animate);
-    };
-
+    }
     animate();
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
     };
-  }, [theme.accentColor, connectionDistance, initNodes]);
+  }, [connectionDistance, initNodes, theme.accentColor]);
 
   return (
-    <div
-      style={{
-        position: "relative",
-        width: "100vw",
-        height: "100vh",
-        overflow: "hidden",
-        cursor: "pointer",
-      }}
-      onClick={handleCanvasClick}
-    >
-      <canvas
-        ref={canvasRef}
+    <div style={{ position: "relative" }}>
+      {/* Fixed background layer */}
+      <div
         style={{
-          position: "absolute",
+          position: "fixed",
           top: 0,
           left: 0,
-          width: "100%",
-          height: "100%",
-          zIndex: 1,
+          width: "100vw",
+          height: "100vh",
+          overflow: "hidden",
           cursor: "pointer",
+          zIndex: 0,
         }}
-      />
-      {children && (
-        <div
+        onClick={handleCanvasClick}
+      >
+        <canvas
+          ref={canvasRef}
           style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
             width: "100%",
             height: "100%",
-            zIndex: 2,
-            pointerEvents: "none",
           }}
-        >
-          <div style={{ pointerEvents: "auto" }}>{children}</div>
-        </div>
-      )}
+        />
+      </div>
+
+      {/* Normal page content */}
+      <div style={{ position: "relative", zIndex: 1 }}>
+        {children}
+      </div>
     </div>
   );
 };
