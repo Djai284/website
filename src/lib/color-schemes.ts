@@ -116,7 +116,7 @@ export const colorSchemes: Theme[] = [
     baseColor: "#98FB98",
     accentColor: "#8A2BE2",
     name: "mid-violet",
-    type: "mid",
+    type: "dark",
   },
   {
     baseColor: "#000000",

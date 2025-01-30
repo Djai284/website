@@ -20,9 +20,9 @@ interface FloatingNetworkBackgroundProps {
 
 const FloatingNetworkBackground: React.FC<FloatingNetworkBackgroundProps> = ({
   children,
-  nodeCount = 50,
+  nodeCount = 30,
   connectionDistance = 150,
-  maxNodes = 100,
+  maxNodes = 50,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const nodesRef = useRef<Node[]>([]);

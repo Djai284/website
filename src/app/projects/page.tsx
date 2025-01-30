@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Search, Grid, List, ArrowLeft, X, Home } from "lucide-react";
 import {
   Card,
@@ -89,6 +89,29 @@ const getTextColors = (themeType: "light" | "mid" | "dark") => {
   }
 };
 
+const useResponsiveNodes = () => {
+  const [nodes, setNodes] = useState({ count: 30, max: 70 });
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 640) { // mobile
+        setNodes({ count: 15, max: 30 });
+      } else if (width < 1024) { // tablet
+        setNodes({ count: 20, max: 50 });
+      } else { // desktop
+        setNodes({ count: 30, max: 70 });
+      }
+    };
+
+    handleResize(); // Initial call
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return nodes;
+};
+
 const ProjectPortfolio: React.FC = () => {
   const [view, setView] = useState<"grid" | "list">("grid");
   const [searchTerm, setSearchTerm] = useState("");
@@ -96,6 +119,8 @@ const ProjectPortfolio: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const theme = useTheme();
   const router = useRouter();
+
+  const { count: nodeCount, max: maxNodes } = useResponsiveNodes();
 
   const allTypes = Array.from(
     new Set(projectsData.flatMap((project) => project.types))
@@ -153,11 +178,11 @@ const ProjectPortfolio: React.FC = () => {
   if (selectedProject) {
     return (
       <FloatingNetworkBackground
-        nodeCount={30}
+        nodeCount={nodeCount}
         connectionDistance={150}
-        maxNodes={70}
+        maxNodes={maxNodes}
       >
-        <div className="max-w-4xl mx-auto p-6 my-auto h-screen">
+        <div className="max-w-4xl mx-auto p-4 md:p-6 overflow-y-auto min-h-screen">
           <button
             onClick={() => setSelectedProject(null)}
             style={{ color: theme.accentColor }}
@@ -216,11 +241,11 @@ const ProjectPortfolio: React.FC = () => {
 
   return (
     <FloatingNetworkBackground
-      nodeCount={30}
+      nodeCount={nodeCount}
       connectionDistance={150}
-      maxNodes={70}
+      maxNodes={maxNodes}
     >
-      <div className="max-w-6xl mx-auto p-6">
+      <div className="max-w-6xl mx-auto p-4 md:p-6 min-h-screen overflow-y-auto">
         <div className="mb-8">
           <h1
             style={{ color: theme.accentColor }}
