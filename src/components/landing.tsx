@@ -87,12 +87,12 @@ export const Content: React.FC = () => {
               to my corner of the internet!
             </p>
             <nav>
-              <ul className="flex flex-wrap justify-center space-x-4 font-sans text-lg">
+              <ul className="flex flex-wrap justify-center gap-x-4 font-sans text-lg">
                 {navItems.map((item) => (
                   <li key={item.name}>
                     <a
                       href={item.url}
-                      className="transition-colors duration-300 border-b-2 border-transparent hover:border-current px-2 py-1"
+                      className="transition-colors duration-300 border-b-2 border-transparent hover:border-current"
                       target={item.url.startsWith("http") ? "_blank" : undefined}
                       rel={
                         item.url.startsWith("http")
