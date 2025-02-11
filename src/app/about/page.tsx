@@ -75,14 +75,19 @@ const AboutPage: React.FC = () => {
             </CardTitle>
             <div className="text-lg space-y-2">
               <p>
-                I am a 4th year Computer Science student at Northeastern University,
-                passionate about building innovative solutions to real problems using cutting-edge technology.
-                I may not be the biggest or strongest in the room, but I’m often the{" "}
-                <strong>ambitious, determined, and somewhat insane guy 😂</strong> who dreams big and juggles many ideas.
+                I am a 4th year Computer Science student at Northeastern
+                University, passionate about building innovative solutions to
+                real problems using cutting-edge technology. I may not be the
+                biggest or strongest in the room, but I&apos;m often the{" "}
+                <strong>
+                  ambitious, determined, and somewhat insane guy 😂
+                </strong>{" "}
+                who dreams big and juggles many ideas.
               </p>
               <p>
-                I'm on a journey of continuous learning and growth — both as a developer and as a person.
-                I believe in sharing my work and connecting with others.
+                I&apos;m on a journey of continuous learning and growth &mdash;
+                both as a developer and as a person. I believe in sharing my
+                work and connecting with others.
               </p>
               <p>Feel free to reach out to me on any of the platforms below:</p>
               <div className="flex flex-wrap gap-4 mt-2">
@@ -130,6 +135,17 @@ const AboutPage: React.FC = () => {
                   </span>{" "}
                   GitHub
                 </a>
+                <a
+                  href="mailto:dhananjai284@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <span role="img" aria-label="gmail">
+                    ✉️
+                  </span>{" "}
+                  Gmail
+                </a>
               </div>
             </div>
           </CardHeader>
@@ -144,17 +160,21 @@ const AboutPage: React.FC = () => {
                 }
               >
                 <p>
-                  Here are some ideas and projects I'm either working on or thinking about:
+                  Here are some ideas and projects I&apos;m either working on or
+                  thinking about:
                 </p>
                 <ul className="pl-5 space-y-1">
                   <li>
-                    🎶 <strong>Cymatics Lab</strong>: A music production and geometric research project
+                    🎶 <strong>Cymatics Lab</strong>: A music production and
+                    geometric research project
                   </li>
                   <li>
-                    🌱 <strong>Automated Hydroponics</strong>: Exploring sustainable living and self-reliance
+                    🌱 <strong>Automated Hydroponics</strong>: Exploring
+                    sustainable living and self-reliance
                   </li>
                   <li>
-                    🤖 <strong>AI Machine Learning Research Agent</strong>: Building an agent orchestration platform for deep research
+                    🤖 <strong>AI Machine Learning Research Agent</strong>:
+                    Building an agent orchestration platform for deep research
                   </li>
                 </ul>
               </ToggleSection>
@@ -168,29 +188,39 @@ const AboutPage: React.FC = () => {
                 }
               >
                 <p>
-                  Music is an integral part of life. It can make you smile after a bad day or bring back memories of the past.
-                  Here's a taste of what I'm tuning into right now:
+                  Music is an integral part of life. It can make you smile after
+                  a bad day or bring back memories of the past. Here&apos;s a
+                  taste of what I&apos;m tuning into right now:
                 </p>
                 <ul className="pl-5 space-y-1">
                   <li>
-                    🥁 <strong>Breakcore</strong> — Beats for getting things done
+                    🥁 <strong>Breakcore</strong> &mdash; Beats for getting
+                    things done
                   </li>
                   <li>
-                    🎹 <strong>EDM</strong> — Nostalgic hype vibes
+                    🎹 <strong>EDM</strong> &mdash; Nostalgic hype vibes
                   </li>
                   <li>
-                    🎷 <strong>Jazz</strong> — Perfect for slowing down and relaxing
+                    🎷 <strong>Jazz</strong> &mdash; Perfect for slowing down
+                    and relaxing
                   </li>
                   <li>
-                    💿 <strong>Rap</strong> — Artists like Kendrick Lamar for motivation and retrospection
+                    💿 <strong>Rap</strong> &mdash; Artists like Kendrick Lamar
+                    for motivation and retrospection
                   </li>
                 </ul>
-                <p>I'm always open to new suggestions, so please share your favorite tracks!</p>
-                <p>I'm also dabbling in music production—any advice is welcome.</p>
+                <p>
+                  I&apos;m always open to new suggestions, so please share your
+                  favorite tracks!
+                </p>
+                <p>
+                  I&apos;m also dabbling in music production &mdash; any advice
+                  is welcome.
+                </p>
               </ToggleSection>
 
               <ToggleSection
-                title="Movies, TV Shows & Anime Watch List"
+                title="Movies, TV Shows &amp; Anime Watch List"
                 icon={
                   <span role="img" aria-label="movies">
                     🎥
@@ -198,29 +228,32 @@ const AboutPage: React.FC = () => {
                 }
               >
                 <p>
-                  I love immersing myself in great storytelling. Here are some of my current favorites and all-time classics:
+                  I love immersing myself in great storytelling. Here are some
+                  of my current favorites and all-time classics:
                 </p>
                 <ul className="pl-5 space-y-1">
                   <li>
-                    🍿 <strong>Game of Thrones</strong> — A binge-worthy epic
+                    🍿 <strong>Game of Thrones</strong> &mdash; A binge-worthy
+                    epic
                   </li>
                   <li>
-                    🎬 <strong>The Penguin</strong> — Currently watching
+                    🎬 <strong>The Penguin</strong> &mdash; Currently watching
                   </li>
                   <li>
-                    🌀 <strong>Naruto</strong> — Anime classic
+                    🌀 <strong>Naruto</strong> &mdash; Anime classic
                   </li>
                   <li>
-                    🔥 <strong>Blue Lock</strong> — Recently started
+                    🔥 <strong>Blue Lock</strong> &mdash; Recently started
                   </li>
                 </ul>
                 <p className="mt-2">
-                  Got any recommendations? Drop your suggestions below or DM me on Twitter!
+                  Got any recommendations? Drop your suggestions below or DM me
+                  on Twitter!
                 </p>
               </ToggleSection>
 
               <ToggleSection
-                title="Sports & Fitness"
+                title="Sports &amp; Fitness"
                 icon={
                   <span role="img" aria-label="fitness">
                     💪
@@ -228,7 +261,8 @@ const AboutPage: React.FC = () => {
                 }
               >
                 <p>
-                  I enjoy staying active with sports and calisthenics. Here’s a glimpse of my current routine:
+                  I enjoy staying active with sports and calisthenics.
+                  Here&apos;s a glimpse of my current routine:
                 </p>
                 <h3 className="font-bold mt-2">Calisthenics Workout</h3>
                 <ul className="pl-5 space-y-1">
@@ -237,16 +271,18 @@ const AboutPage: React.FC = () => {
                   <li>💪 Pull-ups: 3 sets of 8 reps</li>
                 </ul>
                 <p className="mt-2">
-                  Staying fit is key, and I'm always looking to improve my strength and endurance.
+                  Staying fit is key, and I&apos;m always looking to improve my
+                  strength and endurance.
                 </p>
                 <h3 className="font-bold mt-2">Meal Plan</h3>
                 <ul className="pl-5 space-y-1">
-                  <li>🍗 Grilled Chicken Breast with Quinoa & Veggies</li>
-                  <li>🐟 Baked Salmon with Brown Rice & Broccoli</li>
-                  <li>🥚 Egg White Omelette with Spinach & Mushrooms</li>
+                  <li>🍗 Grilled Chicken Breast with Quinoa &amp; Veggies</li>
+                  <li>🐟 Baked Salmon with Brown Rice &amp; Broccoli</li>
+                  <li>🥚 Egg White Omelette with Spinach &amp; Mushrooms</li>
                 </ul>
                 <p className="mt-2">
-                  I focus on healthy, high-protein meals while avoiding beef and pork.
+                  I focus on healthy, high-protein meals while avoiding beef and
+                  pork.
                 </p>
               </ToggleSection>
 
@@ -259,7 +295,8 @@ const AboutPage: React.FC = () => {
                 }
               >
                 <p>
-                  I engage with a mix of podcasts, YouTube channels, and tech articles that inspire me.
+                  I engage with a mix of podcasts, YouTube channels, and tech
+                  articles that inspire me.
                 </p>
                 <h3 className="font-bold mt-2">Podcasts I Enjoy</h3>
                 <ul className="pl-5 space-y-1">
@@ -268,7 +305,7 @@ const AboutPage: React.FC = () => {
                   <li>🎙️ The Chris Williamson Podcast</li>
                 </ul>
                 <p className="mt-2">
-                  Have any podcast recommendations? I'd love to hear them!
+                  Have any podcast recommendations? I&apos;d love to hear them!
                 </p>
               </ToggleSection>
             </div>
