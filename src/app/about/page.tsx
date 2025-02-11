@@ -5,15 +5,56 @@ import { Terminal } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTheme } from "@/components/theme-provider";
 import FloatingNetworkBackground from "@/components/floating-network";
+import { useRouter } from "next/navigation";
+
+// A reusable toggle component for expandable sections with smooth animation.
+const ToggleSection: React.FC<{
+  title: string;
+  icon: React.ReactNode;
+  children: React.ReactNode;
+}> = ({ title, icon, children }) => {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <div className="rounded pointer-events-auto">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between p-2 bg-transparent focus:outline-none"
+      >
+        <div className="flex items-center gap-2">
+          {icon}
+          <span className="font-semibold text-xl">{title}</span>
+        </div>
+        <span>{open ? "▲" : "▼"}</span>
+      </button>
+      {/* The container is always rendered so that we can animate its max-height and opacity */}
+      <div
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+          open ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="p-2 space-y-2 text-lg">{children}</div>
+      </div>
+    </div>
+  );
+};
 
 const AboutPage: React.FC = () => {
   const theme = useTheme();
+  const router = useRouter();
 
   return (
-    <FloatingNetworkBackground nodeCount={30} connectionDistance={150} maxNodes={70}>
+    <FloatingNetworkBackground
+      nodeCount={30}
+      connectionDistance={150}
+      maxNodes={70}
+    >
       <div className="max-w-4xl mx-auto p-6 min-h-screen flex flex-col justify-center">
-        <div className="mb-8">
-          <h1 
+        <div
+          className="pointer-events-auto cursor-pointer"
+          onClick={() => router.push("/")}
+        >
+          <h1
             style={{ color: theme.accentColor }}
             className="text-4xl font-bold mb-4 flex items-center gap-2"
           >
@@ -22,50 +63,214 @@ const AboutPage: React.FC = () => {
           </h1>
         </div>
 
-        <Card style={{ background: `${theme.baseColor}CC`, color: theme.accentColor }}>
-          <CardHeader>
-            <CardTitle className={"text-2xl font-bold"}>
-              Dhananjai Senthil Kumar
+        <Card
+          style={{
+            background: `${theme.baseColor}CC`,
+            color: theme.accentColor,
+          }}
+        >
+          <CardHeader className="pointer-events-auto">
+            <CardTitle className="text-2xl font-bold flex items-center gap-2">
+              Dhananjai Senthilkumar
             </CardTitle>
+            <div className="text-lg space-y-2">
+              <p>
+                I am a 4th year Computer Science student at Northeastern University,
+                passionate about building innovative solutions to real problems using cutting-edge technology.
+                I may not be the biggest or strongest in the room, but I’m often the{" "}
+                <strong>ambitious, determined, and somewhat insane guy 😂</strong> who dreams big and juggles many ideas.
+              </p>
+              <p>
+                I'm on a journey of continuous learning and growth — both as a developer and as a person.
+                I believe in sharing my work and connecting with others.
+              </p>
+              <p>Feel free to reach out to me on any of the platforms below:</p>
+              <div className="flex flex-wrap gap-4 mt-2">
+                <a
+                  href="https://www.instagram.com/djai.sen/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <span role="img" aria-label="instagram">
+                    📸
+                  </span>{" "}
+                  Instagram
+                </a>
+                <a
+                  href="https://x.com/Djai284"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <span role="img" aria-label="twitter">
+                    🐦
+                  </span>{" "}
+                  Twitter
+                </a>
+                <a
+                  href="https://www.youtube.com/@Dhananjai284"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <span role="img" aria-label="youtube">
+                    📺
+                  </span>{" "}
+                  YouTube
+                </a>
+                <a
+                  href="https://github.com/Djai284"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <span role="img" aria-label="github">
+                    🐙
+                  </span>{" "}
+                  GitHub
+                </a>
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
-            <div className={"space-y-6"}>
-              <p>
-                I&apos;m a Computer Science student at Northeastern University, passionate about building innovative solutions using cutting-edge technologies.
-              </p>
-              
-              <div>
-                <h2 className={"text-xl font-semibold mb-2"}>
-                  Education
-                </h2>
+            <div className="space-y-4 text-md">
+              <ToggleSection
+                title="Idea/Project List"
+                icon={
+                  <span role="img" aria-label="idea">
+                    💡
+                  </span>
+                }
+              >
                 <p>
-                  Bachelor of Science in Computer Science<br />
-                  Northeastern University (Sep. 2021 – May 2025)<br />
-                  Relevant Coursework: Reinforcement Learning, Machine Learning and Data Mining, 
-                  Algorithms & Data, Object-Oriented Design, Artificial Intelligence
+                  Here are some ideas and projects I'm either working on or thinking about:
                 </p>
-              </div>
+                <ul className="pl-5 space-y-1">
+                  <li>
+                    🎶 <strong>Cymatics Lab</strong>: A music production and geometric research project
+                  </li>
+                  <li>
+                    🌱 <strong>Automated Hydroponics</strong>: Exploring sustainable living and self-reliance
+                  </li>
+                  <li>
+                    🤖 <strong>AI Machine Learning Research Agent</strong>: Building an agent orchestration platform for deep research
+                  </li>
+                </ul>
+              </ToggleSection>
 
-              <div>
-                <h2 className={"text-xl font-semibold mb-2"}>
-                  Skills & Expertise
-                </h2>
+              <ToggleSection
+                title="Music I'm Listening To"
+                icon={
+                  <span role="img" aria-label="music">
+                    🎵
+                  </span>
+                }
+              >
                 <p>
-                  Proficient in full-stack development, machine learning, and cloud architecture. 
-                  AWS certified with experience in multiple cloud platforms and modern development frameworks.
+                  Music is an integral part of life. It can make you smile after a bad day or bring back memories of the past.
+                  Here's a taste of what I'm tuning into right now:
                 </p>
-              </div>
+                <ul className="pl-5 space-y-1">
+                  <li>
+                    🥁 <strong>Breakcore</strong> — Beats for getting things done
+                  </li>
+                  <li>
+                    🎹 <strong>EDM</strong> — Nostalgic hype vibes
+                  </li>
+                  <li>
+                    🎷 <strong>Jazz</strong> — Perfect for slowing down and relaxing
+                  </li>
+                  <li>
+                    💿 <strong>Rap</strong> — Artists like Kendrick Lamar for motivation and retrospection
+                  </li>
+                </ul>
+                <p>I'm always open to new suggestions, so please share your favorite tracks!</p>
+                <p>I'm also dabbling in music production—any advice is welcome.</p>
+              </ToggleSection>
 
-              <div>
-                <h2 className={"text-xl font-semibold mb-2"}>
-                  Current Work
-                </h2>
+              <ToggleSection
+                title="Movies, TV Shows & Anime Watch List"
+                icon={
+                  <span role="img" aria-label="movies">
+                    🎥
+                  </span>
+                }
+              >
                 <p>
-                  Currently working as a Software Engineering Intern at Cloud303, 
-                  where I&apos;m developing ML pipelines and fullstack applications, 
-                  while also exploring innovative solutions in bio-informatics.
+                  I love immersing myself in great storytelling. Here are some of my current favorites and all-time classics:
                 </p>
-              </div>
+                <ul className="pl-5 space-y-1">
+                  <li>
+                    🍿 <strong>Game of Thrones</strong> — A binge-worthy epic
+                  </li>
+                  <li>
+                    🎬 <strong>The Penguin</strong> — Currently watching
+                  </li>
+                  <li>
+                    🌀 <strong>Naruto</strong> — Anime classic
+                  </li>
+                  <li>
+                    🔥 <strong>Blue Lock</strong> — Recently started
+                  </li>
+                </ul>
+                <p className="mt-2">
+                  Got any recommendations? Drop your suggestions below or DM me on Twitter!
+                </p>
+              </ToggleSection>
+
+              <ToggleSection
+                title="Sports & Fitness"
+                icon={
+                  <span role="img" aria-label="fitness">
+                    💪
+                  </span>
+                }
+              >
+                <p>
+                  I enjoy staying active with sports and calisthenics. Here’s a glimpse of my current routine:
+                </p>
+                <h3 className="font-bold mt-2">Calisthenics Workout</h3>
+                <ul className="pl-5 space-y-1">
+                  <li>🏋️ Planche Pushups: 3 sets of 5 reps</li>
+                  <li>🤸 Handstand Practice: 5 minutes wall-supported</li>
+                  <li>💪 Pull-ups: 3 sets of 8 reps</li>
+                </ul>
+                <p className="mt-2">
+                  Staying fit is key, and I'm always looking to improve my strength and endurance.
+                </p>
+                <h3 className="font-bold mt-2">Meal Plan</h3>
+                <ul className="pl-5 space-y-1">
+                  <li>🍗 Grilled Chicken Breast with Quinoa & Veggies</li>
+                  <li>🐟 Baked Salmon with Brown Rice & Broccoli</li>
+                  <li>🥚 Egg White Omelette with Spinach & Mushrooms</li>
+                </ul>
+                <p className="mt-2">
+                  I focus on healthy, high-protein meals while avoiding beef and pork.
+                </p>
+              </ToggleSection>
+
+              <ToggleSection
+                title="Online Content"
+                icon={
+                  <span role="img" aria-label="online">
+                    🌐
+                  </span>
+                }
+              >
+                <p>
+                  I engage with a mix of podcasts, YouTube channels, and tech articles that inspire me.
+                </p>
+                <h3 className="font-bold mt-2">Podcasts I Enjoy</h3>
+                <ul className="pl-5 space-y-1">
+                  <li>🎙️ Joe Rogan Experience</li>
+                  <li>🎙️ The Diary of a CEO</li>
+                  <li>🎙️ The Chris Williamson Podcast</li>
+                </ul>
+                <p className="mt-2">
+                  Have any podcast recommendations? I'd love to hear them!
+                </p>
+              </ToggleSection>
             </div>
           </CardContent>
         </Card>

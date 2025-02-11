@@ -174,18 +174,18 @@ export const colorSchemes: Theme[] = [
   //   name: "dark-blue",
   //   type: "dark",
   // },
-  {
-    baseColor: "#98FB98",
-    accentColor: "#4B0082",
-    name: "dark-violet",
-    type: "dark",
-  },
-  {
-    baseColor: "#98FB98",
-    accentColor: "#8B008B",
-    name: "dark-magenta",
-    type: "dark",
-  },
+  // {
+  //   baseColor: "#98FB98",
+  //   accentColor: "#4B0082",
+  //   name: "dark-violet",
+  //   type: "dark",
+  // },
+  // {
+  //   baseColor: "#98FB98",
+  //   accentColor: "#8B008B",
+  //   name: "dark-magenta",
+  //   type: "dark",
+  // },
   {
     baseColor: "#FFFFFF",
     accentColor: "#000000",
