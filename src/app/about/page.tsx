@@ -16,8 +16,6 @@ import {
   ArrowUp,
   ArrowDown,
   Music2,
-  Tv2,
-  HeartPulse,
   Microscope,
   Bot,
   Drumstick,
