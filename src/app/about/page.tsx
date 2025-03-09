@@ -1,7 +1,41 @@
 "use client";
 
 import React from "react";
-import { Terminal } from "lucide-react";
+import { 
+  Terminal, 
+  Instagram, 
+  Twitter, 
+  Youtube, 
+  Github, 
+  Mail,
+  Lightbulb,
+  Music,
+  Film,
+  Dumbbell,
+  Globe,
+  ArrowUp,
+  ArrowDown,
+  Music2,
+  Tv2,
+  HeartPulse,
+  Microscope,
+  Bot,
+  Drumstick,
+  Headphones,
+  Guitar,
+  Disc,
+  Popcorn,
+  Clapperboard,
+  Wind,
+  Flame,
+  Weight,
+  BicepsFlexed,
+  Dumbbell as WeightIcon,
+  Beef,
+  Fish,
+  Egg,
+  PanelRightOpen
+} from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTheme } from "@/components/theme-provider";
 import FloatingNetworkBackground from "@/components/floating-network";
@@ -25,7 +59,7 @@ const ToggleSection: React.FC<{
           {icon}
           <span className="font-semibold text-xl">{title}</span>
         </div>
-        <span>{open ? "▲" : "▼"}</span>
+        <span>{open ? <ArrowUp size={18} /> : <ArrowDown size={18} />}</span>
       </button>
       {/* The container is always rendered so that we can animate its max-height and opacity */}
       <div
@@ -97,9 +131,7 @@ const AboutPage: React.FC = () => {
                   rel="noopener noreferrer"
                   className="flex items-center gap-1 hover:underline"
                 >
-                  <span role="img" aria-label="instagram">
-                    📸
-                  </span>{" "}
+                  <Instagram size={18} />
                   Instagram
                 </a>
                 <a
@@ -108,9 +140,7 @@ const AboutPage: React.FC = () => {
                   rel="noopener noreferrer"
                   className="flex items-center gap-1 hover:underline"
                 >
-                  <span role="img" aria-label="twitter">
-                    🐦
-                  </span>{" "}
+                  <Twitter size={18} />
                   Twitter
                 </a>
                 <a
@@ -119,9 +149,7 @@ const AboutPage: React.FC = () => {
                   rel="noopener noreferrer"
                   className="flex items-center gap-1 hover:underline"
                 >
-                  <span role="img" aria-label="youtube">
-                    📺
-                  </span>{" "}
+                  <Youtube size={18} />
                   YouTube
                 </a>
                 <a
@@ -130,9 +158,7 @@ const AboutPage: React.FC = () => {
                   rel="noopener noreferrer"
                   className="flex items-center gap-1 hover:underline"
                 >
-                  <span role="img" aria-label="github">
-                    🐙
-                  </span>{" "}
+                  <Github size={18} />
                   GitHub
                 </a>
                 <a
@@ -141,9 +167,7 @@ const AboutPage: React.FC = () => {
                   rel="noopener noreferrer"
                   className="flex items-center gap-1 hover:underline"
                 >
-                  <span role="img" aria-label="gmail">
-                    ✉️
-                  </span>{" "}
+                  <Mail size={18} />
                   Gmail
                 </a>
               </div>
@@ -153,39 +177,40 @@ const AboutPage: React.FC = () => {
             <div className="space-y-4 text-md">
               <ToggleSection
                 title="Idea/Project List"
-                icon={
-                  <span role="img" aria-label="idea">
-                    💡
-                  </span>
-                }
+                icon={<Lightbulb size={22} />}
               >
                 <p>
                   Here are some ideas and projects I&apos;m either working on or
                   thinking about:
                 </p>
                 <ul className="pl-5 space-y-1">
-                  <li>
-                    🎶 <strong>Cymatics Lab</strong>: A music production and
-                    geometric research project
+                  <li className="flex items-center gap-2">
+                    <Music2 size={18} />
+                    <span>
+                      <strong>Cymatics Lab</strong>: A music production and
+                      geometric research project
+                    </span>
                   </li>
-                  <li>
-                    🌱 <strong>Automated Hydroponics</strong>: Exploring
-                    sustainable living and self-reliance
+                  <li className="flex items-center gap-2">
+                    <Microscope size={18} />
+                    <span>
+                      <strong>Automated Hydroponics</strong>: Exploring
+                      sustainable living and self-reliance
+                    </span>
                   </li>
-                  <li>
-                    🤖 <strong>AI Machine Learning Research Agent</strong>:
-                    Building an agent orchestration platform for deep research
+                  <li className="flex items-center gap-2">
+                    <Bot size={18} />
+                    <span>
+                      <strong>AI Research Agent</strong>:
+                      Building an agent orchestration platform for deep research
+                    </span>
                   </li>
                 </ul>
               </ToggleSection>
 
               <ToggleSection
                 title="Music I'm Listening To"
-                icon={
-                  <span role="img" aria-label="music">
-                    🎵
-                  </span>
-                }
+                icon={<Music size={22} />}
               >
                 <p>
                   Music is an integral part of life. It can make you smile after
@@ -193,20 +218,32 @@ const AboutPage: React.FC = () => {
                   taste of what I&apos;m tuning into right now:
                 </p>
                 <ul className="pl-5 space-y-1">
-                  <li>
-                    🥁 <strong>Breakcore</strong> &mdash; Beats for getting
-                    things done
+                  <li className="flex items-center gap-2">
+                    <Drumstick size={18} />
+                    <span>
+                      <strong>Breakcore</strong> &mdash; Beats for getting
+                      things done
+                    </span>
                   </li>
-                  <li>
-                    🎹 <strong>EDM</strong> &mdash; Nostalgic hype vibes
+                  <li className="flex items-center gap-2">
+                    <Headphones size={18} />
+                    <span>
+                      <strong>EDM</strong> &mdash; Nostalgic hype vibes
+                    </span>
                   </li>
-                  <li>
-                    🎷 <strong>Jazz</strong> &mdash; Perfect for slowing down
-                    and relaxing
+                  <li className="flex items-center gap-2">
+                    <Guitar size={18} />
+                    <span>
+                      <strong>Jazz</strong> &mdash; Perfect for slowing down
+                      and relaxing
+                    </span>
                   </li>
-                  <li>
-                    💿 <strong>Rap</strong> &mdash; Artists like Kendrick Lamar
-                    for motivation and retrospection
+                  <li className="flex items-center gap-2">
+                    <Disc size={18} />
+                    <span>
+                      <strong>Rap</strong> &mdash; Artists like Kendrick Lamar
+                      for motivation and retrospection
+                    </span>
                   </li>
                 </ul>
                 <p>
@@ -221,29 +258,37 @@ const AboutPage: React.FC = () => {
 
               <ToggleSection
                 title="Movies, TV Shows &amp; Anime Watch List"
-                icon={
-                  <span role="img" aria-label="movies">
-                    🎥
-                  </span>
-                }
+                icon={<Film size={22} />}
               >
                 <p>
                   I love immersing myself in great storytelling. Here are some
                   of my current favorites and all-time classics:
                 </p>
                 <ul className="pl-5 space-y-1">
-                  <li>
-                    🍿 <strong>Game of Thrones</strong> &mdash; A binge-worthy
-                    epic
+                  <li className="flex items-center gap-2">
+                    <Popcorn size={18} />
+                    <span>
+                      <strong>Game of Thrones</strong> &mdash; A binge-worthy
+                      epic
+                    </span>
                   </li>
-                  <li>
-                    🎬 <strong>The Penguin</strong> &mdash; Currently watching
+                  <li className="flex items-center gap-2">
+                    <Clapperboard size={18} />
+                    <span>
+                      <strong>The Penguin</strong> &mdash; Currently watching
+                    </span>
                   </li>
-                  <li>
-                    🌀 <strong>Naruto</strong> &mdash; Anime classic
+                  <li className="flex items-center gap-2">
+                    <Wind size={18} />
+                    <span>
+                      <strong>Naruto</strong> &mdash; Anime classic
+                    </span>
                   </li>
-                  <li>
-                    🔥 <strong>Blue Lock</strong> &mdash; Recently started
+                  <li className="flex items-center gap-2">
+                    <Flame size={18} />
+                    <span>
+                      <strong>Blue Lock</strong> &mdash; Recently started
+                    </span>
                   </li>
                 </ul>
                 <p className="mt-2">
@@ -254,11 +299,7 @@ const AboutPage: React.FC = () => {
 
               <ToggleSection
                 title="Sports &amp; Fitness"
-                icon={
-                  <span role="img" aria-label="fitness">
-                    💪
-                  </span>
-                }
+                icon={<Dumbbell size={22} />}
               >
                 <p>
                   I enjoy staying active with sports and calisthenics.
@@ -266,9 +307,18 @@ const AboutPage: React.FC = () => {
                 </p>
                 <h3 className="font-bold mt-2">Calisthenics Workout</h3>
                 <ul className="pl-5 space-y-1">
-                  <li>🏋️ Planche Pushups: 3 sets of 5 reps</li>
-                  <li>🤸 Handstand Practice: 5 minutes wall-supported</li>
-                  <li>💪 Pull-ups: 3 sets of 8 reps</li>
+                  <li className="flex items-center gap-2">
+                    <Weight size={18} />
+                    <span>Planche Pushups: 3 sets of 5 reps</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <BicepsFlexed size={18} />
+                    <span>Handstand Practice: 5 minutes wall-supported</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <WeightIcon size={18} />
+                    <span>Pull-ups: 3 sets of 8 reps</span>
+                  </li>
                 </ul>
                 <p className="mt-2">
                   Staying fit is key, and I&apos;m always looking to improve my
@@ -276,9 +326,18 @@ const AboutPage: React.FC = () => {
                 </p>
                 <h3 className="font-bold mt-2">Meal Plan</h3>
                 <ul className="pl-5 space-y-1">
-                  <li>🍗 Grilled Chicken Breast with Quinoa &amp; Veggies</li>
-                  <li>🐟 Baked Salmon with Brown Rice &amp; Broccoli</li>
-                  <li>🥚 Egg White Omelette with Spinach &amp; Mushrooms</li>
+                  <li className="flex items-center gap-2">
+                    <Beef size={18} />
+                    <span>Grilled Chicken Breast with Quinoa &amp; Veggies</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Fish size={18} />
+                    <span>Baked Salmon with Brown Rice &amp; Broccoli</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Egg size={18} />
+                    <span>Egg White Omelette with Spinach &amp; Mushrooms</span>
+                  </li>
                 </ul>
                 <p className="mt-2">
                   I focus on healthy, high-protein meals while avoiding beef and
@@ -288,11 +347,7 @@ const AboutPage: React.FC = () => {
 
               <ToggleSection
                 title="Online Content"
-                icon={
-                  <span role="img" aria-label="online">
-                    🌐
-                  </span>
-                }
+                icon={<Globe size={22} />}
               >
                 <p>
                   I engage with a mix of podcasts, YouTube channels, and tech
@@ -300,9 +355,18 @@ const AboutPage: React.FC = () => {
                 </p>
                 <h3 className="font-bold mt-2">Podcasts I Enjoy</h3>
                 <ul className="pl-5 space-y-1">
-                  <li>🎙️ Joe Rogan Experience</li>
-                  <li>🎙️ The Diary of a CEO</li>
-                  <li>🎙️ The Chris Williamson Podcast</li>
+                  <li className="flex items-center gap-2">
+                    <PanelRightOpen size={18} />
+                    <span>Joe Rogan Experience</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <PanelRightOpen size={18} />
+                    <span>The Diary of a CEO</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <PanelRightOpen size={18} />
+                    <span>The Chris Williamson Podcast</span>
+                  </li>
                 </ul>
                 <p className="mt-2">
                   Have any podcast recommendations? I&apos;d love to hear them!
