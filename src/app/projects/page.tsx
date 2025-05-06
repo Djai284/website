@@ -15,7 +15,6 @@ import { useTheme } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import FloatingNetworkBackground from "@/components/floating-network";
-import projectImage from "../images/logo-alt-with-background.jpeg";
 import { ArrowRight } from "lucide-react";
 
 interface Project {

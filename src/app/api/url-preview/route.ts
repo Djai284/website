@@ -1,5 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import fetch from 'node-fetch';
+import { NextRequest, NextResponse } from 'next/server';
 import * as cheerio from 'cheerio';
 
 interface MetaData {
@@ -11,33 +10,29 @@ interface MetaData {
   siteName: string;
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  // Only allow GET requests
-  if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+export async function GET(request: NextRequest) {
+  // Get URL from searchParams
+  const url = request.nextUrl.searchParams.get('url');
 
-  const { url } = req.query;
-
-  // Ensure URL is provided and is a string
-  if (!url || typeof url !== 'string') {
-    return res.status(400).json({ error: 'URL is required' });
+  // Ensure URL is provided
+  if (!url) {
+    return NextResponse.json({ error: 'URL is required' }, { status: 400 });
   }
 
   try {
     // Basic URL validation
     const validatedUrl = validateUrl(url);
     if (!validatedUrl) {
-      return res.status(400).json({ error: 'Invalid URL' });
+      return NextResponse.json({ error: 'Invalid URL' }, { status: 400 });
     }
 
     // Fetch the webpage
     const metadata = await fetchMetadata(validatedUrl);
     
-    return res.status(200).json(metadata);
-  } catch (error) {
-    console.error('Error fetching URL preview:', error);
-    return res.status(500).json({ error: 'Failed to fetch URL preview' });
+    return NextResponse.json(metadata);
+  } catch (err) {
+    console.error('Error fetching URL preview:', err);
+    return NextResponse.json({ error: 'Failed to fetch URL preview' }, { status: 500 });
   }
 }
 
@@ -50,7 +45,7 @@ function validateUrl(url: string): string | null {
       return null;
     }
     return parsedUrl.toString();
-  } catch (error) {
+  } catch {
     return null;
   }
 }
@@ -58,12 +53,17 @@ function validateUrl(url: string): string | null {
 async function fetchMetadata(url: string): Promise<MetaData> {
   try {
     // Fetch with a timeout and user agent
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds timeout
+    
     const response = await fetch(url, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (compatible; URLPreviewBot/1.0)',
       },
-      timeout: 10000, // 10 seconds timeout
+      signal: controller.signal,
     });
+    
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch URL: ${response.status} ${response.statusText}`);
@@ -73,8 +73,8 @@ async function fetchMetadata(url: string): Promise<MetaData> {
     const metadata = extractMetadata(html, url);
     
     return metadata;
-  } catch (error) {
-    console.error('Error fetching URL:', error);
+  } catch (err) {
+    console.error('Error fetching URL:', err);
     // Return basic fallback data
     return {
       url,
