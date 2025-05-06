@@ -83,7 +83,7 @@ export const Content: React.FC = () => {
                 getTextColor()
               )}
             >
-              i&apos;m a passionate builder who dabbles in many things. welcome
+              i&apos;m a passionate builder who dabbles in all things tech, AI + ML, healthy living, and mindfulness. welcome
               to my corner of the internet!
             </p>
             <nav>

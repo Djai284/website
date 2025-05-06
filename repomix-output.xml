@@ -1,0 +1,5201 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+4. Repository files, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+<additional_info>
+
+</additional_info>
+
+</file_summary>
+
+<directory_structure>
+src/
+  app/
+    about/
+      page.tsx
+    projects/
+      page.tsx
+    resume/
+      page.tsx
+    globals.css
+    layout.tsx
+    page.tsx
+  components/
+    animations/
+      animated-image.tsx
+    ui/
+      card.tsx
+    dynamic-favicon.tsx
+    floating-network.tsx
+    landing.tsx
+    ripple-mesh.tsx
+    ripple.tsx
+    theme-provider.tsx
+  lib/
+    color-schemes.ts
+    utils.ts
+.eslintrc.json
+.gitignore
+components.json
+next.config.mjs
+package.json
+postcss.config.mjs
+README.md
+repomix-output.txt
+tailwind.config.ts
+tsconfig.json
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="src/app/resume/page.tsx">
+"use client";
+
+import { useEffect } from "react";
+
+const ResumePage = () => {
+  useEffect(() => {
+    window.location.href = "https://firebasestorage.googleapis.com/v0/b/personal-website-f0071.appspot.com/o/Dhananjai%20Resume.pdf?alt=media&token=d0e1625e-4780-40ef-9081-9209c7adc270";
+  }, []);
+
+  return null;
+}
+
+export default ResumePage;
+</file>
+
+<file path="src/components/animations/animated-image.tsx">
+import React, { useState } from 'react';
+import Image, { StaticImageData } from "next/image";
+
+interface AnimatedImageProps {
+  src: string | StaticImageData;
+  alt: string;
+  width: number;
+  height: number;
+}
+
+const AnimatedImage: React.FC<AnimatedImageProps> = ({ src, alt, width, height }) => {
+  const [isSpinning, setIsSpinning] = useState(false);
+
+  const handleClick = () => {
+    setIsSpinning(true);
+    setTimeout(() => setIsSpinning(false), 500); // Reset after animation
+  };
+
+  return (
+    <div 
+      className="w-48 h-48 rounded-full bg-gray-300 mx-auto mb-4 cursor-pointer overflow-hidden"
+      onClick={handleClick}
+    >
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        className={`w-full h-full object-cover rounded-full transition-transform duration-500 ${
+          isSpinning ? 'rotate-y-180' : ''
+        }`}
+      />
+    </div>
+  );
+};
+
+export default AnimatedImage;
+</file>
+
+<file path="src/components/ui/card.tsx">
+import * as React from "react"
+
+import { cn } from "@/lib/utils"
+
+const Card = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "rounded-xl border bg-card text-card-foreground shadow",
+      className
+    )}
+    {...props}
+  />
+))
+Card.displayName = "Card"
+
+const CardHeader = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex flex-col space-y-1.5 p-6", className)}
+    {...props}
+  />
+))
+CardHeader.displayName = "CardHeader"
+
+const CardTitle = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("font-semibold leading-none tracking-tight", className)}
+    {...props}
+  />
+))
+CardTitle.displayName = "CardTitle"
+
+const CardDescription = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("text-sm text-muted-foreground", className)}
+    {...props}
+  />
+))
+CardDescription.displayName = "CardDescription"
+
+const CardContent = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
+))
+CardContent.displayName = "CardContent"
+
+const CardFooter = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex items-center p-6 pt-0", className)}
+    {...props}
+  />
+))
+CardFooter.displayName = "CardFooter"
+
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+</file>
+
+<file path="src/components/dynamic-favicon.tsx">
+"use client";
+
+import React, { useEffect } from 'react';
+import { useTheme } from './theme-provider';
+
+const DynamicFavicon: React.FC = () => {
+  const theme = useTheme();
+
+  useEffect(() => {
+    // Generate SVG for Flower of Life
+    const generateFlowerOfLifeSVG = () => {
+      const size = 64;
+      const radius = size / 4;
+      const circles = [];
+      
+      // Center circle
+      const centerX = size / 2;
+      const centerY = size / 2;
+      
+      // Add center circle
+      circles.push(`<circle cx="${centerX}" cy="${centerY}" r="${radius}" fill="none" stroke="${theme.accentColor}" stroke-width="1.5" />`);
+      
+      // First ring of 6 circles
+      for (let i = 0; i < 6; i++) {
+        const angle = (Math.PI / 3) * i;
+        const x = centerX + radius * Math.cos(angle);
+        const y = centerY + radius * Math.sin(angle);
+        circles.push(`<circle cx="${x}" cy="${y}" r="${radius}" fill="none" stroke="${theme.accentColor}" stroke-width="1.5" />`);
+      }
+      
+      // Second ring of 12 circles for complete flower of life
+      // for (let i = 0; i < 6; i++) {
+      //   const angle = (Math.PI / 3) * i;
+      //   const x = centerX + radius * 2 * Math.cos(angle);
+      //   const y = centerY + radius * 2 * Math.sin(angle);
+      //   circles.push(`<circle cx="${x}" cy="${y}" r="${radius}" fill="none" stroke="${theme.accentColor}" stroke-width="1.5" />`);
+        
+      //   // Add intermediate circles
+      //   const nextAngle = (Math.PI / 3) * ((i + 1) % 6);
+      //   const midX = centerX + radius * Math.cos(angle + Math.PI / 6);
+      //   const midY = centerY + radius * Math.sin(angle + Math.PI / 6);
+      //   circles.push(`<circle cx="${midX}" cy="${midY}" r="${radius}" fill="none" stroke="${theme.accentColor}" stroke-width="1.5" />`);
+      // }
+      
+      const svgContent = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" width="${size}" height="${size}">
+          <rect width="${size}" height="${size}" fill="${theme.baseColor}" />
+          ${circles.join('')}
+        </svg>
+      `;
+      
+      return svgContent;
+    };
+
+    const svgContent = generateFlowerOfLifeSVG();
+    const svgBlob = new Blob([svgContent], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(svgBlob);
+    
+    // Set the favicon
+    const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+    link.setAttribute('rel', 'shortcut icon');
+    link.setAttribute('href', url);
+    document.getElementsByTagName('head')[0].appendChild(link);
+    
+    // Clean up the URL object when component unmounts
+    return () => URL.revokeObjectURL(url);
+  }, [theme.accentColor, theme.baseColor]); // Re-run when theme colors change
+
+  return null; // This component doesn't render anything
+};
+
+export default DynamicFavicon;
+</file>
+
+<file path="src/lib/utils.ts">
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+</file>
+
+<file path=".eslintrc.json">
+{
+  "extends": ["next/core-web-vitals", "next/typescript"]
+}
+</file>
+
+<file path=".gitignore">
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+</file>
+
+<file path="components.json">
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "tailwind.config.ts",
+    "css": "src/app/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  },
+  "iconLibrary": "lucide"
+}
+</file>
+
+<file path="next.config.mjs">
+/** @type {import('next').NextConfig} */
+const nextConfig = {};
+
+export default nextConfig;
+</file>
+
+<file path="postcss.config.mjs">
+/** @type {import('postcss-load-config').Config} */
+const config = {
+  plugins: {
+    tailwindcss: {},
+  },
+};
+
+export default config;
+</file>
+
+<file path="README.md">
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+</file>
+
+<file path="tsconfig.json">
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
+</file>
+
+<file path="src/app/globals.css">
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+</file>
+
+<file path="src/components/ripple-mesh.tsx">
+"use client";
+import React, { useEffect, useRef, useCallback } from "react";
+import { useTheme } from "./theme-provider";
+
+interface Node {
+  x: number;
+  y: number;
+  baseY: number;
+  velocity: number;
+  update: () => void;
+  draw: (ctx: CanvasRenderingContext2D) => void;
+}
+
+interface MeshRippleEffectProps {
+  children?: React.ReactNode;
+}
+
+const MeshRippleEffect: React.FC<MeshRippleEffectProps> = ({ children }) => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const nodesRef = useRef<Node[]>([]);
+  const theme = useTheme();
+
+  const ROWS = 70;
+  const COLS = 70;
+  const NODE_RADIUS = 10;
+  const DAMPING = 0.98;
+  const SPREAD = 0.3;
+  const STIFFNESS = 0.3;
+
+  class NodeImpl implements Node {
+    baseY: number;
+    velocity: number;
+
+    constructor(public x: number, public y: number) {
+      this.baseY = y;
+      this.velocity = 0;
+    }
+
+    update() {
+      const displacement = this.y - this.baseY;
+      const acceleration = -STIFFNESS * displacement;
+
+      this.velocity += acceleration;
+      this.velocity *= DAMPING;
+      this.y += this.velocity;
+    }
+
+    draw(ctx: CanvasRenderingContext2D) {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, NODE_RADIUS, 0, Math.PI * 2);
+      ctx.fillStyle = theme.baseColor + "80"; // Use baseColor with 50% opacity
+      ctx.fill();
+    }
+  }
+
+  const initializeNodes = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    nodesRef.current = [];
+    const spacing = {
+      x: canvas.width / (COLS - 1),
+      y: canvas.height / (ROWS - 1),
+    };
+
+    for (let i = 0; i < ROWS; i++) {
+      for (let j = 0; j < COLS; j++) {
+        nodesRef.current.push(new NodeImpl(j * spacing.x, i * spacing.y));
+      }
+    }
+  }, []);
+
+  const propagateWave = useCallback(() => {
+    const nodes = nodesRef.current;
+    for (let i = 0; i < ROWS; i++) {
+      for (let j = 0; j < COLS; j++) {
+        const index = i * COLS + j;
+        const node = nodes[index];
+
+        if (i > 0) node.velocity += (nodes[index - COLS].y - node.y) * SPREAD;
+        if (i < ROWS - 1)
+          node.velocity += (nodes[index + COLS].y - node.y) * SPREAD;
+        if (j > 0) node.velocity += (nodes[index - 1].y - node.y) * SPREAD;
+        if (j < COLS - 1)
+          node.velocity += (nodes[index + 1].y - node.y) * SPREAD;
+      }
+    }
+  }, []);
+
+  const animate = useCallback(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext("2d");
+    if (!canvas || !ctx) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    propagateWave();
+
+    const nodes = nodesRef.current;
+    for (const node of nodes) {
+      node.update();
+      node.draw(ctx);
+    }
+
+    for (let i = 0; i < ROWS; i++) {
+      ctx.beginPath();
+      for (let j = 0; j < COLS; j++) {
+        const index = i * COLS + j;
+        if (j === 0) {
+          ctx.moveTo(nodes[index].x, nodes[index].y);
+        } else {
+          ctx.lineTo(nodes[index].x, nodes[index].y);
+        }
+      }
+      ctx.strokeStyle = theme.baseColor + "33"; // Use baseColor with 20% opacity
+      ctx.stroke();
+    }
+
+    for (let j = 0; j < COLS; j++) {
+      ctx.beginPath();
+      for (let i = 0; i < ROWS; i++) {
+        const index = i * COLS + j;
+        if (i === 0) {
+          ctx.moveTo(nodes[index].x, nodes[index].y);
+        } else {
+          ctx.lineTo(nodes[index].x, nodes[index].y);
+        }
+      }
+      ctx.strokeStyle = theme.baseColor + "33"; // Use baseColor with 20% opacity
+      ctx.stroke();
+    }
+
+    requestAnimationFrame(animate);
+  }, [propagateWave, theme.baseColor]);
+
+  const handleClick = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    const nodes = nodesRef.current;
+    const maxDistance = Math.max(canvas.width, canvas.height) / 8;
+
+    for (const node of nodes) {
+      const dx = node.x - x;
+      const dy = node.baseY - y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < maxDistance) {
+        const force = 1 - distance / maxDistance;
+        node.velocity -= force * 50;
+      }
+    }
+  }, []);
+
+  const handleResize = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    initializeNodes();
+  }, [initializeNodes]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    initializeNodes();
+    animate();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [initializeNodes, animate, handleResize]);
+
+  return (
+    <div
+      style={{
+        position: "relative",
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: theme.accentColor, // Use accentColor for background
+      }}
+      onClick={handleClick}
+    >
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          color: theme.baseColor, // Use baseColor for text
+          textAlign: "center",
+          padding: "20px",
+          boxSizing: "border-box",
+          pointerEvents: "none",
+          background: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2))`, // Add a subtle overlay for better readability
+        }}
+      >
+        <div style={{ pointerEvents: "auto" }}>{children}</div>
+      </div>
+    </div>
+  );
+};
+
+export default MeshRippleEffect;
+</file>
+
+<file path="src/components/ripple.tsx">
+"use client";
+import React, { useEffect, useRef, useCallback } from "react";
+import { useTheme } from "./theme-provider";
+
+interface Node {
+  x: number;
+  y: number;
+  displacement: number;
+  velocity: number;
+  update: () => void;
+}
+
+interface RippleEffectProps {
+  children?: React.ReactNode;
+}
+
+const RippleEffect: React.FC<RippleEffectProps> = ({ children }) => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const nodesRef = useRef<Node[]>([]);
+  const spacingRef = useRef({ x: 0, y: 0 });
+  const theme = useTheme();
+
+  const ROWS = 100;
+  const COLS = 100;
+  const DAMPING = 0.95;
+  const SPREAD = 0.3;
+
+  class NodeImpl implements Node {
+    displacement: number;
+    velocity: number;
+
+    constructor(public x: number, public y: number) {
+      this.displacement = 0;
+      this.velocity = 0;
+    }
+
+    update() {
+      this.velocity += -0.2 * this.displacement;
+      this.velocity *= DAMPING;
+      this.displacement += this.velocity;
+
+      if (Math.abs(this.displacement) < 0.001) {
+        this.displacement = 0;
+        this.velocity = 0;
+      }
+    }
+  }
+
+  const initializeNodes = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    nodesRef.current = [];
+    spacingRef.current = {
+      x: canvas.width / (COLS - 1),
+      y: canvas.height / (ROWS - 1),
+    };
+
+    for (let i = 0; i < ROWS; i++) {
+      for (let j = 0; j < COLS; j++) {
+        nodesRef.current.push(
+          new NodeImpl(j * spacingRef.current.x, i * spacingRef.current.y)
+        );
+      }
+    }
+  }, []);
+
+  const propagateWave = useCallback(() => {
+    const nodes = nodesRef.current;
+    for (let i = 0; i < ROWS; i++) {
+      for (let j = 0; j < COLS; j++) {
+        const index = i * COLS + j;
+        const node = nodes[index];
+
+        if (i > 0)
+          node.velocity +=
+            (nodes[index - COLS].displacement - node.displacement) * SPREAD;
+        if (i < ROWS - 1)
+          node.velocity +=
+            (nodes[index + COLS].displacement - node.displacement) * SPREAD;
+        if (j > 0)
+          node.velocity +=
+            (nodes[index - 1].displacement - node.displacement) * SPREAD;
+        if (j < COLS - 1)
+          node.velocity +=
+            (nodes[index + 1].displacement - node.displacement) * SPREAD;
+      }
+    }
+  }, []);
+
+  const drawRipples = useCallback(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext("2d");
+    if (!canvas || !ctx) return;
+
+    const imageData = ctx.createImageData(canvas.width, canvas.height);
+    const data = imageData.data;
+    const nodes = nodesRef.current;
+    const spacing = spacingRef.current;
+
+    for (let i = 0; i < ROWS - 1; i++) {
+      for (let j = 0; j < COLS - 1; j++) {
+        const index = i * COLS + j;
+        const avgDisplacement =
+          (nodes[index].displacement +
+            nodes[index + 1].displacement +
+            nodes[index + COLS].displacement +
+            nodes[index + COLS + 1].displacement) /
+          4;
+
+        const intensity = Math.floor(128 + avgDisplacement * 128);
+        const x = Math.floor(j * spacing.x);
+        const y = Math.floor(i * spacing.y);
+
+        for (let py = y; py < y + spacing.y; py++) {
+          for (let px = x; px < x + spacing.x; px++) {
+            const dataIndex = (py * canvas.width + px) * 4;
+            data[dataIndex] = intensity;
+            data[dataIndex + 1] = intensity;
+            data[dataIndex + 2] = intensity;
+            data[dataIndex + 3] = 32;
+          }
+        }
+      }
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+  }, []);
+
+  const animate = useCallback(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext("2d");
+    if (!canvas || !ctx) return;
+
+    ctx.fillStyle = theme.baseColor;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    propagateWave();
+
+    for (let i = 0; i < nodesRef.current.length; i++) {
+      nodesRef.current[i].update();
+    }
+
+    drawRipples();
+
+    requestAnimationFrame(animate);
+  }, [propagateWave, drawRipples, theme.baseColor]);
+
+  const handleClick = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    const maxDistance = Math.min(canvas.width, canvas.height) / 8;
+
+    for (const node of nodesRef.current) {
+      const dx = node.x - x;
+      const dy = node.y - y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < maxDistance) {
+        const force = Math.cos(((distance / maxDistance) * Math.PI) / 2) * 2;
+        node.displacement = force;
+      }
+    }
+  }, []);
+
+  const handleResize = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    initializeNodes();
+  }, [initializeNodes]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    initializeNodes();
+    animate();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [initializeNodes, animate, handleResize]);
+
+  return (
+    <div
+      style={{
+        position: "relative",
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: theme.baseColor,
+      }}
+      onClick={handleClick}
+    >
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          color: theme.accentColor,
+          textAlign: "center",
+          padding: "20px",
+          boxSizing: "border-box",
+          pointerEvents: "none",
+        }}
+      >
+        <div style={{ pointerEvents: "auto" }}>{children}</div>
+      </div>
+    </div>
+  );
+};
+
+export default RippleEffect;
+</file>
+
+<file path="package.json">
+{
+  "name": "personal-website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.469.0",
+    "next": "14.2.15",
+    "react": "^18",
+    "react-dom": "^18",
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.15",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}
+</file>
+
+<file path="src/app/layout.tsx">
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+import "./globals.css";
+import { ThemeProvider } from "../components/theme-provider";
+import DynamicFavicon from "@/components/dynamic-favicon";
+
+const geistSans = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+  weight: "100 900",
+});
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  weight: "100 900",
+});
+
+export const metadata: Metadata = {
+  title: "Jai's Corner of the Internet",
+  description: "A personal website and blog by Dhananjai Senthil Kumar.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <ThemeProvider>
+          <DynamicFavicon />
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
+</file>
+
+<file path="src/app/page.tsx">
+import React from "react";
+import FloatingNetworkBackground from "@/components/floating-network";
+import { Content } from "@/components/landing";
+
+const App: React.FC = () => {
+  return (
+    <FloatingNetworkBackground nodeCount={30} connectionDistance={150} maxNodes={70}>
+      <Content />
+    </FloatingNetworkBackground>
+  );
+};
+
+export default App;
+</file>
+
+<file path="src/lib/color-schemes.ts">
+interface Theme {
+  baseColor: string;
+  accentColor: string;
+  name: string;
+  type: "light" | "mid" | "dark";
+}
+
+
+export const colorSchemes: Theme[] = [
+  // Light themes
+  // {
+  //   baseColor: "#0000FF",
+  //   accentColor: "#FFE4E1",
+  //   name: "light-red",
+  //   type: "light",
+  // },
+  // {
+  //   baseColor: "#0000FF",
+  //   accentColor: "#DEB887",
+  //   name: "light-brown",
+  //   type: "light",
+  // },
+  // {
+  //   baseColor: "#0000FF",
+  //   accentColor: "#FFE4B5",
+  //   name: "light-orange",
+  //   type: "light",
+  // },
+  // {
+  //   baseColor: "#0000FF",
+  //   accentColor: "#FFFFE0",
+  //   name: "light-yellow",
+  //   type: "light",
+  // },
+  // {
+  //   baseColor: "#800080",
+  //   accentColor: "#98FB98",
+  //   name: "light-green",
+  //   type: "light",
+  // },
+  {
+    baseColor: "#8B4513",
+    accentColor: "#E0FFFF",
+    name: "light-cyan",
+    type: "light",
+  },
+  {
+    baseColor: "#556B2F",
+    accentColor: "#E6E6FA",
+    name: "light-blue",
+    type: "light",
+  },
+  {
+    baseColor: "#006400",
+    accentColor: "#FFE4E1",
+    name: "light-violet",
+    type: "light",
+  },
+  {
+    baseColor: "#006400",
+    accentColor: "#FFB6C1",
+    name: "light-magenta",
+    type: "light",
+  },
+  {
+    baseColor: "#000000",
+    accentColor: "#FFFFFF",
+    name: "light-gray",
+    type: "light",
+  },
+
+  // Mid themes
+  {
+    baseColor: "#000000",
+    accentColor: "#FF4500",
+    name: "mid-red",
+    type: "mid",
+  },
+  {
+    baseColor: "#E0FFFF",
+    accentColor: "#8B4513",
+    name: "mid-brown",
+    type: "mid",
+  },
+  // {
+  //   baseColor: "#0000FF",
+  //   accentColor: "#FFA500",
+  //   name: "mid-orange",
+  //   type: "mid",
+  // },
+  // {
+  //   baseColor: "#0000FF",
+  //   accentColor: "#FFFF00",
+  //   name: "mid-yellow",
+  //   type: "mid",
+  // },
+  // {
+  //   baseColor: "#000000",
+  //   accentColor: "#00FF00",
+  //   name: "mid-green",
+  //   type: "mid",
+  // },
+  // {
+  //   baseColor: "#000000",
+  //   accentColor: "#00FFFF",
+  //   name: "mid-cyan",
+  //   type: "mid",
+  // },
+  // {
+  //   baseColor: "#000000",
+  //   accentColor: "#0000FF",
+  //   name: "mid-blue",
+  //   type: "mid",
+  // },
+  {
+    baseColor: "#98FB98",
+    accentColor: "#8A2BE2",
+    name: "mid-violet",
+    type: "dark",
+  },
+  {
+    baseColor: "#000000",
+    accentColor: "#FF00FF",
+    name: "mid-magenta",
+    type: "mid",
+  },
+  {
+    baseColor: "#000000",
+    accentColor: "#808080",
+    name: "mid-gray",
+    type: "mid",
+  },
+
+  // Dark themes
+  {
+    baseColor: "#E6E6FA",
+    accentColor: "#8B0000",
+    name: "dark-red",
+    type: "dark",
+  },
+  {
+    baseColor: "#E6E6FA",
+    accentColor: "#8B4513",
+    name: "dark-brown",
+    type: "dark",
+  },
+  {
+    baseColor: "#FFFFFF",
+    accentColor: "#8B4513",
+    name: "dark-orange",
+    type: "dark",
+  },
+  {
+    baseColor: "#FFFFFF",
+    accentColor: "#000000",
+    name: "dark-yellow",
+    type: "dark",
+  },
+  {
+    baseColor: "#FFB6C1",
+    accentColor: "#006400",
+    name: "dark-green",
+    type: "dark",
+  },
+  {
+    baseColor: "#FFE4B5",
+    accentColor: "#008080",
+    name: "dark-cyan",
+    type: "dark",
+  },
+  // {
+  //   baseColor: "#FFFF00",
+  //   accentColor: "#000080",
+  //   name: "dark-blue",
+  //   type: "dark",
+  // },
+  // {
+  //   baseColor: "#98FB98",
+  //   accentColor: "#4B0082",
+  //   name: "dark-violet",
+  //   type: "dark",
+  // },
+  // {
+  //   baseColor: "#98FB98",
+  //   accentColor: "#8B008B",
+  //   name: "dark-magenta",
+  //   type: "dark",
+  // },
+  {
+    baseColor: "#FFFFFF",
+    accentColor: "#000000",
+    name: "dark-gray",
+    type: "dark",
+  },
+];
+</file>
+
+<file path="tailwind.config.ts">
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+    darkMode: ["class"],
+    content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+  	extend: {
+  		colors: {
+  			background: 'hsl(var(--background))',
+  			foreground: 'hsl(var(--foreground))',
+  			card: {
+  				DEFAULT: 'hsl(var(--card))',
+  				foreground: 'hsl(var(--card-foreground))'
+  			},
+  			popover: {
+  				DEFAULT: 'hsl(var(--popover))',
+  				foreground: 'hsl(var(--popover-foreground))'
+  			},
+  			primary: {
+  				DEFAULT: 'hsl(var(--primary))',
+  				foreground: 'hsl(var(--primary-foreground))'
+  			},
+  			secondary: {
+  				DEFAULT: 'hsl(var(--secondary))',
+  				foreground: 'hsl(var(--secondary-foreground))'
+  			},
+  			muted: {
+  				DEFAULT: 'hsl(var(--muted))',
+  				foreground: 'hsl(var(--muted-foreground))'
+  			},
+  			accent: {
+  				DEFAULT: 'hsl(var(--accent))',
+  				foreground: 'hsl(var(--accent-foreground))'
+  			},
+  			destructive: {
+  				DEFAULT: 'hsl(var(--destructive))',
+  				foreground: 'hsl(var(--destructive-foreground))'
+  			},
+  			border: 'hsl(var(--border))',
+  			input: 'hsl(var(--input))',
+  			ring: 'hsl(var(--ring))',
+  			chart: {
+  				'1': 'hsl(var(--chart-1))',
+  				'2': 'hsl(var(--chart-2))',
+  				'3': 'hsl(var(--chart-3))',
+  				'4': 'hsl(var(--chart-4))',
+  				'5': 'hsl(var(--chart-5))'
+  			}
+  		},
+  		fontFamily: {
+  			serif: [
+  				'Georgia',
+  				'Cambria',
+  				'Times New Roman',
+  				'Times',
+  				'serif'
+  			],
+  			sans: [
+  				'Helvetica Neue',
+  				'Arial',
+  				'sans-serif'
+  			]
+  		},
+  		rotate: {
+  			'y-180': 'rotateY(180deg)'
+  		},
+  		borderRadius: {
+  			lg: 'var(--radius)',
+  			md: 'calc(var(--radius) - 2px)',
+  			sm: 'calc(var(--radius) - 4px)'
+  		}
+  	}
+  },
+  plugins: [require("tailwindcss-animate")],
+};
+export default config;
+</file>
+
+<file path="src/components/floating-network.tsx">
+"use client";
+
+import React, { useEffect, useRef, useCallback, useState } from "react";
+import { useTheme } from "./theme-provider";
+
+interface Node {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  radius: number;
+  isNew: boolean;
+}
+
+interface FloatingNetworkBackgroundProps {
+  children?: React.ReactNode;
+  nodeCount?: number;
+  connectionDistance?: number;
+  maxNodes?: number;
+}
+
+const FloatingNetworkBackground: React.FC<FloatingNetworkBackgroundProps> = ({
+  children,
+  nodeCount = 30,
+  connectionDistance = 150,
+  maxNodes = 50,
+}) => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const nodesRef = useRef<Node[]>([]);
+  const [nodeCountState, setNodeCountState] = useState(nodeCount);
+  const theme = useTheme();
+
+  const createNode = useCallback(
+    (x: number, y: number, isNew = false): Node => ({
+      x,
+      y,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5,
+      radius: Math.random() * 2 + 2,
+      isNew,
+    }),
+    []
+  );
+
+  const initNodes = useCallback(
+    (width: number, height: number) => {
+      nodesRef.current = [];
+      for (let i = 0; i < nodeCountState; i++) {
+        nodesRef.current.push(
+          createNode(Math.random() * width, Math.random() * height)
+        );
+      }
+    },
+    [nodeCountState, createNode]
+  );
+
+  const handleCanvasClick = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+
+      const x = (event.clientX - rect.left) * scaleX;
+      const y = (event.clientY - rect.top) * scaleY;
+
+      if (nodesRef.current.length < maxNodes) {
+        nodesRef.current.push(createNode(x, y, true));
+        setNodeCountState((prev) => prev + 1);
+      } else {
+        // Replace oldest node
+        nodesRef.current.shift();
+        nodesRef.current.push(createNode(x, y, true));
+      }
+    },
+    [createNode, maxNodes]
+  );
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return; // no canvas yet
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return; // no 2D context
+
+    function resizeCanvas() {
+      if (!canvas) return;
+
+      const oldWidth = canvas.width;
+      const oldHeight = canvas.height;
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      // If this is first load or we want to scale nodes
+      if (nodesRef.current.length === 0) {
+        initNodes(canvas.width, canvas.height);
+      } else {
+        const widthRatio = canvas.width / oldWidth;
+        const heightRatio = canvas.height / oldHeight;
+
+        nodesRef.current = nodesRef.current.map((node) => ({
+          ...node,
+          x: node.x * widthRatio,
+          y: node.y * heightRatio,
+        }));
+      }
+    }
+
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    function animate() {
+      // again, check for canvas & context
+      if (!canvas) return;
+      if (!ctx) return;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // update & draw nodes
+      nodesRef.current.forEach((node, i) => {
+        node.x += node.vx;
+        node.y += node.vy;
+        if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
+        if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+
+        if (node.isNew) {
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = theme.accentColor;
+          ctx.fillStyle = "white";
+          node.isNew = false;
+        } else {
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = theme.accentColor;
+        }
+        ctx.fill();
+
+        // draw connections
+        nodesRef.current.slice(i + 1).forEach((otherNode) => {
+          const dx = node.x - otherNode.x;
+          const dy = node.y - otherNode.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < connectionDistance) {
+            ctx.beginPath();
+            ctx.moveTo(node.x, node.y);
+            ctx.lineTo(otherNode.x, otherNode.y);
+            const opacity = 1 - dist / connectionDistance;
+            // alpha channel in hex
+            const alpha = Math.floor(opacity * 255)
+              .toString(16)
+              .padStart(2, "0");
+            ctx.strokeStyle = `${theme.accentColor}${alpha}`;
+            ctx.stroke();
+          }
+        });
+      });
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    return () => {
+      window.removeEventListener("resize", resizeCanvas);
+    };
+  }, [connectionDistance, initNodes, theme.accentColor]);
+
+  return (
+    <div style={{ position: "relative" }}>
+      {/* Fixed background with pointerEvents: auto (so canvas can get clicks). */}
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          overflow: "hidden",
+          cursor: "pointer",
+          zIndex: 0,
+          pointerEvents: "auto",
+        }}
+        onClick={handleCanvasClick}
+      >
+        <canvas
+          ref={canvasRef}
+          style={{
+            width: "100%",
+            height: "100%",
+          }}
+        />
+      </div>
+
+      {/* Children container with pointerEvents: none by default. */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          pointerEvents: "none",
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+};
+
+export default FloatingNetworkBackground;
+</file>
+
+<file path="repomix-output.txt">
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+================================================================
+File Summary
+================================================================
+
+Purpose:
+--------
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+
+File Format:
+------------
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Multiple file entries, each consisting of:
+  a. A separator line (================)
+  b. The file path (File: path/to/file)
+  c. Another separator line
+  d. The full contents of the file
+  e. A blank line
+
+Usage Guidelines:
+-----------------
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+
+Notes:
+------
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+
+Additional Info:
+----------------
+
+================================================================
+Directory Structure
+================================================================
+src/
+  app/
+    about/
+      page.tsx
+    projects/
+      page.tsx
+    resume/
+      page.tsx
+    globals.css
+    layout.tsx
+    page.tsx
+  components/
+    animations/
+      animated-image.tsx
+    ui/
+      card.tsx
+    floating-network.tsx
+    landing.tsx
+    ripple-mesh.tsx
+    ripple.tsx
+    theme-provider.tsx
+  lib/
+    color-schemes.ts
+    utils.ts
+.eslintrc.json
+.gitignore
+components.json
+next.config.mjs
+package.json
+postcss.config.mjs
+README.md
+tailwind.config.ts
+tsconfig.json
+
+================================================================
+Files
+================================================================
+
+================
+File: src/app/about/page.tsx
+================
+"use client";
+
+import React from "react";
+import { Terminal } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTheme } from "@/components/theme-provider";
+import FloatingNetworkBackground from "@/components/floating-network";
+import { useRouter } from "next/navigation";
+
+// A reusable toggle component for expandable sections with smooth animation.
+const ToggleSection: React.FC<{
+  title: string;
+  icon: React.ReactNode;
+  children: React.ReactNode;
+}> = ({ title, icon, children }) => {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <div className="rounded pointer-events-auto">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between p-2 bg-transparent focus:outline-none"
+      >
+        <div className="flex items-center gap-2">
+          {icon}
+          <span className="font-semibold text-xl">{title}</span>
+        </div>
+        <span>{open ? "▲" : "▼"}</span>
+      </button>
+      {/* The container is always rendered so that we can animate its max-height and opacity */}
+      <div
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+          open ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="p-2 space-y-2 text-lg">{children}</div>
+      </div>
+    </div>
+  );
+};
+
+const AboutPage: React.FC = () => {
+  const theme = useTheme();
+  const router = useRouter();
+
+  return (
+    <FloatingNetworkBackground
+      nodeCount={30}
+      connectionDistance={150}
+      maxNodes={70}
+    >
+      <div className="max-w-4xl mx-auto p-6 min-h-screen flex flex-col justify-center">
+        <div
+          className="pointer-events-auto cursor-pointer"
+          onClick={() => router.push("/")}
+        >
+          <h1
+            style={{ color: theme.accentColor }}
+            className="text-4xl font-bold mb-4 flex items-center gap-2"
+          >
+            <Terminal className="w-8 h-8" />
+            About Me
+          </h1>
+        </div>
+
+        <Card
+          style={{
+            background: `${theme.baseColor}CC`,
+            color: theme.accentColor,
+          }}
+        >
+          <CardHeader className="pointer-events-auto">
+            <CardTitle className="text-2xl font-bold flex items-center gap-2">
+              Dhananjai Senthilkumar
+            </CardTitle>
+            <div className="text-lg space-y-2">
+              <p>
+                I am a 4th year Computer Science student at Northeastern
+                University, passionate about building innovative solutions to
+                real problems using cutting-edge technology. I may not be the
+                biggest or strongest in the room, but I&apos;m often the{" "}
+                <strong>
+                  ambitious, determined, and somewhat insane guy 😂
+                </strong>{" "}
+                who dreams big and juggles many ideas.
+              </p>
+              <p>
+                I&apos;m on a journey of continuous learning and growth &mdash;
+                both as a developer and as a person. I believe in sharing my
+                work and connecting with others.
+              </p>
+              <p>Feel free to reach out to me on any of the platforms below:</p>
+              <div className="flex flex-wrap gap-4 mt-2">
+                <a
+                  href="https://www.instagram.com/djai.sen/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <span role="img" aria-label="instagram">
+                    📸
+                  </span>{" "}
+                  Instagram
+                </a>
+                <a
+                  href="https://x.com/Djai284"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <span role="img" aria-label="twitter">
+                    🐦
+                  </span>{" "}
+                  Twitter
+                </a>
+                <a
+                  href="https://www.youtube.com/@Dhananjai284"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <span role="img" aria-label="youtube">
+                    📺
+                  </span>{" "}
+                  YouTube
+                </a>
+                <a
+                  href="https://github.com/Djai284"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <span role="img" aria-label="github">
+                    🐙
+                  </span>{" "}
+                  GitHub
+                </a>
+                <a
+                  href="mailto:dhananjai284@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <span role="img" aria-label="gmail">
+                    ✉️
+                  </span>{" "}
+                  Gmail
+                </a>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4 text-md">
+              <ToggleSection
+                title="Idea/Project List"
+                icon={
+                  <span role="img" aria-label="idea">
+                    💡
+                  </span>
+                }
+              >
+                <p>
+                  Here are some ideas and projects I&apos;m either working on or
+                  thinking about:
+                </p>
+                <ul className="pl-5 space-y-1">
+                  <li>
+                    🎶 <strong>Cymatics Lab</strong>: A music production and
+                    geometric research project
+                  </li>
+                  <li>
+                    🌱 <strong>Automated Hydroponics</strong>: Exploring
+                    sustainable living and self-reliance
+                  </li>
+                  <li>
+                    🤖 <strong>AI Machine Learning Research Agent</strong>:
+                    Building an agent orchestration platform for deep research
+                  </li>
+                </ul>
+              </ToggleSection>
+
+              <ToggleSection
+                title="Music I'm Listening To"
+                icon={
+                  <span role="img" aria-label="music">
+                    🎵
+                  </span>
+                }
+              >
+                <p>
+                  Music is an integral part of life. It can make you smile after
+                  a bad day or bring back memories of the past. Here&apos;s a
+                  taste of what I&apos;m tuning into right now:
+                </p>
+                <ul className="pl-5 space-y-1">
+                  <li>
+                    🥁 <strong>Breakcore</strong> &mdash; Beats for getting
+                    things done
+                  </li>
+                  <li>
+                    🎹 <strong>EDM</strong> &mdash; Nostalgic hype vibes
+                  </li>
+                  <li>
+                    🎷 <strong>Jazz</strong> &mdash; Perfect for slowing down
+                    and relaxing
+                  </li>
+                  <li>
+                    💿 <strong>Rap</strong> &mdash; Artists like Kendrick Lamar
+                    for motivation and retrospection
+                  </li>
+                </ul>
+                <p>
+                  I&apos;m always open to new suggestions, so please share your
+                  favorite tracks!
+                </p>
+                <p>
+                  I&apos;m also dabbling in music production &mdash; any advice
+                  is welcome.
+                </p>
+              </ToggleSection>
+
+              <ToggleSection
+                title="Movies, TV Shows &amp; Anime Watch List"
+                icon={
+                  <span role="img" aria-label="movies">
+                    🎥
+                  </span>
+                }
+              >
+                <p>
+                  I love immersing myself in great storytelling. Here are some
+                  of my current favorites and all-time classics:
+                </p>
+                <ul className="pl-5 space-y-1">
+                  <li>
+                    🍿 <strong>Game of Thrones</strong> &mdash; A binge-worthy
+                    epic
+                  </li>
+                  <li>
+                    🎬 <strong>The Penguin</strong> &mdash; Currently watching
+                  </li>
+                  <li>
+                    🌀 <strong>Naruto</strong> &mdash; Anime classic
+                  </li>
+                  <li>
+                    🔥 <strong>Blue Lock</strong> &mdash; Recently started
+                  </li>
+                </ul>
+                <p className="mt-2">
+                  Got any recommendations? Drop your suggestions below or DM me
+                  on Twitter!
+                </p>
+              </ToggleSection>
+
+              <ToggleSection
+                title="Sports &amp; Fitness"
+                icon={
+                  <span role="img" aria-label="fitness">
+                    💪
+                  </span>
+                }
+              >
+                <p>
+                  I enjoy staying active with sports and calisthenics.
+                  Here&apos;s a glimpse of my current routine:
+                </p>
+                <h3 className="font-bold mt-2">Calisthenics Workout</h3>
+                <ul className="pl-5 space-y-1">
+                  <li>🏋️ Planche Pushups: 3 sets of 5 reps</li>
+                  <li>🤸 Handstand Practice: 5 minutes wall-supported</li>
+                  <li>💪 Pull-ups: 3 sets of 8 reps</li>
+                </ul>
+                <p className="mt-2">
+                  Staying fit is key, and I&apos;m always looking to improve my
+                  strength and endurance.
+                </p>
+                <h3 className="font-bold mt-2">Meal Plan</h3>
+                <ul className="pl-5 space-y-1">
+                  <li>🍗 Grilled Chicken Breast with Quinoa &amp; Veggies</li>
+                  <li>🐟 Baked Salmon with Brown Rice &amp; Broccoli</li>
+                  <li>🥚 Egg White Omelette with Spinach &amp; Mushrooms</li>
+                </ul>
+                <p className="mt-2">
+                  I focus on healthy, high-protein meals while avoiding beef and
+                  pork.
+                </p>
+              </ToggleSection>
+
+              <ToggleSection
+                title="Online Content"
+                icon={
+                  <span role="img" aria-label="online">
+                    🌐
+                  </span>
+                }
+              >
+                <p>
+                  I engage with a mix of podcasts, YouTube channels, and tech
+                  articles that inspire me.
+                </p>
+                <h3 className="font-bold mt-2">Podcasts I Enjoy</h3>
+                <ul className="pl-5 space-y-1">
+                  <li>🎙️ Joe Rogan Experience</li>
+                  <li>🎙️ The Diary of a CEO</li>
+                  <li>🎙️ The Chris Williamson Podcast</li>
+                </ul>
+                <p className="mt-2">
+                  Have any podcast recommendations? I&apos;d love to hear them!
+                </p>
+              </ToggleSection>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </FloatingNetworkBackground>
+  );
+};
+
+export default AboutPage;
+
+================
+File: src/app/projects/page.tsx
+================
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { Search, Grid, List, ArrowLeft, X, Home } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useTheme } from "@/components/theme-provider";
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import projectImage from "../images/logo-alt-with-background.jpeg";
+import FloatingNetworkBackground from "@/components/floating-network";
+
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  image?: string;
+  timeline: string;
+  status: "In Progress" | "Completed" | "Planned";
+  types: string[];
+  details: string;
+}
+
+const projectsData: Project[] = [
+  {
+    id: 1,
+    title: "LotCreator",
+    description: "Automated product appraisal platform that reduced processing time from 16 hours to 16 seconds using computer vision and LLMs",
+    timeline: "Aug. 2023",
+    status: "In Progress",
+    types: ["Next.js", "React", "Firebase", "AI/ML", "Computer Vision"],
+    details: "Built an end-to-end full stack application for managing auctions using MVC design. Leveraged GPT-4, Google Vision, and Selenium to automate product appraisal processes through computer vision models, scraping agents, and LLMs. The system dramatically improved efficiency by reducing processing time from 16 hours to just 16 seconds."
+  },
+  {
+    id: 2,
+    title: "rev",
+    image: projectImage.src,
+    description: "A hackerspace community platform connecting 350+ members using graph databases and embeddings",
+    timeline: "Aug. 2023 - Present",
+    status: "In Progress",
+    types: ["Next.js", "React", "Supabase", "PostgreSQL", "Neo4j"],
+    details: "Founded and built a thriving hackerspace community platform that grew to 350+ members within one semester. Developed rev connex, a sophisticated networking system using graph databases and embeddings to connect people and projects. Led educational initiatives including cohort workshops on Firebase and LLMs, and hosted events featuring notable tech venture capitalists like Cory Levy and Edward Lando."
+  },
+  {
+    id: 3,
+    title: "Automated Hydroponic Farm",
+    description: "Smart farming system with automated pH control and computer vision-based harvesting",
+    timeline: "May 2022",
+    status: "Completed",
+    types: ["Python", "IoT", "Computer Vision", "RaspberryPi"],
+    details: "Developed an automated hydroponic farming system using RaspberryPi and motors to control pH and nutrient levels. Implemented computer vision using OpenCV to detect ripe fruit and automate harvesting processes. The system integrates hardware and software components including Streamlit for the interface, Supabase for data storage, and OpenCV for image processing."
+  },
+  {
+    id: 4,
+    title: "Autonomous Game Agent for Jetpack Joyride",
+    description: "AI-powered game agent using genetic algorithms and Deep Q Learning",
+    timeline: "Nov. 2023",
+    status: "Completed",
+    types: ["Python", "PyTorch", "AI/ML", "Gaming"],
+    details: "Implemented an intelligent game agent for Jetpack Joyride using a combination of genetic algorithms and Deep Q Networks. The agent learns to play the game autonomously by training neural networks through reinforcement learning techniques. Built using Python with PyTorch for deep learning and PyGame for game interface."
+  }
+];
+
+const getTextColors = (themeType: "light" | "mid" | "dark") => {
+  switch (themeType) {
+    case "dark":
+      return {
+        title: "text-white",
+        description: "text-white",
+        content: "text-white",
+      };
+    case "light":
+      return {
+        title: "text-gray-900",
+        description: "text-gray-600",
+        content: "text-gray-700",
+      };
+    case "mid":
+      return {
+        title: "text-white",
+        description: "text-white",
+        content: "text-white",
+      };
+  }
+};
+
+const useResponsiveNodes = () => {
+  const [nodes, setNodes] = useState({ count: 30, max: 70 });
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 640) { // mobile
+        setNodes({ count: 15, max: 30 });
+      } else if (width < 1024) { // tablet
+        setNodes({ count: 20, max: 50 });
+      } else { // desktop
+        setNodes({ count: 30, max: 70 });
+      }
+    };
+
+    handleResize(); // Initial call
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return nodes;
+};
+
+const ProjectPortfolio: React.FC = () => {
+  const [view, setView] = useState<"grid" | "list">("grid");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const theme = useTheme();
+  const router = useRouter();
+
+  const { count: nodeCount, max: maxNodes } = useResponsiveNodes();
+
+  const allTypes = Array.from(
+    new Set(projectsData.flatMap((project) => project.types))
+  );
+
+  const filteredProjects = projectsData.filter((project) => {
+    const matchesSearch =
+      project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      project.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesTypes =
+      selectedTypes.length === 0 ||
+      selectedTypes.some((type) => project.types.includes(type));
+    return matchesSearch && matchesTypes;
+  });
+
+  const toggleType = (type: string) => {
+    setSelectedTypes((prev) =>
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
+    );
+  };
+
+  const getButtonStyle = (isActive: boolean) => ({
+    backgroundColor: isActive ? theme.accentColor : `${theme.baseColor}80`,
+    color: isActive ? theme.baseColor : theme.accentColor,
+    borderColor: theme.accentColor,
+  });
+
+  const StatusBadge: React.FC<{ status: Project["status"] }> = ({ status }) => {
+    const getStatusColor = () => {
+      switch (status.toLowerCase()) {
+        case "completed":
+          return "bg-green-100 text-green-800";
+        case "in progress":
+          return "bg-blue-100 text-blue-800";
+        case "planned":
+          return "bg-yellow-100 text-yellow-800";
+        default:
+          return "bg-gray-100 text-gray-800";
+      }
+    };
+
+    return (
+      <span className={cn("px-2 py-1 rounded-full text-sm", getStatusColor())}>
+        {status}
+      </span>
+    );
+  };
+
+  const TypeBadge: React.FC<{ type: string }> = ({ type }) => (
+    <span className="px-2 py-1 rounded-full text-sm bg-purple-100 text-purple-800 mr-2 mb-2">
+      {type}
+    </span>
+  );
+
+  if (selectedProject) {
+    return (
+      <FloatingNetworkBackground nodeCount={nodeCount} connectionDistance={150} maxNodes={maxNodes} >
+        <div className="max-w-4xl mx-auto p-4 md:p-6 min-h-screen">
+          <button
+            onClick={() => setSelectedProject(null)}
+            style={{ color: theme.accentColor }}
+            className="text-2xl font-bold flex items-center mb-4 hover:underline pointer-events-auto pointer-events-auto"
+          >
+            <ArrowLeft className="w-8 h-8 mr-2" />
+            Back to Projects
+          </button>
+
+          <Card style={{ background: `${theme.accentColor}CC` }}>
+            {selectedProject.image && (
+              <img
+                src={selectedProject.image}
+                alt={selectedProject.title}
+                className="w-full h-64 object-cover rounded-lg pointer-events-auto"
+              />
+            )}
+            <CardHeader>
+              <div className="flex justify-between items-start">
+                <CardTitle
+                  className={cn(
+                    "text-2xl font-bold",
+                    getTextColors(theme.type).title
+                  )}
+                >
+                  {selectedProject.title}
+                </CardTitle>
+                <StatusBadge status={selectedProject.status} />
+              </div>
+              <CardDescription
+                className={cn(getTextColors(theme.type).description)}
+              >
+                Timeline: {selectedProject.timeline}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap mb-4">
+                {selectedProject.types.map((type) => (
+                  <TypeBadge key={type} type={type} />
+                ))}
+              </div>
+              <p
+                className={cn(
+                  "whitespace-pre-line",
+                  getTextColors(theme.type).content
+                )}
+              >
+                {selectedProject.details}
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </FloatingNetworkBackground>
+    );
+  }
+
+  return (
+    <FloatingNetworkBackground
+      nodeCount={nodeCount}
+      connectionDistance={150}
+      maxNodes={maxNodes}
+    >
+      <div className="max-w-6xl mx-auto p-4 md:p-6 min-h-screen">
+        <div className="mb-8">
+          <h1
+            style={{ color: theme.accentColor }}
+            className="text-3xl font-bold mb-2 flex items-center pointer-events-auto"
+          >
+            <Home
+              className="w-8 h-8 inline-block mr-2 hover:cursor-pointer"
+              onClick={() => router.push('/')}
+            />
+            My Projects
+          </h1>
+          <div className="flex flex-wrap gap-4 mb-6">
+            <div className="relative flex-grow max-w-md pointer-events-auto">
+              <Search
+                style={{ color: theme.accentColor }}
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4"
+              />
+              <input
+                type="text"
+                style={{
+                  borderColor: theme.accentColor,
+                  outlineColor: theme.accentColor,
+                  backgroundColor: `${theme.baseColor}80`,
+                  color: theme.accentColor,
+                }}
+                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline focus:outline-2"
+                value={searchTerm}
+                onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <div className="flex gap-2 pointer-events-auto">
+              <button
+                onClick={() => setView("grid")}
+                style={getButtonStyle(view === "grid")}
+                className="p-2 rounded border-2 transition-colors duration-300"
+              >
+                <Grid className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => setView("list")}
+                style={getButtonStyle(view === "list")}
+                className="p-2 rounded border-2 transition-colors duration-300"
+              >
+                <List className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2 mb-6">
+            {allTypes.map((type) => (
+              <button
+                key={type}
+                onClick={() => toggleType(type)}
+                style={getButtonStyle(selectedTypes.includes(type))}
+                className="px-3 py-1 rounded-full text-sm border-2 transition-colors duration-300 pointer-events-auto"
+              >
+                {type}
+                {selectedTypes.includes(type) && (
+                  <X className="w-3 h-3 ml-1 inline-block" />
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div
+          className={cn(
+            "grid gap-6",
+            view === "grid"
+              ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+              : "grid-cols-1"
+          )}
+        >
+          {filteredProjects.map((project) => (
+            <Card
+              key={project.id}
+              className="cursor-pointer transition-all duration-300 hover:shadow-lg border-2 pointer-events-auto"
+              style={{
+                borderColor: "transparent",
+                background: `${theme.accentColor}CC`,
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLDivElement).style.borderColor =
+                  theme.accentColor;
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLDivElement).style.borderColor =
+                  "transparent";
+              }}
+              onClick={() => setSelectedProject(project)}
+            >
+              {project.image && view === "grid" && (
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-48 object-cover rounded-lg"
+                />
+              )}
+              <CardHeader>
+                <div className="flex justify-between items-start">
+                  <CardTitle className={cn(getTextColors(theme.type).title)}>
+                    {project.title}
+                  </CardTitle>
+                  <StatusBadge status={project.status} />
+                </div>
+                <CardDescription
+                  className={cn(getTextColors(theme.type).description)}
+                >
+                  Timeline: {project.timeline}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className={cn("mb-4", getTextColors(theme.type).content)}>
+                  {project.description}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {project.types.map((type) => (
+                    <TypeBadge key={type} type={type} />
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {filteredProjects.length === 0 && (
+          <div
+            style={{ color: theme.accentColor }}
+            className="text-center text-gray-500 py-8"
+          >
+            No projects found matching your criteria
+          </div>
+        )}
+      </div>
+    </FloatingNetworkBackground>
+  );
+};
+
+export default ProjectPortfolio;
+
+================
+File: src/app/resume/page.tsx
+================
+"use client";
+
+import { useEffect } from "react";
+
+const ResumePage = () => {
+  useEffect(() => {
+    window.location.href = "https://firebasestorage.googleapis.com/v0/b/personal-website-f0071.appspot.com/o/Dhananjai%20Resume.pdf?alt=media&token=d0e1625e-4780-40ef-9081-9209c7adc270";
+  }, []);
+
+  return null;
+}
+
+export default ResumePage;
+
+================
+File: src/app/globals.css
+================
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+================
+File: src/app/layout.tsx
+================
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+import "./globals.css";
+import { ThemeProvider } from "../components/theme-provider";
+
+const geistSans = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+  weight: "100 900",
+});
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  weight: "100 900",
+});
+
+export const metadata: Metadata = {
+  title: "Jai's Corner of the Internet",
+  description: "A personal website and blog by Dhananjai Senthil Kumar.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
+    </html>
+  );
+}
+
+================
+File: src/app/page.tsx
+================
+import React from "react";
+import FloatingNetworkBackground from "@/components/floating-network";
+import { Content } from "@/components/landing";
+
+const App: React.FC = () => {
+  return (
+    <FloatingNetworkBackground nodeCount={30} connectionDistance={150} maxNodes={70}>
+      <Content />
+    </FloatingNetworkBackground>
+  );
+};
+
+export default App;
+
+================
+File: src/components/animations/animated-image.tsx
+================
+import React, { useState } from 'react';
+import Image, { StaticImageData } from "next/image";
+
+interface AnimatedImageProps {
+  src: string | StaticImageData;
+  alt: string;
+  width: number;
+  height: number;
+}
+
+const AnimatedImage: React.FC<AnimatedImageProps> = ({ src, alt, width, height }) => {
+  const [isSpinning, setIsSpinning] = useState(false);
+
+  const handleClick = () => {
+    setIsSpinning(true);
+    setTimeout(() => setIsSpinning(false), 500); // Reset after animation
+  };
+
+  return (
+    <div 
+      className="w-48 h-48 rounded-full bg-gray-300 mx-auto mb-4 cursor-pointer overflow-hidden"
+      onClick={handleClick}
+    >
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        className={`w-full h-full object-cover rounded-full transition-transform duration-500 ${
+          isSpinning ? 'rotate-y-180' : ''
+        }`}
+      />
+    </div>
+  );
+};
+
+export default AnimatedImage;
+
+================
+File: src/components/ui/card.tsx
+================
+import * as React from "react"
+
+import { cn } from "@/lib/utils"
+
+const Card = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "rounded-xl border bg-card text-card-foreground shadow",
+      className
+    )}
+    {...props}
+  />
+))
+Card.displayName = "Card"
+
+const CardHeader = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex flex-col space-y-1.5 p-6", className)}
+    {...props}
+  />
+))
+CardHeader.displayName = "CardHeader"
+
+const CardTitle = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("font-semibold leading-none tracking-tight", className)}
+    {...props}
+  />
+))
+CardTitle.displayName = "CardTitle"
+
+const CardDescription = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("text-sm text-muted-foreground", className)}
+    {...props}
+  />
+))
+CardDescription.displayName = "CardDescription"
+
+const CardContent = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
+))
+CardContent.displayName = "CardContent"
+
+const CardFooter = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex items-center p-6 pt-0", className)}
+    {...props}
+  />
+))
+CardFooter.displayName = "CardFooter"
+
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+
+================
+File: src/components/floating-network.tsx
+================
+"use client";
+
+import React, { useEffect, useRef, useCallback, useState } from "react";
+import { useTheme } from "./theme-provider";
+
+interface Node {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  radius: number;
+  isNew: boolean;
+}
+
+interface FloatingNetworkBackgroundProps {
+  children?: React.ReactNode;
+  nodeCount?: number;
+  connectionDistance?: number;
+  maxNodes?: number;
+}
+
+const FloatingNetworkBackground: React.FC<FloatingNetworkBackgroundProps> = ({
+  children,
+  nodeCount = 30,
+  connectionDistance = 150,
+  maxNodes = 50,
+}) => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const nodesRef = useRef<Node[]>([]);
+  const [nodeCountState, setNodeCountState] = useState(nodeCount);
+  const theme = useTheme();
+
+  const createNode = useCallback(
+    (x: number, y: number, isNew = false): Node => ({
+      x,
+      y,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5,
+      radius: Math.random() * 2 + 2,
+      isNew,
+    }),
+    []
+  );
+
+  const initNodes = useCallback(
+    (width: number, height: number) => {
+      nodesRef.current = [];
+      for (let i = 0; i < nodeCountState; i++) {
+        nodesRef.current.push(
+          createNode(Math.random() * width, Math.random() * height)
+        );
+      }
+    },
+    [nodeCountState, createNode]
+  );
+
+  const handleCanvasClick = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+
+      const x = (event.clientX - rect.left) * scaleX;
+      const y = (event.clientY - rect.top) * scaleY;
+
+      if (nodesRef.current.length < maxNodes) {
+        nodesRef.current.push(createNode(x, y, true));
+        setNodeCountState((prev) => prev + 1);
+      } else {
+        // Replace oldest node
+        nodesRef.current.shift();
+        nodesRef.current.push(createNode(x, y, true));
+      }
+    },
+    [createNode, maxNodes]
+  );
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return; // no canvas yet
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return; // no 2D context
+
+    function resizeCanvas() {
+      if (!canvas) return;
+
+      const oldWidth = canvas.width;
+      const oldHeight = canvas.height;
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      // If this is first load or we want to scale nodes
+      if (nodesRef.current.length === 0) {
+        initNodes(canvas.width, canvas.height);
+      } else {
+        const widthRatio = canvas.width / oldWidth;
+        const heightRatio = canvas.height / oldHeight;
+
+        nodesRef.current = nodesRef.current.map((node) => ({
+          ...node,
+          x: node.x * widthRatio,
+          y: node.y * heightRatio,
+        }));
+      }
+    }
+
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    function animate() {
+      // again, check for canvas & context
+      if (!canvas) return;
+      if (!ctx) return;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // update & draw nodes
+      nodesRef.current.forEach((node, i) => {
+        node.x += node.vx;
+        node.y += node.vy;
+        if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
+        if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+
+        if (node.isNew) {
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = theme.accentColor;
+          ctx.fillStyle = "white";
+          node.isNew = false;
+        } else {
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = theme.accentColor;
+        }
+        ctx.fill();
+
+        // draw connections
+        nodesRef.current.slice(i + 1).forEach((otherNode) => {
+          const dx = node.x - otherNode.x;
+          const dy = node.y - otherNode.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < connectionDistance) {
+            ctx.beginPath();
+            ctx.moveTo(node.x, node.y);
+            ctx.lineTo(otherNode.x, otherNode.y);
+            const opacity = 1 - dist / connectionDistance;
+            // alpha channel in hex
+            const alpha = Math.floor(opacity * 255)
+              .toString(16)
+              .padStart(2, "0");
+            ctx.strokeStyle = `${theme.accentColor}${alpha}`;
+            ctx.stroke();
+          }
+        });
+      });
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    return () => {
+      window.removeEventListener("resize", resizeCanvas);
+    };
+  }, [connectionDistance, initNodes, theme.accentColor]);
+
+  return (
+    <div style={{ position: "relative" }}>
+      {/* Fixed background with pointerEvents: auto (so canvas can get clicks). */}
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          overflow: "hidden",
+          cursor: "pointer",
+          zIndex: 0,
+          pointerEvents: "auto",
+        }}
+        onClick={handleCanvasClick}
+      >
+        <canvas
+          ref={canvasRef}
+          style={{
+            width: "100%",
+            height: "100%",
+          }}
+        />
+      </div>
+
+      {/* Children container with pointerEvents: none by default. */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          pointerEvents: "none",
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+};
+
+export default FloatingNetworkBackground;
+
+================
+File: src/components/landing.tsx
+================
+"use client";
+import React from "react";
+import { useTheme } from "../components/theme-provider";
+import { twMerge } from "tailwind-merge";
+import AnimatedImage from "./animations/animated-image";
+import pfp from "../app/images/jai.png";
+
+export const Content: React.FC = () => {
+  const theme = useTheme();
+
+  const navItems = [
+    { name: "Blog", url: "https://blog.jai.place/" },
+    { name: "Projects", url: "/projects" },
+    { name: "About", url: "/about" },
+    {
+      name: "Resume",
+      url: "https://firebasestorage.googleapis.com/v0/b/personal-website-f0071.appspot.com/o/Dhananjai%20Resume.pdf?alt=media&token=d0e1625e-4780-40ef-9081-9209c7adc270",
+    },
+  ];
+
+  const socialLinks = [
+    { name: "GitHub", url: "https://github.com/Djai284" },
+    {
+      name: "LinkedIn",
+      url: "https://www.linkedin.com/in/dhananjai-senthilkumar/",
+    },
+    { name: "Twitter", url: "https://x.com/Djai284" },
+  ];
+
+  const getContainerStyle = () => {
+    switch (theme.type) {
+      case "light":
+        return "bg-white bg-opacity-70 text-gray-800";
+      case "dark":
+        return "bg-gray-900 bg-opacity-70 text-white";
+      default: // 'mid'
+        return "bg-gray-700 bg-opacity-70 text-white";
+    }
+  };
+
+  const getTextColor = () => {
+    return theme.type === "light" ? "text-gray-800" : "text-white";
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen text-center p-4 pointer-events-none">
+      <div
+        className={twMerge(
+          "p-8 rounded-lg shadow-lg max-w-4xl w-full pointer-events-auto",
+          getContainerStyle()
+        )}
+      >
+        <div className="flex flex-col md:flex-row items-center justify-center mb-8">
+          <div className="md:w-1/3 mb-6 md:mb-0">
+            <AnimatedImage src={pfp} alt="Jai" width={192} height={192} />
+            <div className="flex justify-center space-x-4 mt-4">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.url}
+                  className="text-sm hover:underline transition-colors duration-300"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {link.name}
+                </a>
+              ))}
+            </div>
+          </div>
+          <div className="md:w-2/3 md:pl-8">
+            <h1
+              className={twMerge(
+                "text-4xl md:text-5xl font-serif mb-4",
+                getTextColor()
+              )}
+            >
+              <span>hey, i&apos;m jai</span>
+              <span style={{ color: theme.accentColor }}> 👋</span>
+            </h1>
+            <p
+              className={twMerge(
+                "text-lg md:text-xl font-serif mb-6 max-w-2xl mx-auto",
+                getTextColor()
+              )}
+            >
+              i&apos;m a passionate builder who dabbles in many things. welcome
+              to my corner of the internet!
+            </p>
+            <nav>
+              <ul className="flex flex-wrap justify-center gap-x-4 font-sans text-lg">
+                {navItems.map((item) => (
+                  <li key={item.name}>
+                    <a
+                      href={item.url}
+                      className="transition-colors duration-300 border-b-2 border-transparent hover:border-current"
+                      target={item.url.startsWith("http") ? "_blank" : undefined}
+                      rel={
+                        item.url.startsWith("http")
+                          ? "noopener noreferrer"
+                          : undefined
+                      }
+                    >
+                      {item.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+================
+File: src/components/ripple-mesh.tsx
+================
+"use client";
+import React, { useEffect, useRef, useCallback } from "react";
+import { useTheme } from "./theme-provider";
+
+interface Node {
+  x: number;
+  y: number;
+  baseY: number;
+  velocity: number;
+  update: () => void;
+  draw: (ctx: CanvasRenderingContext2D) => void;
+}
+
+interface MeshRippleEffectProps {
+  children?: React.ReactNode;
+}
+
+const MeshRippleEffect: React.FC<MeshRippleEffectProps> = ({ children }) => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const nodesRef = useRef<Node[]>([]);
+  const theme = useTheme();
+
+  const ROWS = 70;
+  const COLS = 70;
+  const NODE_RADIUS = 10;
+  const DAMPING = 0.98;
+  const SPREAD = 0.3;
+  const STIFFNESS = 0.3;
+
+  class NodeImpl implements Node {
+    baseY: number;
+    velocity: number;
+
+    constructor(public x: number, public y: number) {
+      this.baseY = y;
+      this.velocity = 0;
+    }
+
+    update() {
+      const displacement = this.y - this.baseY;
+      const acceleration = -STIFFNESS * displacement;
+
+      this.velocity += acceleration;
+      this.velocity *= DAMPING;
+      this.y += this.velocity;
+    }
+
+    draw(ctx: CanvasRenderingContext2D) {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, NODE_RADIUS, 0, Math.PI * 2);
+      ctx.fillStyle = theme.baseColor + "80"; // Use baseColor with 50% opacity
+      ctx.fill();
+    }
+  }
+
+  const initializeNodes = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    nodesRef.current = [];
+    const spacing = {
+      x: canvas.width / (COLS - 1),
+      y: canvas.height / (ROWS - 1),
+    };
+
+    for (let i = 0; i < ROWS; i++) {
+      for (let j = 0; j < COLS; j++) {
+        nodesRef.current.push(new NodeImpl(j * spacing.x, i * spacing.y));
+      }
+    }
+  }, []);
+
+  const propagateWave = useCallback(() => {
+    const nodes = nodesRef.current;
+    for (let i = 0; i < ROWS; i++) {
+      for (let j = 0; j < COLS; j++) {
+        const index = i * COLS + j;
+        const node = nodes[index];
+
+        if (i > 0) node.velocity += (nodes[index - COLS].y - node.y) * SPREAD;
+        if (i < ROWS - 1)
+          node.velocity += (nodes[index + COLS].y - node.y) * SPREAD;
+        if (j > 0) node.velocity += (nodes[index - 1].y - node.y) * SPREAD;
+        if (j < COLS - 1)
+          node.velocity += (nodes[index + 1].y - node.y) * SPREAD;
+      }
+    }
+  }, []);
+
+  const animate = useCallback(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext("2d");
+    if (!canvas || !ctx) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    propagateWave();
+
+    const nodes = nodesRef.current;
+    for (const node of nodes) {
+      node.update();
+      node.draw(ctx);
+    }
+
+    for (let i = 0; i < ROWS; i++) {
+      ctx.beginPath();
+      for (let j = 0; j < COLS; j++) {
+        const index = i * COLS + j;
+        if (j === 0) {
+          ctx.moveTo(nodes[index].x, nodes[index].y);
+        } else {
+          ctx.lineTo(nodes[index].x, nodes[index].y);
+        }
+      }
+      ctx.strokeStyle = theme.baseColor + "33"; // Use baseColor with 20% opacity
+      ctx.stroke();
+    }
+
+    for (let j = 0; j < COLS; j++) {
+      ctx.beginPath();
+      for (let i = 0; i < ROWS; i++) {
+        const index = i * COLS + j;
+        if (i === 0) {
+          ctx.moveTo(nodes[index].x, nodes[index].y);
+        } else {
+          ctx.lineTo(nodes[index].x, nodes[index].y);
+        }
+      }
+      ctx.strokeStyle = theme.baseColor + "33"; // Use baseColor with 20% opacity
+      ctx.stroke();
+    }
+
+    requestAnimationFrame(animate);
+  }, [propagateWave, theme.baseColor]);
+
+  const handleClick = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    const nodes = nodesRef.current;
+    const maxDistance = Math.max(canvas.width, canvas.height) / 8;
+
+    for (const node of nodes) {
+      const dx = node.x - x;
+      const dy = node.baseY - y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < maxDistance) {
+        const force = 1 - distance / maxDistance;
+        node.velocity -= force * 50;
+      }
+    }
+  }, []);
+
+  const handleResize = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    initializeNodes();
+  }, [initializeNodes]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    initializeNodes();
+    animate();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [initializeNodes, animate, handleResize]);
+
+  return (
+    <div
+      style={{
+        position: "relative",
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: theme.accentColor, // Use accentColor for background
+      }}
+      onClick={handleClick}
+    >
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          color: theme.baseColor, // Use baseColor for text
+          textAlign: "center",
+          padding: "20px",
+          boxSizing: "border-box",
+          pointerEvents: "none",
+          background: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2))`, // Add a subtle overlay for better readability
+        }}
+      >
+        <div style={{ pointerEvents: "auto" }}>{children}</div>
+      </div>
+    </div>
+  );
+};
+
+export default MeshRippleEffect;
+
+================
+File: src/components/ripple.tsx
+================
+"use client";
+import React, { useEffect, useRef, useCallback } from "react";
+import { useTheme } from "./theme-provider";
+
+interface Node {
+  x: number;
+  y: number;
+  displacement: number;
+  velocity: number;
+  update: () => void;
+}
+
+interface RippleEffectProps {
+  children?: React.ReactNode;
+}
+
+const RippleEffect: React.FC<RippleEffectProps> = ({ children }) => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const nodesRef = useRef<Node[]>([]);
+  const spacingRef = useRef({ x: 0, y: 0 });
+  const theme = useTheme();
+
+  const ROWS = 100;
+  const COLS = 100;
+  const DAMPING = 0.95;
+  const SPREAD = 0.3;
+
+  class NodeImpl implements Node {
+    displacement: number;
+    velocity: number;
+
+    constructor(public x: number, public y: number) {
+      this.displacement = 0;
+      this.velocity = 0;
+    }
+
+    update() {
+      this.velocity += -0.2 * this.displacement;
+      this.velocity *= DAMPING;
+      this.displacement += this.velocity;
+
+      if (Math.abs(this.displacement) < 0.001) {
+        this.displacement = 0;
+        this.velocity = 0;
+      }
+    }
+  }
+
+  const initializeNodes = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    nodesRef.current = [];
+    spacingRef.current = {
+      x: canvas.width / (COLS - 1),
+      y: canvas.height / (ROWS - 1),
+    };
+
+    for (let i = 0; i < ROWS; i++) {
+      for (let j = 0; j < COLS; j++) {
+        nodesRef.current.push(
+          new NodeImpl(j * spacingRef.current.x, i * spacingRef.current.y)
+        );
+      }
+    }
+  }, []);
+
+  const propagateWave = useCallback(() => {
+    const nodes = nodesRef.current;
+    for (let i = 0; i < ROWS; i++) {
+      for (let j = 0; j < COLS; j++) {
+        const index = i * COLS + j;
+        const node = nodes[index];
+
+        if (i > 0)
+          node.velocity +=
+            (nodes[index - COLS].displacement - node.displacement) * SPREAD;
+        if (i < ROWS - 1)
+          node.velocity +=
+            (nodes[index + COLS].displacement - node.displacement) * SPREAD;
+        if (j > 0)
+          node.velocity +=
+            (nodes[index - 1].displacement - node.displacement) * SPREAD;
+        if (j < COLS - 1)
+          node.velocity +=
+            (nodes[index + 1].displacement - node.displacement) * SPREAD;
+      }
+    }
+  }, []);
+
+  const drawRipples = useCallback(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext("2d");
+    if (!canvas || !ctx) return;
+
+    const imageData = ctx.createImageData(canvas.width, canvas.height);
+    const data = imageData.data;
+    const nodes = nodesRef.current;
+    const spacing = spacingRef.current;
+
+    for (let i = 0; i < ROWS - 1; i++) {
+      for (let j = 0; j < COLS - 1; j++) {
+        const index = i * COLS + j;
+        const avgDisplacement =
+          (nodes[index].displacement +
+            nodes[index + 1].displacement +
+            nodes[index + COLS].displacement +
+            nodes[index + COLS + 1].displacement) /
+          4;
+
+        const intensity = Math.floor(128 + avgDisplacement * 128);
+        const x = Math.floor(j * spacing.x);
+        const y = Math.floor(i * spacing.y);
+
+        for (let py = y; py < y + spacing.y; py++) {
+          for (let px = x; px < x + spacing.x; px++) {
+            const dataIndex = (py * canvas.width + px) * 4;
+            data[dataIndex] = intensity;
+            data[dataIndex + 1] = intensity;
+            data[dataIndex + 2] = intensity;
+            data[dataIndex + 3] = 32;
+          }
+        }
+      }
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+  }, []);
+
+  const animate = useCallback(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext("2d");
+    if (!canvas || !ctx) return;
+
+    ctx.fillStyle = theme.baseColor;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    propagateWave();
+
+    for (let i = 0; i < nodesRef.current.length; i++) {
+      nodesRef.current[i].update();
+    }
+
+    drawRipples();
+
+    requestAnimationFrame(animate);
+  }, [propagateWave, drawRipples, theme.baseColor]);
+
+  const handleClick = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    const maxDistance = Math.min(canvas.width, canvas.height) / 8;
+
+    for (const node of nodesRef.current) {
+      const dx = node.x - x;
+      const dy = node.y - y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < maxDistance) {
+        const force = Math.cos(((distance / maxDistance) * Math.PI) / 2) * 2;
+        node.displacement = force;
+      }
+    }
+  }, []);
+
+  const handleResize = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    initializeNodes();
+  }, [initializeNodes]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    initializeNodes();
+    animate();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [initializeNodes, animate, handleResize]);
+
+  return (
+    <div
+      style={{
+        position: "relative",
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: theme.baseColor,
+      }}
+      onClick={handleClick}
+    >
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          color: theme.accentColor,
+          textAlign: "center",
+          padding: "20px",
+          boxSizing: "border-box",
+          pointerEvents: "none",
+        }}
+      >
+        <div style={{ pointerEvents: "auto" }}>{children}</div>
+      </div>
+    </div>
+  );
+};
+
+export default RippleEffect;
+
+================
+File: src/components/theme-provider.tsx
+================
+"use client";
+
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
+import { colorSchemes } from "../lib/color-schemes";
+
+interface Theme {
+  baseColor: string;
+  accentColor: string;
+  name: string;
+  type: "light" | "mid" | "dark";
+}
+
+// Define a neutral initial theme
+const initialTheme: Theme = {
+  baseColor: "#000000",
+  accentColor: "#ffffff",
+  name: "initial",
+  type: "light",
+};
+
+const ThemeContext = createContext<Theme | null>(null);
+
+export const useTheme = () => {
+  const theme = useContext(ThemeContext);
+  if (!theme) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+  return theme;
+};
+
+interface ThemeProviderProps {
+  children: React.ReactNode;
+}
+
+export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
+  // Use the neutral initial theme
+  const [theme, setTheme] = useState<Theme>(initialTheme);
+  
+  useEffect(() => {
+    // Set random theme immediately on mount
+    const randomScheme = colorSchemes[Math.floor(Math.random() * colorSchemes.length)];
+    console.log('Current theme:', randomScheme.name, 
+      '\nBase color:', randomScheme.baseColor, 
+      '\nAccent color:', randomScheme.accentColor);
+    setTheme(randomScheme);
+  }, []);
+
+  return (
+    <ThemeContext.Provider value={theme}>
+      <div
+        style={{
+          backgroundColor: theme.baseColor,
+          color: theme.accentColor,
+          minHeight: "100vh",
+          transition: "background-color 0.3s, color 0.3s", // Add smooth transition
+        }}
+      >
+        {children}
+      </div>
+    </ThemeContext.Provider>
+  );
+};
+
+================
+File: src/lib/color-schemes.ts
+================
+interface Theme {
+  baseColor: string;
+  accentColor: string;
+  name: string;
+  type: "light" | "mid" | "dark";
+}
+
+
+export const colorSchemes: Theme[] = [
+  // Light themes
+  // {
+  //   baseColor: "#0000FF",
+  //   accentColor: "#FFE4E1",
+  //   name: "light-red",
+  //   type: "light",
+  // },
+  // {
+  //   baseColor: "#0000FF",
+  //   accentColor: "#DEB887",
+  //   name: "light-brown",
+  //   type: "light",
+  // },
+  // {
+  //   baseColor: "#0000FF",
+  //   accentColor: "#FFE4B5",
+  //   name: "light-orange",
+  //   type: "light",
+  // },
+  // {
+  //   baseColor: "#0000FF",
+  //   accentColor: "#FFFFE0",
+  //   name: "light-yellow",
+  //   type: "light",
+  // },
+  // {
+  //   baseColor: "#800080",
+  //   accentColor: "#98FB98",
+  //   name: "light-green",
+  //   type: "light",
+  // },
+  {
+    baseColor: "#8B4513",
+    accentColor: "#E0FFFF",
+    name: "light-cyan",
+    type: "light",
+  },
+  {
+    baseColor: "#556B2F",
+    accentColor: "#E6E6FA",
+    name: "light-blue",
+    type: "light",
+  },
+  {
+    baseColor: "#006400",
+    accentColor: "#FFE4E1",
+    name: "light-violet",
+    type: "light",
+  },
+  {
+    baseColor: "#006400",
+    accentColor: "#FFB6C1",
+    name: "light-magenta",
+    type: "light",
+  },
+  {
+    baseColor: "#000000",
+    accentColor: "#FFFFFF",
+    name: "light-gray",
+    type: "light",
+  },
+
+  // Mid themes
+  {
+    baseColor: "#000000",
+    accentColor: "#FF4500",
+    name: "mid-red",
+    type: "mid",
+  },
+  {
+    baseColor: "#E0FFFF",
+    accentColor: "#8B4513",
+    name: "mid-brown",
+    type: "mid",
+  },
+  // {
+  //   baseColor: "#0000FF",
+  //   accentColor: "#FFA500",
+  //   name: "mid-orange",
+  //   type: "mid",
+  // },
+  // {
+  //   baseColor: "#0000FF",
+  //   accentColor: "#FFFF00",
+  //   name: "mid-yellow",
+  //   type: "mid",
+  // },
+  // {
+  //   baseColor: "#000000",
+  //   accentColor: "#00FF00",
+  //   name: "mid-green",
+  //   type: "mid",
+  // },
+  // {
+  //   baseColor: "#000000",
+  //   accentColor: "#00FFFF",
+  //   name: "mid-cyan",
+  //   type: "mid",
+  // },
+  // {
+  //   baseColor: "#000000",
+  //   accentColor: "#0000FF",
+  //   name: "mid-blue",
+  //   type: "mid",
+  // },
+  {
+    baseColor: "#98FB98",
+    accentColor: "#8A2BE2",
+    name: "mid-violet",
+    type: "dark",
+  },
+  {
+    baseColor: "#000000",
+    accentColor: "#FF00FF",
+    name: "mid-magenta",
+    type: "mid",
+  },
+  {
+    baseColor: "#000000",
+    accentColor: "#808080",
+    name: "mid-gray",
+    type: "mid",
+  },
+
+  // Dark themes
+  {
+    baseColor: "#E6E6FA",
+    accentColor: "#8B0000",
+    name: "dark-red",
+    type: "dark",
+  },
+  {
+    baseColor: "#E6E6FA",
+    accentColor: "#8B4513",
+    name: "dark-brown",
+    type: "dark",
+  },
+  {
+    baseColor: "#FFFFFF",
+    accentColor: "#8B4513",
+    name: "dark-orange",
+    type: "dark",
+  },
+  {
+    baseColor: "#FFFFFF",
+    accentColor: "#000000",
+    name: "dark-yellow",
+    type: "dark",
+  },
+  {
+    baseColor: "#FFB6C1",
+    accentColor: "#006400",
+    name: "dark-green",
+    type: "dark",
+  },
+  {
+    baseColor: "#FFE4B5",
+    accentColor: "#008080",
+    name: "dark-cyan",
+    type: "dark",
+  },
+  // {
+  //   baseColor: "#FFFF00",
+  //   accentColor: "#000080",
+  //   name: "dark-blue",
+  //   type: "dark",
+  // },
+  // {
+  //   baseColor: "#98FB98",
+  //   accentColor: "#4B0082",
+  //   name: "dark-violet",
+  //   type: "dark",
+  // },
+  // {
+  //   baseColor: "#98FB98",
+  //   accentColor: "#8B008B",
+  //   name: "dark-magenta",
+  //   type: "dark",
+  // },
+  {
+    baseColor: "#FFFFFF",
+    accentColor: "#000000",
+    name: "dark-gray",
+    type: "dark",
+  },
+];
+
+================
+File: src/lib/utils.ts
+================
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
+================
+File: .eslintrc.json
+================
+{
+  "extends": ["next/core-web-vitals", "next/typescript"]
+}
+
+================
+File: .gitignore
+================
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+================
+File: components.json
+================
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "tailwind.config.ts",
+    "css": "src/app/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  },
+  "iconLibrary": "lucide"
+}
+
+================
+File: next.config.mjs
+================
+/** @type {import('next').NextConfig} */
+const nextConfig = {};
+
+export default nextConfig;
+
+================
+File: package.json
+================
+{
+  "name": "personal-website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.469.0",
+    "next": "14.2.15",
+    "react": "^18",
+    "react-dom": "^18",
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.15",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}
+
+================
+File: postcss.config.mjs
+================
+/** @type {import('postcss-load-config').Config} */
+const config = {
+  plugins: {
+    tailwindcss: {},
+  },
+};
+
+export default config;
+
+================
+File: README.md
+================
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+================
+File: tailwind.config.ts
+================
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+    darkMode: ["class"],
+    content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+  	extend: {
+  		colors: {
+  			background: 'hsl(var(--background))',
+  			foreground: 'hsl(var(--foreground))',
+  			card: {
+  				DEFAULT: 'hsl(var(--card))',
+  				foreground: 'hsl(var(--card-foreground))'
+  			},
+  			popover: {
+  				DEFAULT: 'hsl(var(--popover))',
+  				foreground: 'hsl(var(--popover-foreground))'
+  			},
+  			primary: {
+  				DEFAULT: 'hsl(var(--primary))',
+  				foreground: 'hsl(var(--primary-foreground))'
+  			},
+  			secondary: {
+  				DEFAULT: 'hsl(var(--secondary))',
+  				foreground: 'hsl(var(--secondary-foreground))'
+  			},
+  			muted: {
+  				DEFAULT: 'hsl(var(--muted))',
+  				foreground: 'hsl(var(--muted-foreground))'
+  			},
+  			accent: {
+  				DEFAULT: 'hsl(var(--accent))',
+  				foreground: 'hsl(var(--accent-foreground))'
+  			},
+  			destructive: {
+  				DEFAULT: 'hsl(var(--destructive))',
+  				foreground: 'hsl(var(--destructive-foreground))'
+  			},
+  			border: 'hsl(var(--border))',
+  			input: 'hsl(var(--input))',
+  			ring: 'hsl(var(--ring))',
+  			chart: {
+  				'1': 'hsl(var(--chart-1))',
+  				'2': 'hsl(var(--chart-2))',
+  				'3': 'hsl(var(--chart-3))',
+  				'4': 'hsl(var(--chart-4))',
+  				'5': 'hsl(var(--chart-5))'
+  			}
+  		},
+  		fontFamily: {
+  			serif: [
+  				'Georgia',
+  				'Cambria',
+  				'Times New Roman',
+  				'Times',
+  				'serif'
+  			],
+  			sans: [
+  				'Helvetica Neue',
+  				'Arial',
+  				'sans-serif'
+  			]
+  		},
+  		rotate: {
+  			'y-180': 'rotateY(180deg)'
+  		},
+  		borderRadius: {
+  			lg: 'var(--radius)',
+  			md: 'calc(var(--radius) - 2px)',
+  			sm: 'calc(var(--radius) - 4px)'
+  		}
+  	}
+  },
+  plugins: [require("tailwindcss-animate")],
+};
+export default config;
+
+================
+File: tsconfig.json
+================
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
+
+
+
+================================================================
+End of Codebase
+================================================================
+</file>
+
+<file path="src/components/theme-provider.tsx">
+"use client";
+
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
+import { colorSchemes } from "../lib/color-schemes";
+
+interface Theme {
+  baseColor: string;
+  accentColor: string;
+  name: string;
+  type: "light" | "mid" | "dark";
+}
+
+// Define a neutral initial theme
+const initialTheme: Theme = {
+  baseColor: "#000000",
+  accentColor: "#ffffff",
+  name: "initial",
+  type: "light",
+};
+
+const ThemeContext = createContext<Theme | null>(null);
+
+export const useTheme = () => {
+  const theme = useContext(ThemeContext);
+  if (!theme) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+  return theme;
+};
+
+interface ThemeProviderProps {
+  children: React.ReactNode;
+}
+
+export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
+  // Use the neutral initial theme
+  const [theme, setTheme] = useState<Theme>(initialTheme);
+  
+  useEffect(() => {
+    // Set random theme immediately on mount
+    const randomScheme = colorSchemes[Math.floor(Math.random() * colorSchemes.length)];
+    console.log('Current theme:', randomScheme.name, 
+      '\nBase color:', randomScheme.baseColor, 
+      '\nAccent color:', randomScheme.accentColor);
+    setTheme(randomScheme);
+  }, []);
+
+  return (
+    <ThemeContext.Provider value={theme}>
+      <div
+        style={{
+          backgroundColor: theme.baseColor,
+          color: theme.accentColor,
+          minHeight: "100vh",
+          transition: "background-color 0.3s, color 0.3s", // Add smooth transition
+        }}
+      >
+        {children}
+      </div>
+    </ThemeContext.Provider>
+  );
+};
+</file>
+
+<file path="src/app/about/page.tsx">
+"use client";
+
+import React from "react";
+import { 
+  Terminal, 
+  Instagram, 
+  Twitter, 
+  Youtube, 
+  Github, 
+  Mail,
+  Lightbulb,
+  Music,
+  Film,
+  Dumbbell,
+  Globe,
+  ArrowUp,
+  ArrowDown,
+  Music2,
+  Microscope,
+  Bot,
+  Drumstick,
+  Headphones,
+  Guitar,
+  Disc,
+  Popcorn,
+  Clapperboard,
+  Wind,
+  Flame,
+  Weight,
+  BicepsFlexed,
+  Dumbbell as WeightIcon,
+  Beef,
+  Fish,
+  Egg,
+  PanelRightOpen
+} from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTheme } from "@/components/theme-provider";
+import FloatingNetworkBackground from "@/components/floating-network";
+import { useRouter } from "next/navigation";
+
+// A reusable toggle component for expandable sections with smooth animation.
+const ToggleSection: React.FC<{
+  title: string;
+  icon: React.ReactNode;
+  children: React.ReactNode;
+}> = ({ title, icon, children }) => {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <div className="rounded pointer-events-auto">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between p-2 bg-transparent focus:outline-none"
+      >
+        <div className="flex items-center gap-2">
+          {icon}
+          <span className="font-semibold text-xl">{title}</span>
+        </div>
+        <span>{open ? <ArrowUp size={18} /> : <ArrowDown size={18} />}</span>
+      </button>
+      {/* The container is always rendered so that we can animate its max-height and opacity */}
+      <div
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+          open ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="p-2 space-y-2 text-lg">{children}</div>
+      </div>
+    </div>
+  );
+};
+
+const AboutPage: React.FC = () => {
+  const theme = useTheme();
+  const router = useRouter();
+
+  return (
+    <FloatingNetworkBackground
+      nodeCount={30}
+      connectionDistance={150}
+      maxNodes={70}
+    >
+      <div className="max-w-4xl mx-auto p-6 min-h-screen flex flex-col justify-center">
+        <div
+          className="pointer-events-auto cursor-pointer"
+          onClick={() => router.push("/")}
+        >
+          <h1
+            style={{ color: theme.accentColor }}
+            className="text-4xl font-bold mb-4 flex items-center gap-2"
+          >
+            <Terminal className="w-8 h-8" />
+            About Me
+          </h1>
+        </div>
+
+        <Card
+          style={{
+            background: `${theme.baseColor}CC`,
+            color: theme.accentColor,
+          }}
+        >
+          <CardHeader className="pointer-events-auto">
+            <CardTitle className="text-2xl font-bold flex items-center gap-2">
+              Dhananjai Senthilkumar
+            </CardTitle>
+            <div className="text-lg space-y-2">
+              <p>
+                I am a 4th year Computer Science student at Northeastern
+                University, passionate about building innovative solutions to
+                real problems using cutting-edge technology. I may not be the
+                biggest or strongest in the room, but I&apos;m often the{" "}
+                <strong>
+                  ambitious, determined, and somewhat insane guy 😂
+                </strong>{" "}
+                who dreams big and juggles many ideas.
+              </p>
+              <p>
+                I&apos;m on a journey of continuous learning and growth &mdash;
+                both as a developer and as a person. I believe in sharing my
+                work and connecting with others.
+              </p>
+              <p>Feel free to reach out to me on any of the platforms below:</p>
+              <div className="flex flex-wrap gap-4 mt-2">
+                <a
+                  href="https://www.instagram.com/djai.sen/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <Instagram size={18} />
+                  Instagram
+                </a>
+                <a
+                  href="https://x.com/Djai284"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <Twitter size={18} />
+                  Twitter
+                </a>
+                <a
+                  href="https://www.youtube.com/@Dhananjai284"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <Youtube size={18} />
+                  YouTube
+                </a>
+                <a
+                  href="https://github.com/Djai284"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <Github size={18} />
+                  GitHub
+                </a>
+                <a
+                  href="mailto:dhananjai284@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <Mail size={18} />
+                  Gmail
+                </a>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4 text-md">
+              <ToggleSection
+                title="Idea/Project List"
+                icon={<Lightbulb size={22} />}
+              >
+                <p>
+                  Here are some ideas and projects I&apos;m either working on or
+                  thinking about:
+                </p>
+                <ul className="pl-5 space-y-1">
+                  <li className="flex items-center gap-2">
+                    <Music2 size={18} />
+                    <span>
+                      <strong>Cymatics Lab</strong>: A music production and
+                      geometric research project
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Microscope size={18} />
+                    <span>
+                      <strong>Automated Hydroponics</strong>: Exploring
+                      sustainable living and self-reliance
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Bot size={18} />
+                    <span>
+                      <strong>AI Research Agent</strong>:
+                      Building an agent orchestration platform for deep research
+                    </span>
+                  </li>
+                </ul>
+              </ToggleSection>
+
+              <ToggleSection
+                title="Music I'm Listening To"
+                icon={<Music size={22} />}
+              >
+                <p>
+                  Music is an integral part of life. It can make you smile after
+                  a bad day or bring back memories of the past. Here&apos;s a
+                  taste of what I&apos;m tuning into right now:
+                </p>
+                <ul className="pl-5 space-y-1">
+                  <li className="flex items-center gap-2">
+                    <Drumstick size={18} />
+                    <span>
+                      <strong>Breakcore</strong> &mdash; Beats for getting
+                      things done
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Headphones size={18} />
+                    <span>
+                      <strong>EDM</strong> &mdash; Nostalgic hype vibes
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Guitar size={18} />
+                    <span>
+                      <strong>Jazz</strong> &mdash; Perfect for slowing down
+                      and relaxing
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Disc size={18} />
+                    <span>
+                      <strong>Rap</strong> &mdash; Artists like Kendrick Lamar
+                      for motivation and retrospection
+                    </span>
+                  </li>
+                </ul>
+                <p>
+                  I&apos;m always open to new suggestions, so please share your
+                  favorite tracks!
+                </p>
+                <p>
+                  I&apos;m also dabbling in music production &mdash; any advice
+                  is welcome.
+                </p>
+              </ToggleSection>
+
+              <ToggleSection
+                title="Movies, TV Shows &amp; Anime Watch List"
+                icon={<Film size={22} />}
+              >
+                <p>
+                  I love immersing myself in great storytelling. Here are some
+                  of my current favorites and all-time classics:
+                </p>
+                <ul className="pl-5 space-y-1">
+                  <li className="flex items-center gap-2">
+                    <Popcorn size={18} />
+                    <span>
+                      <strong>Game of Thrones</strong> &mdash; A binge-worthy
+                      epic
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Clapperboard size={18} />
+                    <span>
+                      <strong>The Penguin</strong> &mdash; Currently watching
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Wind size={18} />
+                    <span>
+                      <strong>Naruto</strong> &mdash; Anime classic
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Flame size={18} />
+                    <span>
+                      <strong>Blue Lock</strong> &mdash; Recently started
+                    </span>
+                  </li>
+                </ul>
+                <p className="mt-2">
+                  Got any recommendations? Drop your suggestions below or DM me
+                  on Twitter!
+                </p>
+              </ToggleSection>
+
+              <ToggleSection
+                title="Sports &amp; Fitness"
+                icon={<Dumbbell size={22} />}
+              >
+                <p>
+                  I enjoy staying active with sports and calisthenics.
+                  Here&apos;s a glimpse of my current routine:
+                </p>
+                <h3 className="font-bold mt-2">Calisthenics Workout</h3>
+                <ul className="pl-5 space-y-1">
+                  <li className="flex items-center gap-2">
+                    <Weight size={18} />
+                    <span>Planche Pushups: 3 sets of 5 reps</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <BicepsFlexed size={18} />
+                    <span>Handstand Practice: 5 minutes wall-supported</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <WeightIcon size={18} />
+                    <span>Pull-ups: 3 sets of 8 reps</span>
+                  </li>
+                </ul>
+                <p className="mt-2">
+                  Staying fit is key, and I&apos;m always looking to improve my
+                  strength and endurance.
+                </p>
+                <h3 className="font-bold mt-2">Meal Plan</h3>
+                <ul className="pl-5 space-y-1">
+                  <li className="flex items-center gap-2">
+                    <Beef size={18} />
+                    <span>Grilled Chicken Breast with Quinoa &amp; Veggies</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Fish size={18} />
+                    <span>Baked Salmon with Brown Rice &amp; Broccoli</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Egg size={18} />
+                    <span>Egg White Omelette with Spinach &amp; Mushrooms</span>
+                  </li>
+                </ul>
+                <p className="mt-2">
+                  I focus on healthy, high-protein meals while avoiding beef and
+                  pork.
+                </p>
+              </ToggleSection>
+
+              <ToggleSection
+                title="Online Content"
+                icon={<Globe size={22} />}
+              >
+                <p>
+                  I engage with a mix of podcasts, YouTube channels, and tech
+                  articles that inspire me.
+                </p>
+                <h3 className="font-bold mt-2">Podcasts I Enjoy</h3>
+                <ul className="pl-5 space-y-1">
+                  <li className="flex items-center gap-2">
+                    <PanelRightOpen size={18} />
+                    <span>Joe Rogan Experience</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <PanelRightOpen size={18} />
+                    <span>The Diary of a CEO</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <PanelRightOpen size={18} />
+                    <span>The Chris Williamson Podcast</span>
+                  </li>
+                </ul>
+                <p className="mt-2">
+                  Have any podcast recommendations? I&apos;d love to hear them!
+                </p>
+              </ToggleSection>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </FloatingNetworkBackground>
+  );
+};
+
+export default AboutPage;
+</file>
+
+<file path="src/components/landing.tsx">
+"use client";
+import React from "react";
+import { useTheme } from "../components/theme-provider";
+import { twMerge } from "tailwind-merge";
+import AnimatedImage from "./animations/animated-image";
+import pfp from "../app/images/jai.png";
+
+export const Content: React.FC = () => {
+  const theme = useTheme();
+
+  const navItems = [
+    { name: "Blog", url: "https://blog.jai.place/" },
+    { name: "Projects", url: "/projects" },
+    { name: "About", url: "/about" },
+    {
+      name: "Resume",
+      url: "https://firebasestorage.googleapis.com/v0/b/personal-website-f0071.appspot.com/o/Dhananjai%20Resume.pdf?alt=media&token=d0e1625e-4780-40ef-9081-9209c7adc270",
+    },
+  ];
+
+  const socialLinks = [
+    { name: "GitHub", url: "https://github.com/Djai284" },
+    {
+      name: "LinkedIn",
+      url: "https://www.linkedin.com/in/dhananjai-senthilkumar/",
+    },
+    { name: "Twitter", url: "https://x.com/Djai284" },
+  ];
+
+  const getContainerStyle = () => {
+    switch (theme.type) {
+      case "light":
+        return "bg-white bg-opacity-70 text-gray-800";
+      case "dark":
+        return "bg-gray-900 bg-opacity-70 text-white";
+      default: // 'mid'
+        return "bg-gray-700 bg-opacity-70 text-white";
+    }
+  };
+
+  const getTextColor = () => {
+    return theme.type === "light" ? "text-gray-800" : "text-white";
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen text-center p-4 pointer-events-none">
+      <div
+        className={twMerge(
+          "p-8 rounded-lg shadow-lg max-w-4xl w-full pointer-events-auto",
+          getContainerStyle()
+        )}
+      >
+        <div className="flex flex-col md:flex-row items-center justify-center mb-8">
+          <div className="md:w-1/3 mb-6 md:mb-0">
+            <AnimatedImage src={pfp} alt="Jai" width={192} height={192} />
+            <div className="flex justify-center space-x-4 mt-4">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.url}
+                  className="text-sm hover:underline transition-colors duration-300"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {link.name}
+                </a>
+              ))}
+            </div>
+          </div>
+          <div className="md:w-2/3 md:pl-8">
+            <h1
+              className={twMerge(
+                "text-4xl md:text-5xl font-serif mb-4",
+                getTextColor()
+              )}
+            >
+              <span>hey, i&apos;m jai</span>
+              <span style={{ color: theme.accentColor }}> 👋</span>
+            </h1>
+            <p
+              className={twMerge(
+                "text-lg md:text-xl font-serif mb-6 max-w-2xl mx-auto",
+                getTextColor()
+              )}
+            >
+              i&apos;m a passionate builder who dabbles in all things tech, AI + ML, healthy living, and mindfulness. welcome
+              to my corner of the internet!
+            </p>
+            <nav>
+              <ul className="flex flex-wrap justify-center gap-x-4 font-sans text-lg">
+                {navItems.map((item) => (
+                  <li key={item.name}>
+                    <a
+                      href={item.url}
+                      className="transition-colors duration-300 border-b-2 border-transparent hover:border-current"
+                      target={item.url.startsWith("http") ? "_blank" : undefined}
+                      rel={
+                        item.url.startsWith("http")
+                          ? "noopener noreferrer"
+                          : undefined
+                      }
+                    >
+                      {item.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+</file>
+
+<file path="src/app/projects/page.tsx">
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { Search, Grid, List, ArrowLeft, X, Home, ExternalLink } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
+import { useTheme } from "@/components/theme-provider";
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import FloatingNetworkBackground from "@/components/floating-network";
+import projectImage from "../images/logo-alt-with-background.jpeg";
+import { ArrowRight } from "lucide-react";
+
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  image?: string;
+  timeline: string;
+  status: "In Progress" | "Completed" | "Planned";
+  types: string[];
+  details: string;
+  links?: {
+    title: string;
+    url: string;
+  }[];
+}
+
+const projectsData: Project[] = [
+  {
+    id: 1,
+    title: "Exercise Activity Recognition",
+    description: "Custom-trained CNN model for recognizing gym exercises on embedded devices like smartwatches",
+    timeline: "Jan 2023 - Apr 2023",
+    status: "Completed",
+    types: ["Machine Learning", "Mobile", "iOS", "TensorFlow", "Health & Fitness"],
+    details: "Developed a custom trained activity recognition model to identify gym exercises automatically using Convolutional Neural Networks. The model is designed to run locally on embedded devices such as smartwatches, providing real-time feedback without cloud dependencies. The project consists of two parts: a trained machine learning model with TensorFlow and an iOS application that implements the model for real-world use.",
+    links: [
+      {
+        title: "ML Model Repository",
+        url: "https://github.com/Djai284/smartwatch-activity-recognition"
+      },
+      {
+        title: "iOS App Repository",
+        url: "https://github.com/Djai284/exercise-activity-recognizer"
+      }
+    ]
+  },
+  {
+    id: 2,
+    title: "Cats vs K9s",
+    description: "A fun twist on the tower defense genre inspired by Plants vs Zombies",
+    timeline: "Oct 2022",
+    status: "Completed",
+    types: ["Game Development", "Web", "JavaScript"],
+    details: "Developed a browser-based tower defense game inspired by the mechanics of Plants vs Zombies but with a unique cat and dog theme. The game features multiple levels, different types of defender cats and enemy dogs, and resource management mechanics. Built with JavaScript for cross-platform compatibility.",
+    links: [
+      {
+        title: "Game Repository",
+        url: "https://github.com/Djai284/cats-vs-k9s"
+      }
+    ]
+  },
+  {
+    id: 3,
+    title: "AWS Remix",
+    description: "Tool for summarizing AWS account resources in AI-friendly formats",
+    timeline: "Nov 2023",
+    status: "Completed",
+    types: ["DevOps", "AWS", "Cloud", "Python"],
+    details: "Created a utility that analyzes entire AWS accounts and generates comprehensive summaries in formats optimized for AI consumption. The tool helps developers and architects quickly understand complex AWS setups, simplifies infrastructure auditing, and makes it easier to discuss cloud architecture with AI assistants.",
+    links: [
+      {
+        title: "GitHub Repository",
+        url: "https://github.com/Djai284/aws-remix"
+      }
+    ]
+  },
+  {
+    id: 4,
+    title: "rev",
+    image: projectImage.src,
+    description: "A hackerspace community platform connecting 350+ members in the Boston area",
+    timeline: "Aug 2023 - Present",
+    status: "In Progress",
+    types: ["Community", "Web", "Next.js", "Graph Databases"],
+    details: "Founded and built a thriving hackerspace community platform that grew to 350+ members within one semester. Developed rev connex, a sophisticated networking system using graph databases and embeddings to connect people and projects. Led educational initiatives including cohort workshops on Firebase and LLMs, and hosted events featuring notable tech venture capitalists like Cory Levy and Edward Lando.",
+    links: [
+      {
+        title: "Official Website",
+        url: "https://www.rev.school/"
+      }
+    ]
+  },
+  {
+    id: 5,
+    title: "Autonomous Game Agent for Jetpack Joyride",
+    description: "AI-powered game agent using genetic algorithms and neural networks",
+    timeline: "Nov 2023",
+    status: "Completed",
+    types: ["AI/ML", "Game AI", "Python", "Neural Networks"],
+    details: "Implemented an intelligent game agent for Jetpack Joyride using a combination of genetic algorithms and neural networks built from scratch. The agent learns to play the game autonomously, improving its performance over multiple generations of training. The project demonstrates practical applications of evolutionary algorithms in reinforcement learning scenarios.",
+    links: [
+      {
+        title: "GitHub Repository",
+        url: "https://github.com/Djai284/JetpackJoyrideRL"
+      }
+    ]
+  },
+  {
+    id: 6,
+    title: "Mayura Studios",
+    description: "Technical venture studio specializing in full-stack AI application development",
+    timeline: "Feb 2024 - Present",
+    status: "In Progress",
+    types: ["AI/ML", "Consulting", "Full Stack", "Venture Studio"],
+    details: "Co-founded a technical venture studio and consulting firm focusing on cutting-edge AI application development. Mayura Studios builds custom AI solutions for businesses while also incubating internal projects that leverage the latest in machine learning and artificial intelligence technologies.",
+    links: [
+      {
+        title: "Studio Website",
+        url: "https://mayura.studio"
+      }
+    ]
+  },
+  {
+    id: 7,
+    title: "LotCreator",
+    description: "AI-powered auction management platform that reduced appraisal processing time from 16 hours to 16 seconds",
+    timeline: "Aug 2023 - Present",
+    status: "In Progress",
+    types: ["AI/ML", "Web", "E-commerce", "Computer Vision"],
+    details: "Built an end-to-end full stack application for managing auctions using MVC design. Leveraged GPT-4, Google Vision, and Selenium to automate product appraisal processes through computer vision models, scraping agents, and LLMs. The system dramatically improved efficiency by reducing processing time from 16 hours to just 16 seconds.",
+    links: [
+      {
+        title: "Platform Website",
+        url: "https://lotcreator.com/"
+      }
+    ]
+  }
+];
+
+// Simplified filter categories based on your projects
+const projectCategories = [
+  "AI/ML", 
+  "Web", 
+  "Mobile",
+  "Game Development",
+  "DevOps",
+  "Community",
+  "Full Stack"
+];
+
+const getTextColors = (themeType: "light" | "mid" | "dark") => {
+  switch (themeType) {
+    case "dark":
+      return {
+        title: "text-white",
+        description: "text-white",
+        content: "text-white",
+      };
+    case "light":
+      return {
+        title: "text-gray-900",
+        description: "text-gray-600",
+        content: "text-gray-700",
+      };
+    case "mid":
+      return {
+        title: "text-white",
+        description: "text-white",
+        content: "text-white",
+      };
+  }
+};
+
+const useResponsiveNodes = () => {
+  const [nodes, setNodes] = useState({ count: 30, max: 70 });
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 640) { // mobile
+        setNodes({ count: 15, max: 30 });
+      } else if (width < 1024) { // tablet
+        setNodes({ count: 20, max: 50 });
+      } else { // desktop
+        setNodes({ count: 30, max: 70 });
+      }
+    };
+
+    handleResize(); // Initial call
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return nodes;
+};
+
+const ProjectPortfolio: React.FC = () => {
+  const [view, setView] = useState<"grid" | "list">("grid");
+  const [searchTerm, setSearchTerm] = useState("");
+  // Changed from single string to array of strings for multiple filter selection
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const theme = useTheme();
+  const router = useRouter();
+
+  const { count: nodeCount, max: maxNodes } = useResponsiveNodes();
+
+  const filteredProjects = projectsData.filter((project) => {
+    const matchesSearch =
+      project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      project.description.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    // Check if ANY of the selected categories match ANY of the project types
+    // If no categories are selected, show all projects
+    const matchesCategory =
+      selectedCategories.length === 0 ||
+      project.types.some(type => 
+        selectedCategories.some(category => 
+          type.includes(category)
+        )
+      );
+    
+    return matchesSearch && matchesCategory;
+  });
+
+  // Toggle category selection
+  const toggleCategory = (category: string) => {
+    setSelectedCategories(prev => {
+      // If already selected, remove it
+      if (prev.includes(category)) {
+        return prev.filter(c => c !== category);
+      } 
+      // Otherwise add it
+      else {
+        return [...prev, category];
+      }
+    });
+  };
+
+  // Clear all selected categories
+  const clearAllCategories = () => {
+    setSelectedCategories([]);
+  };
+
+  const getButtonStyle = (isActive: boolean) => ({
+    backgroundColor: isActive ? theme.accentColor : `${theme.baseColor}80`,
+    color: isActive ? theme.baseColor : theme.accentColor,
+    borderColor: theme.accentColor,
+  });
+
+  const StatusBadge: React.FC<{ status: Project["status"] }> = ({ status }) => {
+    const getStatusColor = () => {
+      switch (status.toLowerCase()) {
+        case "completed":
+          return "bg-green-100 text-green-800";
+        case "in progress":
+          return "bg-blue-100 text-blue-800";
+        case "planned":
+          return "bg-yellow-100 text-yellow-800";
+        default:
+          return "bg-gray-100 text-gray-800";
+      }
+    };
+
+    return (
+      <span className={cn("px-2 py-1 rounded-full text-sm", getStatusColor())}>
+        {status}
+      </span>
+    );
+  };
+
+  const TypeBadge: React.FC<{ type: string }> = ({ type }) => (
+    <span className="px-2 py-1 rounded-full text-sm bg-purple-100 text-purple-800 mr-2 mb-2">
+      {type}
+    </span>
+  );
+
+  if (selectedProject) {
+    return (
+      <FloatingNetworkBackground nodeCount={nodeCount} connectionDistance={150} maxNodes={maxNodes} >
+        <div className="max-w-4xl mx-auto p-4 md:p-6 min-h-screen">
+          <button
+            onClick={() => setSelectedProject(null)}
+            style={{ color: theme.accentColor }}
+            className="text-2xl font-bold flex items-center mb-4 hover:underline pointer-events-auto"
+          >
+            <ArrowLeft className="w-6 h-6 mr-2" />
+            Back to Projects
+          </button>
+
+          <Card style={{ background: `${theme.accentColor}CC` }}>
+            {selectedProject.image && (
+              <img
+                src={selectedProject.image}
+                alt={selectedProject.title}
+                className="w-full h-64 object-cover rounded-t-lg pointer-events-auto"
+              />
+            )}
+            <CardHeader>
+              <div className="flex justify-between items-start">
+                <CardTitle
+                  className={cn(
+                    "text-2xl font-bold",
+                    getTextColors(theme.type).title
+                  )}
+                >
+                  {selectedProject.title}
+                </CardTitle>
+                <StatusBadge status={selectedProject.status} />
+              </div>
+              <CardDescription
+                className={cn(getTextColors(theme.type).description)}
+              >
+                Timeline: {selectedProject.timeline}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap mb-4">
+                {selectedProject.types.map((type) => (
+                  <TypeBadge key={type} type={type} />
+                ))}
+              </div>
+              <p
+                className={cn(
+                  "whitespace-pre-line mb-6",
+                  getTextColors(theme.type).content
+                )}
+              >
+                {selectedProject.details}
+              </p>
+              
+              {selectedProject.links && selectedProject.links.length > 0 && (
+                <div className="mt-4">
+                  <h3 className={cn("font-semibold mb-2", getTextColors(theme.type).title)}>
+                    Project Links
+                  </h3>
+                  <div className="flex flex-wrap gap-3">
+                    {selectedProject.links.map((link, index) => (
+                      <a
+                        key={index}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 bg-purple-100 hover:bg-purple-200 text-purple-800 px-3 py-1.5 rounded-full transition-colors duration-200 pointer-events-auto cursor-pointer"
+                      >
+                        {link.title}
+                        <ExternalLink size={14} />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      </FloatingNetworkBackground>
+    );
+  }
+
+  return (
+    <FloatingNetworkBackground
+      nodeCount={nodeCount}
+      connectionDistance={150}
+      maxNodes={maxNodes}
+    >
+      <div className="max-w-6xl mx-auto p-4 md:p-6 min-h-screen">
+        <div className="mb-8">
+          <h1
+            style={{ color: theme.accentColor }}
+            className="text-3xl font-bold mb-2 flex items-center pointer-events-auto"
+          >
+            <Home
+              className="w-8 h-8 inline-block mr-2 hover:cursor-pointer"
+              onClick={() => router.push('/')}
+            />
+            My Projects
+          </h1>
+          <p style={{ color: theme.accentColor }} className="mb-6 text-lg pointer-events-auto">
+            A collection of my work across AI/ML, web development, games, and more
+          </p>
+          
+          {/* Search and View Controls */}
+          <div className="flex flex-wrap gap-4 mb-6">
+            <div className="relative flex-grow max-w-md pointer-events-auto">
+              <Search
+                style={{ color: theme.accentColor }}
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4"
+              />
+              <input
+                type="text"
+                placeholder="Search projects..."
+                style={{
+                  borderColor: theme.accentColor,
+                  outlineColor: theme.accentColor,
+                  backgroundColor: `${theme.baseColor}80`,
+                  color: theme.accentColor,
+                }}
+                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline focus:outline-2"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <div className="flex gap-2 pointer-events-auto">
+              <button
+                onClick={() => setView("grid")}
+                style={getButtonStyle(view === "grid")}
+                className="p-2 rounded border-2 transition-colors duration-300"
+                aria-label="Grid view"
+              >
+                <Grid className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => setView("list")}
+                style={getButtonStyle(view === "list")}
+                className="p-2 rounded border-2 transition-colors duration-300"
+                aria-label="List view"
+              >
+                <List className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Category Filters */}
+          <div className="mb-2 pointer-events-auto">
+            <div className="flex flex-wrap items-center gap-2 mb-2">
+              <span style={{ color: theme.accentColor }} className="font-medium">Filters:</span>
+              <button
+                onClick={clearAllCategories}
+                className={`px-3 py-1 rounded-full text-sm hover:bg-gray-100 transition-colors duration-300 ${
+                  selectedCategories.length > 0 ? "border border-red-300 text-red-500" : "border border-gray-300 text-gray-400"
+                }`}
+                disabled={selectedCategories.length === 0}
+              >
+                Clear All
+              </button>
+            </div>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {projectCategories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => toggleCategory(category)}
+                  style={getButtonStyle(selectedCategories.includes(category))}
+                  className="px-3 py-1 rounded-full text-sm border-2 transition-colors duration-300 flex items-center"
+                >
+                  {category}
+                  {selectedCategories.includes(category) && (
+                    <X className="w-3 h-3 ml-1 inline-block" />
+                  )}
+                </button>
+              ))}
+            </div>
+            {selectedCategories.length > 0 && (
+              <div className="text-sm mb-2" style={{ color: theme.accentColor }}>
+                Showing projects matching: {selectedCategories.join(", ")}
+              </div>
+            )}
+          </div>
+
+          {/* Project Grid/List */}
+          <div
+            className={cn(
+              "grid gap-6",
+              view === "grid"
+                ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                : "grid-cols-1"
+            )}
+          >
+            {filteredProjects.map((project) => (
+              <Card
+                key={project.id}
+                className="cursor-pointer transition-all duration-300 hover:shadow-lg border-2 pointer-events-auto flex flex-col h-full"
+                style={{
+                  borderColor: "transparent",
+                  background: `${theme.accentColor}CC`,
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.borderColor =
+                    theme.accentColor;
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.borderColor =
+                    "transparent";
+                }}
+                onClick={() => setSelectedProject(project)}
+              >
+                {project.image && view === "grid" && (
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-48 object-cover rounded-t-lg"
+                  />
+                )}
+                <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <CardTitle className={cn(getTextColors(theme.type).title)}>
+                      {project.title}
+                    </CardTitle>
+                    <StatusBadge status={project.status} />
+                  </div>
+                  <CardDescription
+                    className={cn(getTextColors(theme.type).description)}
+                  >
+                    Timeline: {project.timeline}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                  <p className={cn("mb-4", getTextColors(theme.type).content)}>
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {project.types.slice(0, 3).map((type) => (
+                      <TypeBadge key={type} type={type} />
+                    ))}
+                    {project.types.length > 3 && (
+                      <span className="px-2 py-1 rounded-full text-sm bg-gray-100 text-gray-800">
+                        +{project.types.length - 3} more
+                      </span>
+                    )}
+                  </div>
+                </CardContent>
+                <CardFooter className="pt-2">
+                  <button
+                    className="text-sm flex items-center hover:underline"
+                    style={{ color: getTextColors(theme.type).content }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedProject(project);
+                    }}
+                  >
+                    View Details
+                    <ArrowRight className="w-4 h-4 ml-1" />
+                  </button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+
+          {filteredProjects.length === 0 && (
+            <div
+              style={{ color: theme.accentColor }}
+              className="text-center py-8 pointer-events-auto"
+            >
+              <p className="text-xl mb-2">No projects found matching your criteria</p>
+              <button 
+                onClick={() => {
+                  setSearchTerm("");
+                  setSelectedCategories([]);
+                }}
+                className="underline"
+              >
+                Clear filters
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </FloatingNetworkBackground>
+  );
+};
+
+export default ProjectPortfolio;
+</file>
+
+</files>

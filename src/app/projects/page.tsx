@@ -1,69 +1,164 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Search, Grid, List, ArrowLeft, X, Home } from "lucide-react";
+// Import the necessary hook for fetching data
+import React, { useEffect, useState, useCallback } from "react";
+import { Search, Grid, List, ArrowLeft, X, Home, ExternalLink } from "lucide-react";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
+  CardFooter,
 } from "@/components/ui/card";
 import { useTheme } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import projectImage from "../images/logo-alt-with-background.jpeg";
 import FloatingNetworkBackground from "@/components/floating-network";
+import projectImage from "../images/logo-alt-with-background.jpeg";
+import { ArrowRight } from "lucide-react";
 
 interface Project {
   id: number;
   title: string;
   description: string;
   image?: string;
+  previewImage?: string;
+  previewUrl?: string; // Added for storing platform URL to generate preview 
   timeline: string;
   status: "In Progress" | "Completed" | "Planned";
   types: string[];
   details: string;
+  links?: {
+    title: string;
+    url: string;
+  }[];
 }
 
 const projectsData: Project[] = [
   {
     id: 1,
-    title: "LotCreator",
-    description: "Automated product appraisal platform that reduced processing time from 16 hours to 16 seconds using computer vision and LLMs",
-    timeline: "Aug. 2023",
-    status: "In Progress",
-    types: ["Next.js", "React", "Firebase", "AI/ML", "Computer Vision"],
-    details: "Built an end-to-end full stack application for managing auctions using MVC design. Leveraged GPT-4, Google Vision, and Selenium to automate product appraisal processes through computer vision models, scraping agents, and LLMs. The system dramatically improved efficiency by reducing processing time from 16 hours to just 16 seconds."
+    title: "Exercise Activity Recognition",
+    description: "Custom-trained CNN model for recognizing gym exercises on embedded devices like smartwatches",
+    timeline: "Jan 2023 - Apr 2023",
+    status: "Completed",
+    types: ["Machine Learning", "Mobile", "iOS", "TensorFlow", "Health & Fitness"],
+    details: "Developed a custom trained activity recognition model to identify gym exercises automatically using Convolutional Neural Networks. The model is designed to run locally on embedded devices such as smartwatches, providing real-time feedback without cloud dependencies. The project consists of two parts: a trained machine learning model with TensorFlow and an iOS application that implements the model for real-world use.",
+    links: [
+      {
+        title: "ML Model Repository",
+        url: "https://github.com/Djai284/smartwatch-activity-recognition"
+      },
+      {
+        title: "iOS App Repository",
+        url: "https://github.com/Djai284/exercise-activity-recognizer"
+      }
+    ]
   },
   {
     id: 2,
-    title: "rev",
-    image: projectImage.src,
-    description: "A hackerspace community platform connecting 350+ members using graph databases and embeddings",
-    timeline: "Aug. 2023 - Present",
-    status: "In Progress",
-    types: ["Next.js", "React", "Supabase", "PostgreSQL", "Neo4j"],
-    details: "Founded and built a thriving hackerspace community platform that grew to 350+ members within one semester. Developed rev connex, a sophisticated networking system using graph databases and embeddings to connect people and projects. Led educational initiatives including cohort workshops on Firebase and LLMs, and hosted events featuring notable tech venture capitalists like Cory Levy and Edward Lando."
+    title: "Cats vs K9s",
+    description: "A fun twist on the tower defense genre inspired by Plants vs Zombies",
+    timeline: "Oct 2022",
+    status: "Completed",
+    types: ["Game Development", "Web", "JavaScript"],
+    details: "Developed a browser-based tower defense game inspired by the mechanics of Plants vs Zombies but with a unique cat and dog theme. The game features multiple levels, different types of defender cats and enemy dogs, and resource management mechanics. Built with JavaScript for cross-platform compatibility.",
+    links: [
+      {
+        title: "Game Repository",
+        url: "https://github.com/Djai284/cats-vs-k9s"
+      }
+    ]
   },
   {
     id: 3,
-    title: "Automated Hydroponic Farm",
-    description: "Smart farming system with automated pH control and computer vision-based harvesting",
-    timeline: "May 2022",
+    title: "AWS Remix",
+    description: "Tool for summarizing AWS account resources in AI-friendly formats",
+    timeline: "Nov 2023",
     status: "Completed",
-    types: ["Python", "IoT", "Computer Vision", "RaspberryPi"],
-    details: "Developed an automated hydroponic farming system using RaspberryPi and motors to control pH and nutrient levels. Implemented computer vision using OpenCV to detect ripe fruit and automate harvesting processes. The system integrates hardware and software components including Streamlit for the interface, Supabase for data storage, and OpenCV for image processing."
+    types: ["DevOps", "AWS", "Cloud", "Python"],
+    details: "Created a utility that analyzes entire AWS accounts and generates comprehensive summaries in formats optimized for AI consumption. The tool helps developers and architects quickly understand complex AWS setups, simplifies infrastructure auditing, and makes it easier to discuss cloud architecture with AI assistants.",
+    links: [
+      {
+        title: "GitHub Repository",
+        url: "https://github.com/Djai284/aws-remix"
+      }
+    ]
   },
   {
     id: 4,
+    title: "rev",
+    description: "A hackerspace community platform connecting 350+ members in the Boston area",
+    timeline: "Aug 2023 - Present",
+    status: "In Progress",
+    types: ["Community", "Web", "Next.js", "Graph Databases"],
+    details: "Founded and built a thriving hackerspace community platform that grew to 350+ members within one semester. Developed rev connex, a sophisticated networking system using graph databases and embeddings to connect people and projects. Led educational initiatives including cohort workshops on Firebase and LLMs, and hosted events featuring notable tech venture capitalists like Cory Levy and Edward Lando.",
+    links: [
+      {
+        title: "Official Website",
+        url: "https://www.rev.school/"
+      }
+    ],
+    previewUrl: "https://www.rev.school/"
+  },
+  {
+    id: 5,
     title: "Autonomous Game Agent for Jetpack Joyride",
-    description: "AI-powered game agent using genetic algorithms and Deep Q Learning",
-    timeline: "Nov. 2023",
+    description: "AI-powered game agent using genetic algorithms and neural networks",
+    timeline: "Nov 2023",
     status: "Completed",
-    types: ["Python", "PyTorch", "AI/ML", "Gaming"],
-    details: "Implemented an intelligent game agent for Jetpack Joyride using a combination of genetic algorithms and Deep Q Networks. The agent learns to play the game autonomously by training neural networks through reinforcement learning techniques. Built using Python with PyTorch for deep learning and PyGame for game interface."
+    types: ["AI/ML", "Game AI", "Python", "Neural Networks"],
+    details: "Implemented an intelligent game agent for Jetpack Joyride using a combination of genetic algorithms and neural networks built from scratch. The agent learns to play the game autonomously, improving its performance over multiple generations of training. The project demonstrates practical applications of evolutionary algorithms in reinforcement learning scenarios.",
+    links: [
+      {
+        title: "GitHub Repository",
+        url: "https://github.com/Djai284/JetpackJoyrideRL"
+      }
+    ]
+  },
+  {
+    id: 6,
+    title: "Mayura Studios",
+    description: "Technical venture studio specializing in full-stack AI application development",
+    timeline: "Feb 2024 - Present",
+    status: "In Progress",
+    types: ["AI/ML", "Consulting", "Full Stack", "Venture Studio"],
+    details: "Co-founded a technical venture studio and consulting firm focusing on cutting-edge AI application development. Mayura Studios builds custom AI solutions for businesses while also incubating internal projects that leverage the latest in machine learning and artificial intelligence technologies.",
+    links: [
+      {
+        title: "Studio Website",
+        url: "https://mayura.studio"
+      }
+    ],
+    previewUrl: "https://mayura.studio"
+  },
+  {
+    id: 7,
+    title: "LotCreator",
+    description: "AI-powered auction management platform that reduced appraisal processing time from 16 hours to 16 seconds",
+    timeline: "Aug 2023 - Present",
+    status: "In Progress",
+    types: ["AI/ML", "Web", "E-commerce", "Computer Vision"],
+    details: "Built an end-to-end full stack application for managing auctions using MVC design. Leveraged GPT-4, Google Vision, and Selenium to automate product appraisal processes through computer vision models, scraping agents, and LLMs. The system dramatically improved efficiency by reducing processing time from 16 hours to just 16 seconds.",
+    links: [
+      {
+        title: "Platform Website",
+        url: "https://lotcreator.com/"
+      }
+    ],
+    previewUrl: "https://lotcreator.com/"
   }
+];
+
+// Simplified filter categories based on your projects
+const projectCategories = [
+  "AI/ML", 
+  "Web", 
+  "Mobile",
+  "Game Development",
+  "DevOps",
+  "Community",
+  "Full Stack"
 ];
 
 const getTextColors = (themeType: "light" | "mid" | "dark") => {
@@ -115,31 +210,49 @@ const useResponsiveNodes = () => {
 const ProjectPortfolio: React.FC = () => {
   const [view, setView] = useState<"grid" | "list">("grid");
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  // Changed from single string to array of strings for multiple filter selection
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const theme = useTheme();
   const router = useRouter();
 
   const { count: nodeCount, max: maxNodes } = useResponsiveNodes();
 
-  const allTypes = Array.from(
-    new Set(projectsData.flatMap((project) => project.types))
-  );
-
   const filteredProjects = projectsData.filter((project) => {
     const matchesSearch =
       project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       project.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesTypes =
-      selectedTypes.length === 0 ||
-      selectedTypes.some((type) => project.types.includes(type));
-    return matchesSearch && matchesTypes;
+    
+    // Check if ANY of the selected categories match ANY of the project types
+    // If no categories are selected, show all projects
+    const matchesCategory =
+      selectedCategories.length === 0 ||
+      project.types.some(type => 
+        selectedCategories.some(category => 
+          type.includes(category)
+        )
+      );
+    
+    return matchesSearch && matchesCategory;
   });
 
-  const toggleType = (type: string) => {
-    setSelectedTypes((prev) =>
-      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
-    );
+  // Toggle category selection
+  const toggleCategory = (category: string) => {
+    setSelectedCategories(prev => {
+      // If already selected, remove it
+      if (prev.includes(category)) {
+        return prev.filter(c => c !== category);
+      } 
+      // Otherwise add it
+      else {
+        return [...prev, category];
+      }
+    });
+  };
+
+  // Clear all selected categories
+  const clearAllCategories = () => {
+    setSelectedCategories([]);
   };
 
   const getButtonStyle = (isActive: boolean) => ({
@@ -182,9 +295,9 @@ const ProjectPortfolio: React.FC = () => {
           <button
             onClick={() => setSelectedProject(null)}
             style={{ color: theme.accentColor }}
-            className="text-2xl font-bold flex items-center mb-4 hover:underline pointer-events-auto pointer-events-auto"
+            className="text-2xl font-bold flex items-center mb-4 hover:underline pointer-events-auto"
           >
-            <ArrowLeft className="w-8 h-8 mr-2" />
+            <ArrowLeft className="w-6 h-6 mr-2" />
             Back to Projects
           </button>
 
@@ -193,7 +306,7 @@ const ProjectPortfolio: React.FC = () => {
               <img
                 src={selectedProject.image}
                 alt={selectedProject.title}
-                className="w-full h-64 object-cover rounded-lg pointer-events-auto"
+                className="w-full h-64 object-cover rounded-t-lg pointer-events-auto"
               />
             )}
             <CardHeader>
@@ -222,12 +335,34 @@ const ProjectPortfolio: React.FC = () => {
               </div>
               <p
                 className={cn(
-                  "whitespace-pre-line",
+                  "whitespace-pre-line mb-6",
                   getTextColors(theme.type).content
                 )}
               >
                 {selectedProject.details}
               </p>
+              
+              {selectedProject.links && selectedProject.links.length > 0 && (
+                <div className="mt-4">
+                  <h3 className={cn("font-semibold mb-2", getTextColors(theme.type).title)}>
+                    Project Links
+                  </h3>
+                  <div className="flex flex-wrap gap-3">
+                    {selectedProject.links.map((link, index) => (
+                      <a
+                        key={index}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 bg-purple-100 hover:bg-purple-200 text-purple-800 px-3 py-1.5 rounded-full transition-colors duration-200 pointer-events-auto cursor-pointer"
+                      >
+                        {link.title}
+                        <ExternalLink size={14} />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -253,6 +388,11 @@ const ProjectPortfolio: React.FC = () => {
             />
             My Projects
           </h1>
+          <p style={{ color: theme.accentColor }} className="mb-6 text-lg pointer-events-auto">
+            A collection of my work across AI/ML, web development, games, and more
+          </p>
+          
+          {/* Search and View Controls */}
           <div className="flex flex-wrap gap-4 mb-6">
             <div className="relative flex-grow max-w-md pointer-events-auto">
               <Search
@@ -261,6 +401,7 @@ const ProjectPortfolio: React.FC = () => {
               />
               <input
                 type="text"
+                placeholder="Search projects..."
                 style={{
                   borderColor: theme.accentColor,
                   outlineColor: theme.accentColor,
@@ -269,7 +410,7 @@ const ProjectPortfolio: React.FC = () => {
                 }}
                 className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline focus:outline-2"
                 value={searchTerm}
-                onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSearchTerm(e.target.value)}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <div className="flex gap-2 pointer-events-auto">
@@ -277,6 +418,7 @@ const ProjectPortfolio: React.FC = () => {
                 onClick={() => setView("grid")}
                 style={getButtonStyle(view === "grid")}
                 className="p-2 rounded border-2 transition-colors duration-300"
+                aria-label="Grid view"
               >
                 <Grid className="w-5 h-5" />
               </button>
@@ -284,97 +426,146 @@ const ProjectPortfolio: React.FC = () => {
                 onClick={() => setView("list")}
                 style={getButtonStyle(view === "list")}
                 className="p-2 rounded border-2 transition-colors duration-300"
+                aria-label="List view"
               >
                 <List className="w-5 h-5" />
               </button>
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-2 mb-6">
-            {allTypes.map((type) => (
+          {/* Category Filters */}
+          <div className="mb-2 pointer-events-auto">
+            <div className="flex flex-wrap items-center gap-2 mb-2">
+              <span style={{ color: theme.accentColor }} className="font-medium">Filters:</span>
               <button
-                key={type}
-                onClick={() => toggleType(type)}
-                style={getButtonStyle(selectedTypes.includes(type))}
-                className="px-3 py-1 rounded-full text-sm border-2 transition-colors duration-300 pointer-events-auto"
+                onClick={clearAllCategories}
+                className={`px-3 py-1 rounded-full text-sm hover:bg-gray-100 transition-colors duration-300 ${
+                  selectedCategories.length > 0 ? "border border-red-300 text-red-500" : "border border-gray-300 text-gray-400"
+                }`}
+                disabled={selectedCategories.length === 0}
               >
-                {type}
-                {selectedTypes.includes(type) && (
-                  <X className="w-3 h-3 ml-1 inline-block" />
-                )}
+                Clear All
               </button>
+            </div>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {projectCategories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => toggleCategory(category)}
+                  style={getButtonStyle(selectedCategories.includes(category))}
+                  className="px-3 py-1 rounded-full text-sm border-2 transition-colors duration-300 flex items-center"
+                >
+                  {category}
+                  {selectedCategories.includes(category) && (
+                    <X className="w-3 h-3 ml-1 inline-block" />
+                  )}
+                </button>
+              ))}
+            </div>
+            {selectedCategories.length > 0 && (
+              <div className="text-sm mb-2" style={{ color: theme.accentColor }}>
+                Showing projects matching: {selectedCategories.join(", ")}
+              </div>
+            )}
+          </div>
+
+          {/* Project Grid/List */}
+          <div
+            className={cn(
+              "grid gap-6",
+              view === "grid"
+                ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                : "grid-cols-1"
+            )}
+          >
+            {filteredProjects.map((project) => (
+              <Card
+                key={project.id}
+                className="cursor-pointer transition-all duration-300 hover:shadow-lg border-2 pointer-events-auto flex flex-col h-full"
+                style={{
+                  borderColor: "transparent",
+                  background: `${theme.accentColor}CC`,
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.borderColor =
+                    theme.accentColor;
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.borderColor =
+                    "transparent";
+                }}
+                onClick={() => setSelectedProject(project)}
+              >
+                {project.image && view === "grid" && (
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-48 object-cover rounded-t-lg"
+                  />
+                )}
+                <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <CardTitle className={cn(getTextColors(theme.type).title)}>
+                      {project.title}
+                    </CardTitle>
+                    <StatusBadge status={project.status} />
+                  </div>
+                  <CardDescription
+                    className={cn(getTextColors(theme.type).description)}
+                  >
+                    Timeline: {project.timeline}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                  <p className={cn("mb-4", getTextColors(theme.type).content)}>
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {project.types.slice(0, 3).map((type) => (
+                      <TypeBadge key={type} type={type} />
+                    ))}
+                    {project.types.length > 3 && (
+                      <span className="px-2 py-1 rounded-full text-sm bg-gray-100 text-gray-800">
+                        +{project.types.length - 3} more
+                      </span>
+                    )}
+                  </div>
+                </CardContent>
+                <CardFooter className={cn(getTextColors(theme.type).title)}>
+                  <button
+                    className="flex items-center text-sm font-semibold px-4 py-2 duration-300 hover:underline"
+                    style={{ color: getTextColors(theme.type).content }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedProject(project);
+                    }}
+                  >
+                    View Details
+                    <ArrowRight className="w-4 h-4 ml-1" />
+                  </button>
+                </CardFooter>
+              </Card>
             ))}
           </div>
-        </div>
 
-        <div
-          className={cn(
-            "grid gap-6",
-            view === "grid"
-              ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-              : "grid-cols-1"
-          )}
-        >
-          {filteredProjects.map((project) => (
-            <Card
-              key={project.id}
-              className="cursor-pointer transition-all duration-300 hover:shadow-lg border-2 pointer-events-auto"
-              style={{
-                borderColor: "transparent",
-                background: `${theme.accentColor}CC`,
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLDivElement).style.borderColor =
-                  theme.accentColor;
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLDivElement).style.borderColor =
-                  "transparent";
-              }}
-              onClick={() => setSelectedProject(project)}
+          {filteredProjects.length === 0 && (
+            <div
+              style={{ color: theme.accentColor }}
+              className="text-center py-8 pointer-events-auto"
             >
-              {project.image && view === "grid" && (
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-48 object-cover rounded-lg"
-                />
-              )}
-              <CardHeader>
-                <div className="flex justify-between items-start">
-                  <CardTitle className={cn(getTextColors(theme.type).title)}>
-                    {project.title}
-                  </CardTitle>
-                  <StatusBadge status={project.status} />
-                </div>
-                <CardDescription
-                  className={cn(getTextColors(theme.type).description)}
-                >
-                  Timeline: {project.timeline}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className={cn("mb-4", getTextColors(theme.type).content)}>
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {project.types.map((type) => (
-                    <TypeBadge key={type} type={type} />
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+              <p className="text-xl mb-2">No projects found matching your criteria</p>
+              <button 
+                onClick={() => {
+                  setSearchTerm("");
+                  setSelectedCategories([]);
+                }}
+                className="underline"
+              >
+                Clear filters
+              </button>
+            </div>
+          )}
         </div>
-
-        {filteredProjects.length === 0 && (
-          <div
-            style={{ color: theme.accentColor }}
-            className="text-center text-gray-500 py-8"
-          >
-            No projects found matching your criteria
-          </div>
-        )}
       </div>
     </FloatingNetworkBackground>
   );
