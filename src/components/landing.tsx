@@ -14,7 +14,7 @@ export const Content: React.FC = () => {
     { name: "About", url: "/about" },
     {
       name: "Resume",
-      url: "https://firebasestorage.googleapis.com/v0/b/personal-website-f0071.appspot.com/o/Dhananjai%20Resume.pdf?alt=media&token=d0e1625e-4780-40ef-9081-9209c7adc270",
+      url: "https://firebasestorage.googleapis.com/v0/b/personal-website-f0071.appspot.com/o/dhananjai_resume.pdf?alt=media&token=338efb25-bfe3-4df1-aeb3-3707e7f0408b",
     },
   ];
 
