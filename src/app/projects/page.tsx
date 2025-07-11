@@ -188,8 +188,6 @@ const ProjectTag: React.FC<{
       style={{
         backgroundColor: isHighlighted ? theme.accentColor : `${theme.accentColor}20`,
         color: isHighlighted ? theme.baseColor : theme.accentColor,
-        ringColor: isHighlighted ? theme.accentColor : 'transparent',
-        ringOffsetColor: theme.baseColor,
       }}
       onClick={onClick}
     >
