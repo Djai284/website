@@ -1,8 +1,8 @@
 "use client";
 
-// Import the necessary hook for fetching data
-import React, { useEffect, useState, useCallback } from "react";
-import { Search, Grid, List, ArrowLeft, X, Home, ExternalLink } from "lucide-react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
+import { Search, Grid, List, ArrowLeft, X, Home, ExternalLink, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Card,
   CardContent,
@@ -23,7 +23,7 @@ interface Project {
   description: string;
   image?: string;
   previewImage?: string;
-  previewUrl?: string; // Added for storing platform URL to generate preview 
+  previewUrl?: string;
   timeline: string;
   status: "In Progress" | "Completed" | "Planned";
   types: string[];
@@ -149,7 +149,6 @@ const projectsData: Project[] = [
   }
 ];
 
-// Simplified filter categories based on your projects
 const projectCategories = [
   "AI/ML", 
   "Web", 
@@ -160,27 +159,265 @@ const projectCategories = [
   "Full Stack"
 ];
 
-const getTextColors = (themeType: "light" | "mid" | "dark") => {
-  switch (themeType) {
-    case "dark":
-      return {
-        title: "text-white",
-        description: "text-white",
-        content: "text-white",
-      };
-    case "light":
-      return {
-        title: "text-gray-900",
-        description: "text-gray-600",
-        content: "text-gray-700",
-      };
-    case "mid":
-      return {
-        title: "text-white",
-        description: "text-white",
-        content: "text-white",
-      };
-  }
+// Clean Tag Component with Framer Motion
+const ProjectTag: React.FC<{ 
+  tag: string; 
+  index: number;
+  isHighlighted?: boolean;
+  onClick?: (e?: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+  theme: any;
+}> = ({ tag, index, isHighlighted = false, onClick, theme }) => {
+  return (
+    <motion.span
+      initial={{ scale: 0.96 }}
+      animate={{ scale: 1 }}
+      transition={{ 
+        delay: index * 0.05, 
+        duration: 0.2,
+        ease: "easeOut"
+      }}
+      whileHover={{ 
+        scale: 1.08,
+        transition: { duration: 0.15 }
+      }}
+      whileTap={{ scale: 0.92 }}
+      className={cn(
+        "px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 cursor-pointer pointer-events-auto",
+        isHighlighted ? "ring-2 ring-offset-2" : ""
+      )}
+      style={{
+        backgroundColor: isHighlighted ? theme.accentColor : `${theme.accentColor}20`,
+        color: isHighlighted ? theme.baseColor : theme.accentColor,
+        ringColor: isHighlighted ? theme.accentColor : 'transparent',
+        ringOffsetColor: theme.baseColor,
+      }}
+      onClick={onClick}
+    >
+      {tag}
+    </motion.span>
+  );
+};
+
+// Enhanced Project Card with clean design
+const EnhancedProjectCard: React.FC<{
+  project: Project;
+  theme: any;
+  onSelect: (project: Project) => void;
+  selectedTags: string[];
+  onTagClick: (tag: string) => void;
+  autoExpand?: boolean;
+}> = ({ project, theme, onSelect, selectedTags, onTagClick, autoExpand = false }) => {
+  const [isExpanded, setIsExpanded] = useState(autoExpand);
+
+  // Auto-expand when autoExpand prop changes
+  useEffect(() => {
+    if (autoExpand) {
+      setIsExpanded(true);
+    }
+  }, [autoExpand]);
+
+  const getStatusColor = (status: Project["status"]) => {
+    switch (status.toLowerCase()) {
+      case "completed":
+        return "bg-green-500";
+      case "in progress":
+        return "bg-blue-500";
+      case "planned":
+        return "bg-yellow-500";
+      default:
+        return "bg-gray-500";
+    }
+  };
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3 }}
+      whileHover={{ 
+        y: -4,
+        transition: { duration: 0.2 }
+      }}
+      className="group pointer-events-auto"
+    >
+      <Card
+        className="cursor-pointer transition-all duration-300 border-2 overflow-hidden h-full pointer-events-auto"
+        style={{
+          borderColor: "transparent",
+          background: `linear-gradient(135deg, ${theme.accentColor}10 0%, ${theme.accentColor}20 100%)`,
+          backdropFilter: 'blur(10px)',
+        }}
+        onClick={() => !isExpanded && onSelect(project)}
+      >
+        {/* Status indicator */}
+        <div className="absolute top-4 right-4 z-10">
+          <motion.div 
+            className={`w-3 h-3 rounded-full ${getStatusColor(project.status)}`}
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+        </div>
+
+        {project.image && (
+          <div className="h-48 overflow-hidden">
+            <motion.img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+            />
+          </div>
+        )}
+
+        <CardHeader className="pb-2">
+          <CardTitle className="text-xl" style={{ color: theme.accentColor }}>
+            {project.title}
+          </CardTitle>
+          <CardDescription style={{ color: `${theme.accentColor}80` }}>
+            {project.timeline}
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent className="space-y-4">
+          <p style={{ color: `${theme.accentColor}90` }}>
+            {project.description}
+          </p>
+          
+          {/* Clean tag display */}
+          <div className="flex flex-wrap gap-2">
+            <AnimatePresence>
+              {project.types.map((type, index) => (
+                <ProjectTag
+                  key={type}
+                  tag={type}
+                  index={index}
+                  isHighlighted={selectedTags.includes(type)}
+                  onClick={(e) => {
+                    e?.stopPropagation();
+                    onTagClick(type);
+                  }}
+                  theme={theme}
+                />
+              ))}
+            </AnimatePresence>
+          </div>
+
+          {/* Expandable details section */}
+          <AnimatePresence>
+            {isExpanded && (
+              <motion.div
+                initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                animate={{ 
+                  opacity: 1, 
+                  height: "auto", 
+                  marginTop: 16,
+                  transition: {
+                    height: { duration: 0.4, ease: "easeInOut" },
+                    opacity: { duration: 0.3, delay: 0.1 },
+                    marginTop: { duration: 0.4, ease: "easeInOut" }
+                  }
+                }}
+                exit={{ 
+                  opacity: 0, 
+                  height: 0, 
+                  marginTop: 0,
+                  transition: {
+                    opacity: { duration: 0.2 },
+                    height: { duration: 0.3, ease: "easeInOut", delay: 0.1 },
+                    marginTop: { duration: 0.3, ease: "easeInOut", delay: 0.1 }
+                  }
+                }}
+                className="pt-4 border-t space-y-4 overflow-hidden"
+                style={{ borderColor: `${theme.accentColor}30` }}
+                onClick={(e: { stopPropagation: () => any; }) => e.stopPropagation()}
+              >
+                <motion.p 
+                  style={{ color: `${theme.accentColor}90` }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ 
+                    opacity: 1, 
+                    y: 0,
+                    transition: { delay: 0.2, duration: 0.3 }
+                  }}
+                  exit={{ opacity: 0, y: -5, transition: { duration: 0.2 } }}
+                >
+                  {project.details}
+                </motion.p>
+                
+                {project.links && project.links.length > 0 && (
+                  <motion.div 
+                    className="flex flex-wrap gap-2"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ 
+                      opacity: 1, 
+                      y: 0,
+                      transition: { delay: 0.3, duration: 0.3 }
+                    }}
+                    exit={{ opacity: 0, y: -5, transition: { duration: 0.2 } }}
+                  >
+                    {project.links.map((link, index) => (
+                      <motion.a
+                        key={index}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-sm px-3 py-1 rounded-full transition-colors duration-200 pointer-events-auto"
+                        style={{
+                          background: `${theme.accentColor}20`,
+                          color: theme.accentColor,
+                        }}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ 
+                          opacity: 1, 
+                          scale: 1,
+                          transition: { 
+                            delay: 0.4 + (index * 0.1), 
+                            duration: 0.2,
+                            ease: "easeOut"
+                          }
+                        }}
+                        whileHover={{ 
+                          scale: 1.05,
+                          backgroundColor: `${theme.accentColor}30`,
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        {link.title}
+                        <ExternalLink size={12} />
+                      </motion.a>
+                    ))}
+                  </motion.div>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Expand/Collapse button */}
+          <motion.button
+            onClick={(e: { stopPropagation: () => void; }) => {
+              e.stopPropagation();
+              setIsExpanded(!isExpanded);
+            }}
+            className="flex items-center gap-2 text-sm font-medium transition-colors pointer-events-auto"
+            style={{ color: theme.accentColor }}
+            whileHover={{ x: 4 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {isExpanded ? 'Show Less' : 'Learn More'}
+            <motion.div
+              animate={{ rotate: isExpanded ? 180 : 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <ChevronDown size={16} />
+            </motion.div>
+          </motion.button>
+        </CardContent>
+      </Card>
+    </motion.div>
+  );
 };
 
 const useResponsiveNodes = () => {
@@ -189,16 +426,16 @@ const useResponsiveNodes = () => {
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      if (width < 640) { // mobile
+      if (width < 640) {
         setNodes({ count: 15, max: 30 });
-      } else if (width < 1024) { // tablet
+      } else if (width < 1024) {
         setNodes({ count: 20, max: 50 });
-      } else { // desktop
+      } else {
         setNodes({ count: 30, max: 70 });
       }
     };
 
-    handleResize(); // Initial call
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -207,9 +444,7 @@ const useResponsiveNodes = () => {
 };
 
 const ProjectPortfolio: React.FC = () => {
-  const [view, setView] = useState<"grid" | "list">("grid");
   const [searchTerm, setSearchTerm] = useState("");
-  // Changed from single string to array of strings for multiple filter selection
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const theme = useTheme();
@@ -222,8 +457,6 @@ const ProjectPortfolio: React.FC = () => {
       project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       project.description.toLowerCase().includes(searchTerm.toLowerCase());
     
-    // Check if ANY of the selected categories match ANY of the project types
-    // If no categories are selected, show all projects
     const matchesCategory =
       selectedCategories.length === 0 ||
       project.types.some(type => 
@@ -235,21 +468,26 @@ const ProjectPortfolio: React.FC = () => {
     return matchesSearch && matchesCategory;
   });
 
-  // Toggle category selection
   const toggleCategory = (category: string) => {
     setSelectedCategories(prev => {
-      // If already selected, remove it
       if (prev.includes(category)) {
         return prev.filter(c => c !== category);
-      } 
-      // Otherwise add it
-      else {
+      } else {
         return [...prev, category];
       }
     });
   };
 
-  // Clear all selected categories
+  const handleTagClick = (tag: string) => {
+    setSelectedCategories(prev => {
+      if (prev.includes(tag)) {
+        return prev.filter(c => c !== tag);
+      } else {
+        return [...prev, tag];
+      }
+    });
+  };
+
   const clearAllCategories = () => {
     setSelectedCategories([]);
   };
@@ -260,115 +498,36 @@ const ProjectPortfolio: React.FC = () => {
     borderColor: theme.accentColor,
   });
 
-  const StatusBadge: React.FC<{ status: Project["status"] }> = ({ status }) => {
-    const getStatusColor = () => {
-      switch (status.toLowerCase()) {
-        case "completed":
-          return "bg-green-100 text-green-800";
-        case "in progress":
-          return "bg-blue-100 text-blue-800";
-        case "planned":
-          return "bg-yellow-100 text-yellow-800";
-        default:
-          return "bg-gray-100 text-gray-800";
-      }
-    };
-
-    return (
-      <span className={cn("px-2 py-1 rounded-full text-sm", getStatusColor())}>
-        {status}
-      </span>
-    );
-  };
-
-  const TypeBadge: React.FC<{ type: string }> = ({ type }) => (
-    <span className="px-2 py-1 rounded-full text-sm bg-purple-100 text-purple-800 mr-2 mb-2">
-      {type}
-    </span>
-  );
-
+  // Project detail view
   if (selectedProject) {
     return (
-      <FloatingNetworkBackground nodeCount={nodeCount} connectionDistance={150} maxNodes={maxNodes} >
+      <FloatingNetworkBackground nodeCount={nodeCount} connectionDistance={150} maxNodes={maxNodes}>
         <div className="max-w-4xl mx-auto p-4 md:p-6 min-h-screen">
-          <button
+          <motion.button
             onClick={() => setSelectedProject(null)}
             style={{ color: theme.accentColor }}
             className="text-2xl font-bold flex items-center mb-4 hover:underline pointer-events-auto"
+            whileHover={{ x: -4 }}
+            whileTap={{ scale: 0.95 }}
           >
             <ArrowLeft className="w-6 h-6 mr-2" />
             Back to Projects
-          </button>
+          </motion.button>
 
-          <Card style={{ background: `${theme.accentColor}CC` }}>
-            {selectedProject.image && (
-              <img
-                src={selectedProject.image}
-                alt={selectedProject.title}
-                className="w-full h-64 object-cover rounded-t-lg pointer-events-auto"
-              />
-            )}
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <CardTitle
-                  className={cn(
-                    "text-2xl font-bold",
-                    getTextColors(theme.type).title
-                  )}
-                >
-                  {selectedProject.title}
-                </CardTitle>
-                <StatusBadge status={selectedProject.status} />
-              </div>
-              <CardDescription
-                className={cn(getTextColors(theme.type).description)}
-              >
-                Timeline: {selectedProject.timeline}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap mb-4">
-                {selectedProject.types.map((type) => (
-                  <TypeBadge key={type} type={type} />
-                ))}
-              </div>
-              <p
-                className={cn(
-                  "whitespace-pre-line mb-6",
-                  getTextColors(theme.type).content
-                )}
-              >
-                {selectedProject.details}
-              </p>
-              
-              {selectedProject.links && selectedProject.links.length > 0 && (
-                <div className="mt-4">
-                  <h3 className={cn("font-semibold mb-2", getTextColors(theme.type).title)}>
-                    Project Links
-                  </h3>
-                  <div className="flex flex-wrap gap-3">
-                    {selectedProject.links.map((link, index) => (
-                      <a
-                        key={index}
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1 bg-purple-100 hover:bg-purple-200 text-purple-800 px-3 py-1.5 rounded-full transition-colors duration-200 pointer-events-auto cursor-pointer"
-                      >
-                        {link.title}
-                        <ExternalLink size={14} />
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+          <EnhancedProjectCard
+            project={selectedProject}
+            theme={theme}
+            onSelect={() => {}}
+            selectedTags={selectedCategories}
+            onTagClick={handleTagClick}
+            autoExpand={true}
+          />
         </div>
       </FloatingNetworkBackground>
     );
   }
 
+  // Main projects view
   return (
     <FloatingNetworkBackground
       nodeCount={nodeCount}
@@ -377,193 +536,189 @@ const ProjectPortfolio: React.FC = () => {
     >
       <div className="max-w-6xl mx-auto p-4 md:p-6 min-h-screen">
         <div className="mb-8">
-          <h1
+          <motion.h1
             style={{ color: theme.accentColor }}
             className="text-3xl font-bold mb-2 flex items-center pointer-events-auto"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
           >
-            <Home
-              className="w-8 h-8 inline-block mr-2 hover:cursor-pointer"
-              onClick={() => router.push('/')}
-            />
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="pointer-events-auto"
+            >
+              <Home
+                className="w-8 h-8 inline-block mr-2 hover:cursor-pointer pointer-events-auto"
+                onClick={() => router.push('/')}
+              />
+            </motion.div>
             My Projects
-          </h1>
-          <p style={{ color: theme.accentColor }} className="mb-6 text-lg pointer-events-auto">
+          </motion.h1>
+          <motion.p 
+            style={{ color: theme.accentColor }} 
+            className="mb-6 text-lg pointer-events-auto"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
             A collection of my work across AI/ML, web development, games, and more
-          </p>
+          </motion.p>
           
-          {/* Search and View Controls */}
-          <div className="flex flex-wrap gap-4 mb-6">
+          {/* Search */}
+          <motion.div 
+            className="flex flex-wrap gap-4 mb-6"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             <div className="relative flex-grow max-w-md pointer-events-auto">
               <Search
                 style={{ color: theme.accentColor }}
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4"
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 pointer-events-none"
               />
               <input
                 type="text"
-                placeholder="Search projects..."
                 style={{
                   borderColor: theme.accentColor,
                   outlineColor: theme.accentColor,
                   backgroundColor: `${theme.baseColor}80`,
                   color: theme.accentColor,
                 }}
-                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline focus:outline-2"
+                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline focus:outline-2 transition-all duration-200 pointer-events-auto"
+                placeholder="Search projects..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            <div className="flex gap-2 pointer-events-auto">
-              <button
-                onClick={() => setView("grid")}
-                style={getButtonStyle(view === "grid")}
-                className="p-2 rounded border-2 transition-colors duration-300"
-                aria-label="Grid view"
-              >
-                <Grid className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => setView("list")}
-                style={getButtonStyle(view === "list")}
-                className="p-2 rounded border-2 transition-colors duration-300"
-                aria-label="List view"
-              >
-                <List className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
+          </motion.div>
 
           {/* Category Filters */}
-          <div className="mb-2 pointer-events-auto">
-            <div className="flex flex-wrap items-center gap-2 mb-2">
+          <motion.div 
+            className="mb-6 pointer-events-auto"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <div className="flex flex-wrap items-center gap-2 mb-4">
               <span style={{ color: theme.accentColor }} className="font-medium">Filters:</span>
-              <button
+              <motion.button
                 onClick={clearAllCategories}
-                className={`px-3 py-1 rounded-full text-sm hover:bg-gray-100 transition-colors duration-300 ${
-                  selectedCategories.length > 0 ? "border border-red-300 text-red-500" : "border border-gray-300 text-gray-400"
+                className={`px-3 py-1 rounded-full text-sm transition-all duration-200 pointer-events-auto ${
+                  selectedCategories.length > 0 ? "opacity-100" : "opacity-50"
                 }`}
+                style={{
+                  border: `1px solid ${theme.accentColor}40`,
+                  color: theme.accentColor,
+                }}
                 disabled={selectedCategories.length === 0}
+                whileHover={{ scale: selectedCategories.length > 0 ? 1.05 : 1 }}
+                whileTap={{ scale: 0.95 }}
               >
                 Clear All
-              </button>
+              </motion.button>
             </div>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {projectCategories.map((category) => (
-                <button
+            <div className="flex flex-wrap gap-2">
+              {projectCategories.map((category, index) => (
+                <motion.button
                   key={category}
                   onClick={() => toggleCategory(category)}
                   style={getButtonStyle(selectedCategories.includes(category))}
-                  className="px-3 py-1 rounded-full text-sm border-2 transition-colors duration-300 flex items-center"
+                  className="px-3 py-1 rounded-full text-sm border-2 transition-all duration-200 flex items-center pointer-events-auto"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.1, duration: 0.3 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   {category}
-                  {selectedCategories.includes(category) && (
-                    <X className="w-3 h-3 ml-1 inline-block" />
-                  )}
-                </button>
+                  <AnimatePresence>
+                    {selectedCategories.includes(category) && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <X className="w-3 h-3 ml-1" />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.button>
               ))}
             </div>
-            {selectedCategories.length > 0 && (
-              <div className="text-sm mb-2" style={{ color: theme.accentColor }}>
-                Showing projects matching: {selectedCategories.join(", ")}
-              </div>
-            )}
-          </div>
+            <AnimatePresence>
+              {selectedCategories.length > 0 && (
+                <motion.div 
+                  className="text-sm mt-2" 
+                  style={{ color: theme.accentColor }}
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  Showing projects matching: {selectedCategories.join(", ")}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
 
-          {/* Project Grid/List */}
-          <div
-            className={cn(
-              "grid gap-6",
-              view === "grid"
-                ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-                : "grid-cols-1"
-            )}
+          {/* Project Grid */}
+          <motion.div 
+            className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+            layout
           >
-            {filteredProjects.map((project) => (
-              <Card
-                key={project.id}
-                className="cursor-pointer transition-all duration-300 hover:shadow-lg border-2 pointer-events-auto flex flex-col h-full"
-                style={{
-                  borderColor: "transparent",
-                  background: `${theme.accentColor}CC`,
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.borderColor =
-                    theme.accentColor;
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.borderColor =
-                    "transparent";
-                }}
-                onClick={() => setSelectedProject(project)}
-              >
-                {project.image && view === "grid" && (
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-48 object-cover rounded-t-lg"
+            <AnimatePresence mode="wait">
+              {filteredProjects.map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ 
+                    duration: 0.4,
+                    delay: index * 0.1,
+                    layout: { duration: 0.3 }
+                  }}
+                >
+                  <EnhancedProjectCard
+                    project={project}
+                    theme={theme}
+                    onSelect={setSelectedProject}
+                    selectedTags={selectedCategories}
+                    onTagClick={handleTagClick}
                   />
-                )}
-                <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <CardTitle className={cn(getTextColors(theme.type).title)}>
-                      {project.title}
-                    </CardTitle>
-                    <StatusBadge status={project.status} />
-                  </div>
-                  <CardDescription
-                    className={cn(getTextColors(theme.type).description)}
-                  >
-                    Timeline: {project.timeline}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <p className={cn("mb-4", getTextColors(theme.type).content)}>
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.types.slice(0, 3).map((type) => (
-                      <TypeBadge key={type} type={type} />
-                    ))}
-                    {project.types.length > 3 && (
-                      <span className="px-2 py-1 rounded-full text-sm bg-gray-100 text-gray-800">
-                        +{project.types.length - 3} more
-                      </span>
-                    )}
-                  </div>
-                </CardContent>
-                <CardFooter className={cn(getTextColors(theme.type).title)}>
-                  <button
-                    className="flex items-center text-sm font-semibold px-4 py-2 duration-300 hover:underline"
-                    style={{ color: getTextColors(theme.type).content }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedProject(project);
-                    }}
-                  >
-                    View Details
-                    <ArrowRight className="w-4 h-4 ml-1" />
-                  </button>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
 
-          {filteredProjects.length === 0 && (
-            <div
-              style={{ color: theme.accentColor }}
-              className="text-center py-8 pointer-events-auto"
-            >
-              <p className="text-xl mb-2">No projects found matching your criteria</p>
-              <button 
-                onClick={() => {
-                  setSearchTerm("");
-                  setSelectedCategories([]);
-                }}
-                className="underline"
+          <AnimatePresence>
+            {filteredProjects.length === 0 && (
+              <motion.div
+                style={{ color: theme.accentColor }}
+                className="text-center py-8 pointer-events-auto"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
               >
-                Clear filters
-              </button>
-            </div>
-          )}
+                <p className="text-xl mb-2">No projects found matching your criteria</p>
+                <motion.button 
+                  onClick={() => {
+                    setSearchTerm("");
+                    setSelectedCategories([]);
+                  }}
+                  className="underline transition-all duration-200 pointer-events-auto"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Clear filters
+                </motion.button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </FloatingNetworkBackground>
