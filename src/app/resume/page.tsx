@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 const ResumePage = () => {
   useEffect(() => {
-    window.location.href = "https://firebasestorage.googleapis.com/v0/b/personal-website-f0071.appspot.com/o/dhananjai_resume.pdf?alt=media&token=338efb25-bfe3-4df1-aeb3-3707e7f0408b";
+    window.location.href = "https://firebasestorage.googleapis.com/v0/b/personal-website-f0071.appspot.com/o/Dhananjai_Resume.pdf?alt=media&token=c967c209-4021-4409-90b7-6c4f34b0caf9";
   }, []);
 
   return null;
