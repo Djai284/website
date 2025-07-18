@@ -1,7 +1,16 @@
 "use client";
 
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import { Search, Grid, List, ArrowLeft, X, Home, ExternalLink, ChevronDown } from "lucide-react";
+import {
+  Search,
+  Grid,
+  List,
+  ArrowLeft,
+  X,
+  Home,
+  ExternalLink,
+  ChevronDown,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Card,
@@ -38,130 +47,150 @@ const projectsData: Project[] = [
   {
     id: 1,
     title: "Exercise Activity Recognition",
-    description: "Custom-trained CNN model for recognizing gym exercises on embedded devices like smartwatches",
+    description:
+      "Custom-trained CNN model for recognizing gym exercises on embedded devices like smartwatches",
     timeline: "Jan 2023 - Apr 2023",
     status: "Completed",
-    types: ["Machine Learning", "Mobile", "iOS", "TensorFlow", "Health & Fitness"],
-    details: "Developed a custom trained activity recognition model to identify gym exercises automatically using Convolutional Neural Networks. The model is designed to run locally on embedded devices such as smartwatches, providing real-time feedback without cloud dependencies. The project consists of two parts: a trained machine learning model with TensorFlow and an iOS application that implements the model for real-world use.",
+    types: [
+      "Machine Learning",
+      "Mobile",
+      "iOS",
+      "TensorFlow",
+      "Health & Fitness",
+    ],
+    details:
+      "Developed a custom trained activity recognition model to identify gym exercises automatically using Convolutional Neural Networks. The model is designed to run locally on embedded devices such as smartwatches, providing real-time feedback without cloud dependencies. The project consists of two parts: a trained machine learning model with TensorFlow and an iOS application that implements the model for real-world use.",
     links: [
       {
         title: "ML Model Repository",
-        url: "https://github.com/Djai284/smartwatch-activity-recognition"
+        url: "https://github.com/Djai284/smartwatch-activity-recognition",
       },
       {
         title: "iOS App Repository",
-        url: "https://github.com/Djai284/exercise-activity-recognizer"
-      }
-    ]
+        url: "https://github.com/Djai284/exercise-activity-recognizer",
+      },
+    ],
   },
   {
     id: 2,
     title: "Cats vs K9s",
-    description: "A fun twist on the tower defense genre inspired by Plants vs Zombies",
+    description:
+      "A fun twist on the tower defense genre inspired by Plants vs Zombies",
     timeline: "Oct 2022",
     status: "Completed",
     types: ["Game Development", "Web", "JavaScript"],
-    details: "Developed a browser-based tower defense game inspired by the mechanics of Plants vs Zombies but with a unique cat and dog theme. The game features multiple levels, different types of defender cats and enemy dogs, and resource management mechanics. Built with JavaScript for cross-platform compatibility.",
+    details:
+      "Developed a browser-based tower defense game inspired by the mechanics of Plants vs Zombies but with a unique cat and dog theme. The game features multiple levels, different types of defender cats and enemy dogs, and resource management mechanics. Built with JavaScript for cross-platform compatibility.",
     links: [
       {
         title: "Game Repository",
-        url: "https://github.com/Djai284/cats-vs-k9s"
-      }
-    ]
+        url: "https://github.com/Djai284/cats-vs-k9s",
+      },
+    ],
   },
   {
     id: 3,
     title: "AWS Remix",
-    description: "Tool for summarizing AWS account resources in AI-friendly formats",
+    description:
+      "Tool for summarizing AWS account resources in AI-friendly formats",
     timeline: "Nov 2023",
     status: "Completed",
     types: ["DevOps", "AWS", "Cloud", "Python"],
-    details: "Created a utility that analyzes entire AWS accounts and generates comprehensive summaries in formats optimized for AI consumption. The tool helps developers and architects quickly understand complex AWS setups, simplifies infrastructure auditing, and makes it easier to discuss cloud architecture with AI assistants.",
+    details:
+      "Created a utility that analyzes entire AWS accounts and generates comprehensive summaries in formats optimized for AI consumption. The tool helps developers and architects quickly understand complex AWS setups, simplifies infrastructure auditing, and makes it easier to discuss cloud architecture with AI assistants.",
     links: [
       {
         title: "GitHub Repository",
-        url: "https://github.com/Djai284/aws-remix"
-      }
-    ]
+        url: "https://github.com/Djai284/aws-remix",
+      },
+    ],
   },
   {
     id: 4,
     title: "rev",
-    description: "A hackerspace community platform connecting 350+ members in the Boston area",
+    description:
+      "A hackerspace community platform connecting 350+ members in the Boston area",
     timeline: "Aug 2023 - Present",
     status: "In Progress",
     types: ["Community", "Web", "Next.js", "Graph Databases"],
-    details: "Founded and built a thriving hackerspace community platform that grew to 350+ members within one semester. Developed rev connex, a sophisticated networking system using graph databases and embeddings to connect people and projects. Led educational initiatives including cohort workshops on Firebase and LLMs, and hosted events featuring notable tech venture capitalists like Cory Levy and Edward Lando.",
+    details:
+      "Founded and built a thriving hackerspace community platform that grew to 350+ members within one semester. Developed rev connex, a sophisticated networking system using graph databases and embeddings to connect people and projects. Led educational initiatives including cohort workshops on Firebase and LLMs, and hosted events featuring notable tech venture capitalists like Cory Levy and Edward Lando.",
     links: [
       {
         title: "Official Website",
-        url: "https://www.rev.school/"
-      }
+        url: "https://www.rev.school/",
+      },
     ],
-    previewUrl: "https://www.rev.school/"
+    previewUrl: "https://www.rev.school/",
   },
   {
     id: 5,
     title: "Autonomous Game Agent for Jetpack Joyride",
-    description: "AI-powered game agent using genetic algorithms and neural networks",
+    description:
+      "AI-powered game agent using genetic algorithms and neural networks",
     timeline: "Nov 2023",
     status: "Completed",
     types: ["AI/ML", "Game AI", "Python", "Neural Networks"],
-    details: "Implemented an intelligent game agent for Jetpack Joyride using a combination of genetic algorithms and neural networks built from scratch. The agent learns to play the game autonomously, improving its performance over multiple generations of training. The project demonstrates practical applications of evolutionary algorithms in reinforcement learning scenarios.",
+    details:
+      "Implemented an intelligent game agent for Jetpack Joyride using a combination of genetic algorithms and neural networks built from scratch. The agent learns to play the game autonomously, improving its performance over multiple generations of training. The project demonstrates practical applications of evolutionary algorithms in reinforcement learning scenarios.",
     links: [
       {
         title: "GitHub Repository",
-        url: "https://github.com/Djai284/JetpackJoyrideRL"
-      }
-    ]
+        url: "https://github.com/Djai284/JetpackJoyrideRL",
+      },
+    ],
   },
   {
     id: 6,
     title: "Mayura Studios",
-    description: "Technical venture studio specializing in full-stack AI application development",
+    description:
+      "Technical venture studio specializing in full-stack AI application development",
     timeline: "Feb 2024 - Present",
     status: "In Progress",
     types: ["AI/ML", "Consulting", "Full Stack", "Venture Studio"],
-    details: "Co-founded a technical venture studio and consulting firm focusing on cutting-edge AI application development. Mayura Studios builds custom AI solutions for businesses while also incubating internal projects that leverage the latest in machine learning and artificial intelligence technologies.",
+    details:
+      "Co-founded a technical venture studio and consulting firm focusing on cutting-edge AI application development. Mayura Studios builds custom AI solutions for businesses while also incubating internal projects that leverage the latest in machine learning and artificial intelligence technologies.",
     links: [
       {
         title: "Studio Website",
-        url: "https://mayura.studio"
-      }
+        url: "https://mayura.studio",
+      },
     ],
-    previewUrl: "https://mayura.studio"
+    previewUrl: "https://mayura.studio",
   },
   {
     id: 7,
     title: "LotCreator",
-    description: "AI-powered auction management platform that reduced appraisal processing time from 16 hours to 16 seconds",
+    description:
+      "AI-powered auction management platform that reduced appraisal processing time from 16 hours to 16 seconds",
     timeline: "Aug 2023 - Present",
     status: "In Progress",
     types: ["AI/ML", "Web", "E-commerce", "Computer Vision"],
-    details: "Built an end-to-end full stack application for managing auctions using MVC design. Leveraged GPT-4, Google Vision, and Selenium to automate product appraisal processes through computer vision models, scraping agents, and LLMs. The system dramatically improved efficiency by reducing processing time from 16 hours to just 16 seconds.",
+    details:
+      "Built an end-to-end full stack application for managing auctions using MVC design. Leveraged GPT-4, Google Vision, and Selenium to automate product appraisal processes through computer vision models, scraping agents, and LLMs. The system dramatically improved efficiency by reducing processing time from 16 hours to just 16 seconds.",
     links: [
       {
         title: "Platform Website",
-        url: "https://lotcreator.com/"
-      }
+        url: "https://lotcreator.com/",
+      },
     ],
-    previewUrl: "https://lotcreator.com/"
-  }
+    previewUrl: "https://lotcreator.com/",
+  },
 ];
 
 const projectCategories = [
-  "AI/ML", 
-  "Web", 
+  "AI/ML",
+  "Web",
   "Mobile",
   "Game Development",
   "DevOps",
   "Community",
-  "Full Stack"
+  "Full Stack",
 ];
 
 // Clean Tag Component with Framer Motion
-const ProjectTag: React.FC<{ 
-  tag: string; 
+const ProjectTag: React.FC<{
+  tag: string;
   index: number;
   isHighlighted?: boolean;
   onClick?: (e?: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
@@ -171,14 +200,14 @@ const ProjectTag: React.FC<{
     <motion.span
       initial={{ scale: 0.96 }}
       animate={{ scale: 1 }}
-      transition={{ 
-        delay: index * 0.05, 
+      transition={{
+        delay: index * 0.05,
         duration: 0.2,
-        ease: "easeOut"
+        ease: "easeOut",
       }}
-      whileHover={{ 
+      whileHover={{
         scale: 1.08,
-        transition: { duration: 0.15 }
+        transition: { duration: 0.15 },
       }}
       whileTap={{ scale: 0.92 }}
       className={cn(
@@ -186,7 +215,9 @@ const ProjectTag: React.FC<{
         isHighlighted ? "ring-2 ring-offset-2" : ""
       )}
       style={{
-        backgroundColor: isHighlighted ? theme.accentColor : `${theme.accentColor}20`,
+        backgroundColor: isHighlighted
+          ? theme.accentColor
+          : `${theme.accentColor}20`,
         color: isHighlighted ? theme.baseColor : theme.accentColor,
       }}
       onClick={onClick}
@@ -204,7 +235,14 @@ const EnhancedProjectCard: React.FC<{
   selectedTags: string[];
   onTagClick: (tag: string) => void;
   autoExpand?: boolean;
-}> = ({ project, theme, onSelect, selectedTags, onTagClick, autoExpand = false }) => {
+}> = ({
+  project,
+  theme,
+  onSelect,
+  selectedTags,
+  onTagClick,
+  autoExpand = false,
+}) => {
   const [isExpanded, setIsExpanded] = useState(autoExpand);
 
   // Auto-expand when autoExpand prop changes
@@ -234,9 +272,9 @@ const EnhancedProjectCard: React.FC<{
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
-      whileHover={{ 
+      whileHover={{
         y: -4,
-        transition: { duration: 0.2 }
+        transition: { duration: 0.2 },
       }}
       className="group pointer-events-auto"
     >
@@ -245,13 +283,13 @@ const EnhancedProjectCard: React.FC<{
         style={{
           borderColor: "transparent",
           background: `linear-gradient(135deg, ${theme.accentColor}10 0%, ${theme.accentColor}20 100%)`,
-          backdropFilter: 'blur(10px)',
+          backdropFilter: "blur(10px)",
         }}
         onClick={() => !isExpanded && onSelect(project)}
       >
         {/* Status indicator */}
         <div className="absolute top-4 right-4 z-10">
-          <motion.div 
+          <motion.div
             className={`w-3 h-3 rounded-full ${getStatusColor(project.status)}`}
             animate={{ scale: [1, 1.2, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
@@ -283,7 +321,7 @@ const EnhancedProjectCard: React.FC<{
           <p style={{ color: `${theme.accentColor}90` }}>
             {project.description}
           </p>
-          
+
           {/* Clean tag display */}
           <div className="flex flex-wrap gap-2">
             <AnimatePresence>
@@ -308,51 +346,53 @@ const EnhancedProjectCard: React.FC<{
             {isExpanded && (
               <motion.div
                 initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                animate={{ 
-                  opacity: 1, 
-                  height: "auto", 
+                animate={{
+                  opacity: 1,
+                  height: "auto",
                   marginTop: 16,
                   transition: {
                     height: { duration: 0.4, ease: "easeInOut" },
                     opacity: { duration: 0.3, delay: 0.1 },
-                    marginTop: { duration: 0.4, ease: "easeInOut" }
-                  }
+                    marginTop: { duration: 0.4, ease: "easeInOut" },
+                  },
                 }}
-                exit={{ 
-                  opacity: 0, 
-                  height: 0, 
+                exit={{
+                  opacity: 0,
+                  height: 0,
                   marginTop: 0,
                   transition: {
                     opacity: { duration: 0.2 },
                     height: { duration: 0.3, ease: "easeInOut", delay: 0.1 },
-                    marginTop: { duration: 0.3, ease: "easeInOut", delay: 0.1 }
-                  }
+                    marginTop: { duration: 0.3, ease: "easeInOut", delay: 0.1 },
+                  },
                 }}
                 className="pt-4 border-t space-y-4 overflow-hidden"
                 style={{ borderColor: `${theme.accentColor}30` }}
-                onClick={(e: { stopPropagation: () => any; }) => e.stopPropagation()}
+                onClick={(e: { stopPropagation: () => any }) =>
+                  e.stopPropagation()
+                }
               >
-                <motion.p 
+                <motion.p
                   style={{ color: `${theme.accentColor}90` }}
                   initial={{ opacity: 0, y: 10 }}
-                  animate={{ 
-                    opacity: 1, 
+                  animate={{
+                    opacity: 1,
                     y: 0,
-                    transition: { delay: 0.2, duration: 0.3 }
+                    transition: { delay: 0.2, duration: 0.3 },
                   }}
                   exit={{ opacity: 0, y: -5, transition: { duration: 0.2 } }}
                 >
                   {project.details}
                 </motion.p>
-                
+
                 {project.links && project.links.length > 0 && (
-                  <motion.div 
+                  <motion.div
                     className="flex flex-wrap gap-2"
                     initial={{ opacity: 0, y: 10 }}
-                    animate={{ 
-                      opacity: 1, 
+                    animate={{
+                      opacity: 1,
                       y: 0,
-                      transition: { delay: 0.3, duration: 0.3 }
+                      transition: { delay: 0.3, duration: 0.3 },
                     }}
                     exit={{ opacity: 0, y: -5, transition: { duration: 0.2 } }}
                   >
@@ -368,16 +408,16 @@ const EnhancedProjectCard: React.FC<{
                           color: theme.accentColor,
                         }}
                         initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ 
-                          opacity: 1, 
+                        animate={{
+                          opacity: 1,
                           scale: 1,
-                          transition: { 
-                            delay: 0.4 + (index * 0.1), 
+                          transition: {
+                            delay: 0.4 + index * 0.1,
                             duration: 0.2,
-                            ease: "easeOut"
-                          }
+                            ease: "easeOut",
+                          },
                         }}
-                        whileHover={{ 
+                        whileHover={{
                           scale: 1.05,
                           backgroundColor: `${theme.accentColor}30`,
                         }}
@@ -395,7 +435,7 @@ const EnhancedProjectCard: React.FC<{
 
           {/* Expand/Collapse button */}
           <motion.button
-            onClick={(e: { stopPropagation: () => void; }) => {
+            onClick={(e: { stopPropagation: () => void }) => {
               e.stopPropagation();
               setIsExpanded(!isExpanded);
             }}
@@ -404,7 +444,7 @@ const EnhancedProjectCard: React.FC<{
             whileHover={{ x: 4 }}
             whileTap={{ scale: 0.95 }}
           >
-            {isExpanded ? 'Show Less' : 'Learn More'}
+            {isExpanded ? "Show Less" : "Learn More"}
             <motion.div
               animate={{ rotate: isExpanded ? 180 : 0 }}
               transition={{ duration: 0.2 }}
@@ -434,8 +474,8 @@ const useResponsiveNodes = () => {
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return nodes;
@@ -454,22 +494,20 @@ const ProjectPortfolio: React.FC = () => {
     const matchesSearch =
       project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       project.description.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     const matchesCategory =
       selectedCategories.length === 0 ||
-      project.types.some(type => 
-        selectedCategories.some(category => 
-          type.includes(category)
-        )
+      project.types.some((type) =>
+        selectedCategories.some((category) => type.includes(category))
       );
-    
+
     return matchesSearch && matchesCategory;
   });
 
   const toggleCategory = (category: string) => {
-    setSelectedCategories(prev => {
+    setSelectedCategories((prev) => {
       if (prev.includes(category)) {
-        return prev.filter(c => c !== category);
+        return prev.filter((c) => c !== category);
       } else {
         return [...prev, category];
       }
@@ -477,9 +515,9 @@ const ProjectPortfolio: React.FC = () => {
   };
 
   const handleTagClick = (tag: string) => {
-    setSelectedCategories(prev => {
+    setSelectedCategories((prev) => {
       if (prev.includes(tag)) {
-        return prev.filter(c => c !== tag);
+        return prev.filter((c) => c !== tag);
       } else {
         return [...prev, tag];
       }
@@ -499,7 +537,11 @@ const ProjectPortfolio: React.FC = () => {
   // Project detail view
   if (selectedProject) {
     return (
-      <FloatingNetworkBackground nodeCount={nodeCount} connectionDistance={150} maxNodes={maxNodes}>
+      <FloatingNetworkBackground
+        nodeCount={nodeCount}
+        connectionDistance={150}
+        maxNodes={maxNodes}
+      >
         <div className="max-w-4xl mx-auto p-4 md:p-6 min-h-screen">
           <motion.button
             onClick={() => setSelectedProject(null)}
@@ -542,29 +584,31 @@ const ProjectPortfolio: React.FC = () => {
             transition={{ duration: 0.5 }}
           >
             <motion.div
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ rotate: 360 }}
+              transition={{ duration: 0.6 }}
               whileTap={{ scale: 0.9 }}
               className="pointer-events-auto"
             >
               <Home
                 className="w-8 h-8 inline-block mr-2 hover:cursor-pointer pointer-events-auto"
-                onClick={() => router.push('/')}
+                onClick={() => router.push("/")}
               />
             </motion.div>
             My Projects
           </motion.h1>
-          <motion.p 
-            style={{ color: theme.accentColor }} 
+          <motion.p
+            style={{ color: theme.accentColor }}
             className="mb-6 text-lg pointer-events-auto"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            A collection of my work across AI/ML, web development, games, and more
+            A collection of my work across AI/ML, web development, games, and
+            more
           </motion.p>
-          
+
           {/* Search */}
-          <motion.div 
+          <motion.div
             className="flex flex-wrap gap-4 mb-6"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -592,14 +636,19 @@ const ProjectPortfolio: React.FC = () => {
           </motion.div>
 
           {/* Category Filters */}
-          <motion.div 
+          <motion.div
             className="mb-6 pointer-events-auto"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <div className="flex flex-wrap items-center gap-2 mb-4">
-              <span style={{ color: theme.accentColor }} className="font-medium">Filters:</span>
+              <span
+                style={{ color: theme.accentColor }}
+                className="font-medium"
+              >
+                Filters:
+              </span>
               <motion.button
                 onClick={clearAllCategories}
                 className={`px-3 py-1 rounded-full text-sm transition-all duration-200 pointer-events-auto ${
@@ -647,8 +696,8 @@ const ProjectPortfolio: React.FC = () => {
             </div>
             <AnimatePresence>
               {selectedCategories.length > 0 && (
-                <motion.div 
-                  className="text-sm mt-2" 
+                <motion.div
+                  className="text-sm mt-2"
                   style={{ color: theme.accentColor }}
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
@@ -662,7 +711,7 @@ const ProjectPortfolio: React.FC = () => {
           </motion.div>
 
           {/* Project Grid */}
-          <motion.div 
+          <motion.div
             className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
             layout
           >
@@ -674,10 +723,10 @@ const ProjectPortfolio: React.FC = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
-                  transition={{ 
+                  transition={{
                     duration: 0.4,
                     delay: index * 0.1,
-                    layout: { duration: 0.3 }
+                    layout: { duration: 0.3 },
                   }}
                 >
                   <EnhancedProjectCard
@@ -702,8 +751,10 @@ const ProjectPortfolio: React.FC = () => {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                <p className="text-xl mb-2">No projects found matching your criteria</p>
-                <motion.button 
+                <p className="text-xl mb-2">
+                  No projects found matching your criteria
+                </p>
+                <motion.button
                   onClick={() => {
                     setSearchTerm("");
                     setSelectedCategories([]);

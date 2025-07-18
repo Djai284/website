@@ -1,0 +1,1383 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+about/
+  page.tsx
+api/
+  url-preview/
+    route.ts
+blog/
+  page.tsx
+projects/
+  page.tsx
+resume/
+  page.tsx
+globals.css
+layout.tsx
+page.tsx
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="about/page.tsx">
+"use client";
+
+import React from "react";
+import { 
+  Terminal, 
+  Instagram, 
+  Twitter, 
+  Youtube, 
+  Github, 
+  Mail,
+  Lightbulb,
+  Music,
+  Film,
+  Dumbbell,
+  Globe,
+  ArrowUp,
+  ArrowDown,
+  Music2,
+  Microscope,
+  Bot,
+  Drumstick,
+  Headphones,
+  Guitar,
+  Disc,
+  Popcorn,
+  Clapperboard,
+  Wind,
+  Flame,
+  Weight,
+  BicepsFlexed,
+  Dumbbell as WeightIcon,
+  Beef,
+  Fish,
+  Egg,
+  PanelRightOpen
+} from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTheme } from "@/components/theme-provider";
+import FloatingNetworkBackground from "@/components/floating-network";
+import { useRouter } from "next/navigation";
+
+// A reusable toggle component for expandable sections with smooth animation.
+const ToggleSection: React.FC<{
+  title: string;
+  icon: React.ReactNode;
+  children: React.ReactNode;
+}> = ({ title, icon, children }) => {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <div className="rounded pointer-events-auto">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between p-2 bg-transparent focus:outline-none"
+      >
+        <div className="flex items-center gap-2">
+          {icon}
+          <span className="font-semibold text-xl">{title}</span>
+        </div>
+        <span>{open ? <ArrowUp size={18} /> : <ArrowDown size={18} />}</span>
+      </button>
+      {/* The container is always rendered so that we can animate its max-height and opacity */}
+      <div
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+          open ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="p-2 space-y-2 text-lg">{children}</div>
+      </div>
+    </div>
+  );
+};
+
+const AboutPage: React.FC = () => {
+  const theme = useTheme();
+  const router = useRouter();
+
+  return (
+    <FloatingNetworkBackground
+      nodeCount={30}
+      connectionDistance={150}
+      maxNodes={70}
+    >
+      <div className="max-w-4xl mx-auto p-6 min-h-screen flex flex-col justify-center">
+        <div
+          className="pointer-events-auto cursor-pointer"
+          onClick={() => router.push("/")}
+        >
+          <h1
+            style={{ color: theme.accentColor }}
+            className="text-4xl font-bold mb-4 flex items-center gap-2"
+          >
+            <Terminal className="w-8 h-8" />
+            About Me
+          </h1>
+        </div>
+
+        <Card
+          style={{
+            background: `${theme.baseColor}CC`,
+            color: theme.accentColor,
+          }}
+        >
+          <CardHeader className="pointer-events-auto">
+            <CardTitle className="text-2xl font-bold flex items-center gap-2">
+              Dhananjai Senthilkumar
+            </CardTitle>
+            <div className="text-lg space-y-2">
+              <p>
+                I am a 4th year Computer Science student at Northeastern
+                University, passionate about building innovative solutions to
+                real problems using cutting-edge technology. I may not be the
+                biggest or strongest in the room, but I&apos;m often the{" "}
+                <strong>
+                  ambitious, determined, and somewhat insane guy 😂
+                </strong>{" "}
+                who dreams big and juggles many ideas.
+              </p>
+              <p>
+                I&apos;m on a journey of continuous learning and growth &mdash;
+                both as a developer and as a person. I believe in sharing my
+                work and connecting with others.
+              </p>
+              <p>Feel free to reach out to me on any of the platforms below:</p>
+              <div className="flex flex-wrap gap-4 mt-2">
+                <a
+                  href="https://www.instagram.com/djai.sen/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <Instagram size={18} />
+                  Instagram
+                </a>
+                <a
+                  href="https://x.com/Djai284"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <Twitter size={18} />
+                  Twitter
+                </a>
+                <a
+                  href="https://www.youtube.com/@Dhananjai284"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <Youtube size={18} />
+                  YouTube
+                </a>
+                <a
+                  href="https://github.com/Djai284"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <Github size={18} />
+                  GitHub
+                </a>
+                <a
+                  href="mailto:dhananjai284@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:underline"
+                >
+                  <Mail size={18} />
+                  Gmail
+                </a>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4 text-md">
+              <ToggleSection
+                title="Idea/Project List"
+                icon={<Lightbulb size={22} />}
+              >
+                <p>
+                  Here are some ideas and projects I&apos;m either working on or
+                  thinking about:
+                </p>
+                <ul className="pl-5 space-y-1">
+                  <li className="flex items-center gap-2">
+                    <Music2 size={18} />
+                    <span>
+                      <strong>Cymatics Lab</strong>: A music production and
+                      geometric research project
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Microscope size={18} />
+                    <span>
+                      <strong>Automated Hydroponics</strong>: Exploring
+                      sustainable living and self-reliance
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Bot size={18} />
+                    <span>
+                      <strong>AI Research Agent</strong>:
+                      Building an agent orchestration platform for deep research
+                    </span>
+                  </li>
+                </ul>
+              </ToggleSection>
+
+              <ToggleSection
+                title="Music I'm Listening To"
+                icon={<Music size={22} />}
+              >
+                <p>
+                  Music is an integral part of life. It can make you smile after
+                  a bad day or bring back memories of the past. Here&apos;s a
+                  taste of what I&apos;m tuning into right now:
+                </p>
+                <ul className="pl-5 space-y-1">
+                  <li className="flex items-center gap-2">
+                    <Drumstick size={18} />
+                    <span>
+                      <strong>Breakcore</strong> &mdash; Beats for getting
+                      things done
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Headphones size={18} />
+                    <span>
+                      <strong>EDM</strong> &mdash; Nostalgic hype vibes
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Guitar size={18} />
+                    <span>
+                      <strong>Jazz</strong> &mdash; Perfect for slowing down
+                      and relaxing
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Disc size={18} />
+                    <span>
+                      <strong>Rap</strong> &mdash; Artists like Kendrick Lamar
+                      for motivation and retrospection
+                    </span>
+                  </li>
+                </ul>
+                <p>
+                  I&apos;m always open to new suggestions, so please share your
+                  favorite tracks!
+                </p>
+                <p>
+                  I&apos;m also dabbling in music production &mdash; any advice
+                  is welcome.
+                </p>
+              </ToggleSection>
+
+              <ToggleSection
+                title="Movies, TV Shows &amp; Anime Watch List"
+                icon={<Film size={22} />}
+              >
+                <p>
+                  I love immersing myself in great storytelling. Here are some
+                  of my current favorites and all-time classics:
+                </p>
+                <ul className="pl-5 space-y-1">
+                  <li className="flex items-center gap-2">
+                    <Popcorn size={18} />
+                    <span>
+                      <strong>Game of Thrones</strong> &mdash; A binge-worthy
+                      epic
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Clapperboard size={18} />
+                    <span>
+                      <strong>The Penguin</strong> &mdash; Currently watching
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Wind size={18} />
+                    <span>
+                      <strong>Naruto</strong> &mdash; Anime classic
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Flame size={18} />
+                    <span>
+                      <strong>Blue Lock</strong> &mdash; Recently started
+                    </span>
+                  </li>
+                </ul>
+                <p className="mt-2">
+                  Got any recommendations? Drop your suggestions below or DM me
+                  on Twitter!
+                </p>
+              </ToggleSection>
+
+              <ToggleSection
+                title="Sports &amp; Fitness"
+                icon={<Dumbbell size={22} />}
+              >
+                <p>
+                  I enjoy staying active with sports and calisthenics.
+                  Here&apos;s a glimpse of my current routine:
+                </p>
+                <h3 className="font-bold mt-2">Calisthenics Workout</h3>
+                <ul className="pl-5 space-y-1">
+                  <li className="flex items-center gap-2">
+                    <Weight size={18} />
+                    <span>Planche Pushups: 3 sets of 5 reps</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <BicepsFlexed size={18} />
+                    <span>Handstand Practice: 5 minutes wall-supported</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <WeightIcon size={18} />
+                    <span>Pull-ups: 3 sets of 8 reps</span>
+                  </li>
+                </ul>
+                <p className="mt-2">
+                  Staying fit is key, and I&apos;m always looking to improve my
+                  strength and endurance.
+                </p>
+                <h3 className="font-bold mt-2">Meal Plan</h3>
+                <ul className="pl-5 space-y-1">
+                  <li className="flex items-center gap-2">
+                    <Beef size={18} />
+                    <span>Grilled Chicken Breast with Quinoa &amp; Veggies</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Fish size={18} />
+                    <span>Baked Salmon with Brown Rice &amp; Broccoli</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Egg size={18} />
+                    <span>Egg White Omelette with Spinach &amp; Mushrooms</span>
+                  </li>
+                </ul>
+                <p className="mt-2">
+                  I focus on healthy, high-protein meals while avoiding beef and
+                  pork.
+                </p>
+              </ToggleSection>
+
+              <ToggleSection
+                title="Online Content"
+                icon={<Globe size={22} />}
+              >
+                <p>
+                  I engage with a mix of podcasts, YouTube channels, and tech
+                  articles that inspire me.
+                </p>
+                <h3 className="font-bold mt-2">Podcasts I Enjoy</h3>
+                <ul className="pl-5 space-y-1">
+                  <li className="flex items-center gap-2">
+                    <PanelRightOpen size={18} />
+                    <span>Joe Rogan Experience</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <PanelRightOpen size={18} />
+                    <span>The Diary of a CEO</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <PanelRightOpen size={18} />
+                    <span>The Chris Williamson Podcast</span>
+                  </li>
+                </ul>
+                <p className="mt-2">
+                  Have any podcast recommendations? I&apos;d love to hear them!
+                </p>
+              </ToggleSection>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </FloatingNetworkBackground>
+  );
+};
+
+export default AboutPage;
+</file>
+
+<file path="api/url-preview/route.ts">
+// In your existing /api/url-preview/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+import * as cheerio from 'cheerio';
+
+export async function GET(request: NextRequest) {
+  const url = request.nextUrl.searchParams.get('url');
+  
+  if (!url) {
+    return NextResponse.json({ error: 'URL is required' }, { status: 400 });
+  }
+
+  try {
+    const response = await fetch(url);
+    const html = await response.text();
+    const $ = cheerio.load(html);
+    
+    // Extract OG image
+    const ogImage = $('meta[property="og:image"]').attr('content') || 
+                    $('meta[name="twitter:image"]').attr('content');
+    
+    // Make sure image URL is absolute
+    const imageUrl = ogImage ? new URL(ogImage, url).toString() : null;
+    
+    return NextResponse.json({
+      image: imageUrl,
+      title: $('meta[property="og:title"]').attr('content') || $('title').text(),
+      description: $('meta[property="og:description"]').attr('content'),
+      favicon: $('link[rel="icon"]').attr('href')
+    });
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to fetch preview' }, { status: 500 });
+  }
+}
+</file>
+
+<file path="blog/page.tsx">
+"use client";
+
+import { useEffect } from "react";
+
+const BlogPage = () => {
+  useEffect(() => {
+    window.location.href = "https://blog.jai.place/";
+  }, []);
+
+  return null;
+}
+
+export default BlogPage;
+</file>
+
+<file path="projects/page.tsx">
+"use client";
+
+import React, { useEffect, useState, useRef, useCallback } from "react";
+import { Search, Grid, List, ArrowLeft, X, Home, ExternalLink, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
+import { useTheme } from "@/components/theme-provider";
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import FloatingNetworkBackground from "@/components/floating-network";
+import { ArrowRight } from "lucide-react";
+
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  image?: string;
+  previewImage?: string;
+  previewUrl?: string;
+  timeline: string;
+  status: "In Progress" | "Completed" | "Planned";
+  types: string[];
+  details: string;
+  links?: {
+    title: string;
+    url: string;
+  }[];
+}
+
+const projectsData: Project[] = [
+  {
+    id: 1,
+    title: "Exercise Activity Recognition",
+    description: "Custom-trained CNN model for recognizing gym exercises on embedded devices like smartwatches",
+    timeline: "Jan 2023 - Apr 2023",
+    status: "Completed",
+    types: ["Machine Learning", "Mobile", "iOS", "TensorFlow", "Health & Fitness"],
+    details: "Developed a custom trained activity recognition model to identify gym exercises automatically using Convolutional Neural Networks. The model is designed to run locally on embedded devices such as smartwatches, providing real-time feedback without cloud dependencies. The project consists of two parts: a trained machine learning model with TensorFlow and an iOS application that implements the model for real-world use.",
+    links: [
+      {
+        title: "ML Model Repository",
+        url: "https://github.com/Djai284/smartwatch-activity-recognition"
+      },
+      {
+        title: "iOS App Repository",
+        url: "https://github.com/Djai284/exercise-activity-recognizer"
+      }
+    ]
+  },
+  {
+    id: 2,
+    title: "Cats vs K9s",
+    description: "A fun twist on the tower defense genre inspired by Plants vs Zombies",
+    timeline: "Oct 2022",
+    status: "Completed",
+    types: ["Game Development", "Web", "JavaScript"],
+    details: "Developed a browser-based tower defense game inspired by the mechanics of Plants vs Zombies but with a unique cat and dog theme. The game features multiple levels, different types of defender cats and enemy dogs, and resource management mechanics. Built with JavaScript for cross-platform compatibility.",
+    links: [
+      {
+        title: "Game Repository",
+        url: "https://github.com/Djai284/cats-vs-k9s"
+      }
+    ]
+  },
+  {
+    id: 3,
+    title: "AWS Remix",
+    description: "Tool for summarizing AWS account resources in AI-friendly formats",
+    timeline: "Nov 2023",
+    status: "Completed",
+    types: ["DevOps", "AWS", "Cloud", "Python"],
+    details: "Created a utility that analyzes entire AWS accounts and generates comprehensive summaries in formats optimized for AI consumption. The tool helps developers and architects quickly understand complex AWS setups, simplifies infrastructure auditing, and makes it easier to discuss cloud architecture with AI assistants.",
+    links: [
+      {
+        title: "GitHub Repository",
+        url: "https://github.com/Djai284/aws-remix"
+      }
+    ]
+  },
+  {
+    id: 4,
+    title: "rev",
+    description: "A hackerspace community platform connecting 350+ members in the Boston area",
+    timeline: "Aug 2023 - Present",
+    status: "In Progress",
+    types: ["Community", "Web", "Next.js", "Graph Databases"],
+    details: "Founded and built a thriving hackerspace community platform that grew to 350+ members within one semester. Developed rev connex, a sophisticated networking system using graph databases and embeddings to connect people and projects. Led educational initiatives including cohort workshops on Firebase and LLMs, and hosted events featuring notable tech venture capitalists like Cory Levy and Edward Lando.",
+    links: [
+      {
+        title: "Official Website",
+        url: "https://www.rev.school/"
+      }
+    ],
+    previewUrl: "https://www.rev.school/"
+  },
+  {
+    id: 5,
+    title: "Autonomous Game Agent for Jetpack Joyride",
+    description: "AI-powered game agent using genetic algorithms and neural networks",
+    timeline: "Nov 2023",
+    status: "Completed",
+    types: ["AI/ML", "Game AI", "Python", "Neural Networks"],
+    details: "Implemented an intelligent game agent for Jetpack Joyride using a combination of genetic algorithms and neural networks built from scratch. The agent learns to play the game autonomously, improving its performance over multiple generations of training. The project demonstrates practical applications of evolutionary algorithms in reinforcement learning scenarios.",
+    links: [
+      {
+        title: "GitHub Repository",
+        url: "https://github.com/Djai284/JetpackJoyrideRL"
+      }
+    ]
+  },
+  {
+    id: 6,
+    title: "Mayura Studios",
+    description: "Technical venture studio specializing in full-stack AI application development",
+    timeline: "Feb 2024 - Present",
+    status: "In Progress",
+    types: ["AI/ML", "Consulting", "Full Stack", "Venture Studio"],
+    details: "Co-founded a technical venture studio and consulting firm focusing on cutting-edge AI application development. Mayura Studios builds custom AI solutions for businesses while also incubating internal projects that leverage the latest in machine learning and artificial intelligence technologies.",
+    links: [
+      {
+        title: "Studio Website",
+        url: "https://mayura.studio"
+      }
+    ],
+    previewUrl: "https://mayura.studio"
+  },
+  {
+    id: 7,
+    title: "LotCreator",
+    description: "AI-powered auction management platform that reduced appraisal processing time from 16 hours to 16 seconds",
+    timeline: "Aug 2023 - Present",
+    status: "In Progress",
+    types: ["AI/ML", "Web", "E-commerce", "Computer Vision"],
+    details: "Built an end-to-end full stack application for managing auctions using MVC design. Leveraged GPT-4, Google Vision, and Selenium to automate product appraisal processes through computer vision models, scraping agents, and LLMs. The system dramatically improved efficiency by reducing processing time from 16 hours to just 16 seconds.",
+    links: [
+      {
+        title: "Platform Website",
+        url: "https://lotcreator.com/"
+      }
+    ],
+    previewUrl: "https://lotcreator.com/"
+  }
+];
+
+const projectCategories = [
+  "AI/ML", 
+  "Web", 
+  "Mobile",
+  "Game Development",
+  "DevOps",
+  "Community",
+  "Full Stack"
+];
+
+// Clean Tag Component with Framer Motion
+const ProjectTag: React.FC<{ 
+  tag: string; 
+  index: number;
+  isHighlighted?: boolean;
+  onClick?: (e?: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+  theme: any;
+}> = ({ tag, index, isHighlighted = false, onClick, theme }) => {
+  return (
+    <motion.span
+      initial={{ scale: 0.96 }}
+      animate={{ scale: 1 }}
+      transition={{ 
+        delay: index * 0.05, 
+        duration: 0.2,
+        ease: "easeOut"
+      }}
+      whileHover={{ 
+        scale: 1.08,
+        transition: { duration: 0.15 }
+      }}
+      whileTap={{ scale: 0.92 }}
+      className={cn(
+        "px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 cursor-pointer pointer-events-auto",
+        isHighlighted ? "ring-2 ring-offset-2" : ""
+      )}
+      style={{
+        backgroundColor: isHighlighted ? theme.accentColor : `${theme.accentColor}20`,
+        color: isHighlighted ? theme.baseColor : theme.accentColor,
+      }}
+      onClick={onClick}
+    >
+      {tag}
+    </motion.span>
+  );
+};
+
+// Enhanced Project Card with clean design
+const EnhancedProjectCard: React.FC<{
+  project: Project;
+  theme: any;
+  onSelect: (project: Project) => void;
+  selectedTags: string[];
+  onTagClick: (tag: string) => void;
+  autoExpand?: boolean;
+}> = ({ project, theme, onSelect, selectedTags, onTagClick, autoExpand = false }) => {
+  const [isExpanded, setIsExpanded] = useState(autoExpand);
+
+  // Auto-expand when autoExpand prop changes
+  useEffect(() => {
+    if (autoExpand) {
+      setIsExpanded(true);
+    }
+  }, [autoExpand]);
+
+  const getStatusColor = (status: Project["status"]) => {
+    switch (status.toLowerCase()) {
+      case "completed":
+        return "bg-green-500";
+      case "in progress":
+        return "bg-blue-500";
+      case "planned":
+        return "bg-yellow-500";
+      default:
+        return "bg-gray-500";
+    }
+  };
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3 }}
+      whileHover={{ 
+        y: -4,
+        transition: { duration: 0.2 }
+      }}
+      className="group pointer-events-auto"
+    >
+      <Card
+        className="cursor-pointer transition-all duration-300 border-2 overflow-hidden h-full pointer-events-auto"
+        style={{
+          borderColor: "transparent",
+          background: `linear-gradient(135deg, ${theme.accentColor}10 0%, ${theme.accentColor}20 100%)`,
+          backdropFilter: 'blur(10px)',
+        }}
+        onClick={() => !isExpanded && onSelect(project)}
+      >
+        {/* Status indicator */}
+        <div className="absolute top-4 right-4 z-10">
+          <motion.div 
+            className={`w-3 h-3 rounded-full ${getStatusColor(project.status)}`}
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+        </div>
+
+        {project.image && (
+          <div className="h-48 overflow-hidden">
+            <motion.img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+            />
+          </div>
+        )}
+
+        <CardHeader className="pb-2">
+          <CardTitle className="text-xl" style={{ color: theme.accentColor }}>
+            {project.title}
+          </CardTitle>
+          <CardDescription style={{ color: `${theme.accentColor}80` }}>
+            {project.timeline}
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent className="space-y-4">
+          <p style={{ color: `${theme.accentColor}90` }}>
+            {project.description}
+          </p>
+          
+          {/* Clean tag display */}
+          <div className="flex flex-wrap gap-2">
+            <AnimatePresence>
+              {project.types.map((type, index) => (
+                <ProjectTag
+                  key={type}
+                  tag={type}
+                  index={index}
+                  isHighlighted={selectedTags.includes(type)}
+                  onClick={(e) => {
+                    e?.stopPropagation();
+                    onTagClick(type);
+                  }}
+                  theme={theme}
+                />
+              ))}
+            </AnimatePresence>
+          </div>
+
+          {/* Expandable details section */}
+          <AnimatePresence>
+            {isExpanded && (
+              <motion.div
+                initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                animate={{ 
+                  opacity: 1, 
+                  height: "auto", 
+                  marginTop: 16,
+                  transition: {
+                    height: { duration: 0.4, ease: "easeInOut" },
+                    opacity: { duration: 0.3, delay: 0.1 },
+                    marginTop: { duration: 0.4, ease: "easeInOut" }
+                  }
+                }}
+                exit={{ 
+                  opacity: 0, 
+                  height: 0, 
+                  marginTop: 0,
+                  transition: {
+                    opacity: { duration: 0.2 },
+                    height: { duration: 0.3, ease: "easeInOut", delay: 0.1 },
+                    marginTop: { duration: 0.3, ease: "easeInOut", delay: 0.1 }
+                  }
+                }}
+                className="pt-4 border-t space-y-4 overflow-hidden"
+                style={{ borderColor: `${theme.accentColor}30` }}
+                onClick={(e: { stopPropagation: () => any; }) => e.stopPropagation()}
+              >
+                <motion.p 
+                  style={{ color: `${theme.accentColor}90` }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ 
+                    opacity: 1, 
+                    y: 0,
+                    transition: { delay: 0.2, duration: 0.3 }
+                  }}
+                  exit={{ opacity: 0, y: -5, transition: { duration: 0.2 } }}
+                >
+                  {project.details}
+                </motion.p>
+                
+                {project.links && project.links.length > 0 && (
+                  <motion.div 
+                    className="flex flex-wrap gap-2"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ 
+                      opacity: 1, 
+                      y: 0,
+                      transition: { delay: 0.3, duration: 0.3 }
+                    }}
+                    exit={{ opacity: 0, y: -5, transition: { duration: 0.2 } }}
+                  >
+                    {project.links.map((link, index) => (
+                      <motion.a
+                        key={index}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-sm px-3 py-1 rounded-full transition-colors duration-200 pointer-events-auto"
+                        style={{
+                          background: `${theme.accentColor}20`,
+                          color: theme.accentColor,
+                        }}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ 
+                          opacity: 1, 
+                          scale: 1,
+                          transition: { 
+                            delay: 0.4 + (index * 0.1), 
+                            duration: 0.2,
+                            ease: "easeOut"
+                          }
+                        }}
+                        whileHover={{ 
+                          scale: 1.05,
+                          backgroundColor: `${theme.accentColor}30`,
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        {link.title}
+                        <ExternalLink size={12} />
+                      </motion.a>
+                    ))}
+                  </motion.div>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Expand/Collapse button */}
+          <motion.button
+            onClick={(e: { stopPropagation: () => void; }) => {
+              e.stopPropagation();
+              setIsExpanded(!isExpanded);
+            }}
+            className="flex items-center gap-2 text-sm font-medium transition-colors pointer-events-auto"
+            style={{ color: theme.accentColor }}
+            whileHover={{ x: 4 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {isExpanded ? 'Show Less' : 'Learn More'}
+            <motion.div
+              animate={{ rotate: isExpanded ? 180 : 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <ChevronDown size={16} />
+            </motion.div>
+          </motion.button>
+        </CardContent>
+      </Card>
+    </motion.div>
+  );
+};
+
+const useResponsiveNodes = () => {
+  const [nodes, setNodes] = useState({ count: 30, max: 70 });
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 640) {
+        setNodes({ count: 15, max: 30 });
+      } else if (width < 1024) {
+        setNodes({ count: 20, max: 50 });
+      } else {
+        setNodes({ count: 30, max: 70 });
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return nodes;
+};
+
+const ProjectPortfolio: React.FC = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const theme = useTheme();
+  const router = useRouter();
+
+  const { count: nodeCount, max: maxNodes } = useResponsiveNodes();
+
+  const filteredProjects = projectsData.filter((project) => {
+    const matchesSearch =
+      project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      project.description.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesCategory =
+      selectedCategories.length === 0 ||
+      project.types.some(type => 
+        selectedCategories.some(category => 
+          type.includes(category)
+        )
+      );
+    
+    return matchesSearch && matchesCategory;
+  });
+
+  const toggleCategory = (category: string) => {
+    setSelectedCategories(prev => {
+      if (prev.includes(category)) {
+        return prev.filter(c => c !== category);
+      } else {
+        return [...prev, category];
+      }
+    });
+  };
+
+  const handleTagClick = (tag: string) => {
+    setSelectedCategories(prev => {
+      if (prev.includes(tag)) {
+        return prev.filter(c => c !== tag);
+      } else {
+        return [...prev, tag];
+      }
+    });
+  };
+
+  const clearAllCategories = () => {
+    setSelectedCategories([]);
+  };
+
+  const getButtonStyle = (isActive: boolean) => ({
+    backgroundColor: isActive ? theme.accentColor : `${theme.baseColor}80`,
+    color: isActive ? theme.baseColor : theme.accentColor,
+    borderColor: theme.accentColor,
+  });
+
+  // Project detail view
+  if (selectedProject) {
+    return (
+      <FloatingNetworkBackground nodeCount={nodeCount} connectionDistance={150} maxNodes={maxNodes}>
+        <div className="max-w-4xl mx-auto p-4 md:p-6 min-h-screen">
+          <motion.button
+            onClick={() => setSelectedProject(null)}
+            style={{ color: theme.accentColor }}
+            className="text-2xl font-bold flex items-center mb-4 hover:underline pointer-events-auto"
+            whileHover={{ x: -4 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <ArrowLeft className="w-6 h-6 mr-2" />
+            Back to Projects
+          </motion.button>
+
+          <EnhancedProjectCard
+            project={selectedProject}
+            theme={theme}
+            onSelect={() => {}}
+            selectedTags={selectedCategories}
+            onTagClick={handleTagClick}
+            autoExpand={true}
+          />
+        </div>
+      </FloatingNetworkBackground>
+    );
+  }
+
+  // Main projects view
+  return (
+    <FloatingNetworkBackground
+      nodeCount={nodeCount}
+      connectionDistance={150}
+      maxNodes={maxNodes}
+    >
+      <div className="max-w-6xl mx-auto p-4 md:p-6 min-h-screen">
+        <div className="mb-8">
+          <motion.h1
+            style={{ color: theme.accentColor }}
+            className="text-3xl font-bold mb-2 flex items-center pointer-events-auto"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="pointer-events-auto"
+            >
+              <Home
+                className="w-8 h-8 inline-block mr-2 hover:cursor-pointer pointer-events-auto"
+                onClick={() => router.push('/')}
+              />
+            </motion.div>
+            My Projects
+          </motion.h1>
+          <motion.p 
+            style={{ color: theme.accentColor }} 
+            className="mb-6 text-lg pointer-events-auto"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            A collection of my work across AI/ML, web development, games, and more
+          </motion.p>
+          
+          {/* Search */}
+          <motion.div 
+            className="flex flex-wrap gap-4 mb-6"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <div className="relative flex-grow max-w-md pointer-events-auto">
+              <Search
+                style={{ color: theme.accentColor }}
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 pointer-events-none"
+              />
+              <input
+                type="text"
+                style={{
+                  borderColor: theme.accentColor,
+                  outlineColor: theme.accentColor,
+                  backgroundColor: `${theme.baseColor}80`,
+                  color: theme.accentColor,
+                }}
+                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline focus:outline-2 transition-all duration-200 pointer-events-auto"
+                placeholder="Search projects..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+          </motion.div>
+
+          {/* Category Filters */}
+          <motion.div 
+            className="mb-6 pointer-events-auto"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <div className="flex flex-wrap items-center gap-2 mb-4">
+              <span style={{ color: theme.accentColor }} className="font-medium">Filters:</span>
+              <motion.button
+                onClick={clearAllCategories}
+                className={`px-3 py-1 rounded-full text-sm transition-all duration-200 pointer-events-auto ${
+                  selectedCategories.length > 0 ? "opacity-100" : "opacity-50"
+                }`}
+                style={{
+                  border: `1px solid ${theme.accentColor}40`,
+                  color: theme.accentColor,
+                }}
+                disabled={selectedCategories.length === 0}
+                whileHover={{ scale: selectedCategories.length > 0 ? 1.05 : 1 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Clear All
+              </motion.button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {projectCategories.map((category, index) => (
+                <motion.button
+                  key={category}
+                  onClick={() => toggleCategory(category)}
+                  style={getButtonStyle(selectedCategories.includes(category))}
+                  className="px-3 py-1 rounded-full text-sm border-2 transition-all duration-200 flex items-center pointer-events-auto"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.1, duration: 0.3 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {category}
+                  <AnimatePresence>
+                    {selectedCategories.includes(category) && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <X className="w-3 h-3 ml-1" />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.button>
+              ))}
+            </div>
+            <AnimatePresence>
+              {selectedCategories.length > 0 && (
+                <motion.div 
+                  className="text-sm mt-2" 
+                  style={{ color: theme.accentColor }}
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  Showing projects matching: {selectedCategories.join(", ")}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+
+          {/* Project Grid */}
+          <motion.div 
+            className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+            layout
+          >
+            <AnimatePresence mode="wait">
+              {filteredProjects.map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ 
+                    duration: 0.4,
+                    delay: index * 0.1,
+                    layout: { duration: 0.3 }
+                  }}
+                >
+                  <EnhancedProjectCard
+                    project={project}
+                    theme={theme}
+                    onSelect={setSelectedProject}
+                    selectedTags={selectedCategories}
+                    onTagClick={handleTagClick}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+
+          <AnimatePresence>
+            {filteredProjects.length === 0 && (
+              <motion.div
+                style={{ color: theme.accentColor }}
+                className="text-center py-8 pointer-events-auto"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <p className="text-xl mb-2">No projects found matching your criteria</p>
+                <motion.button 
+                  onClick={() => {
+                    setSearchTerm("");
+                    setSelectedCategories([]);
+                  }}
+                  className="underline transition-all duration-200 pointer-events-auto"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Clear filters
+                </motion.button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </FloatingNetworkBackground>
+  );
+};
+
+export default ProjectPortfolio;
+</file>
+
+<file path="resume/page.tsx">
+"use client";
+
+import { useEffect } from "react";
+
+const ResumePage = () => {
+  useEffect(() => {
+    window.location.href = "https://firebasestorage.googleapis.com/v0/b/personal-website-f0071.appspot.com/o/dhananjai_resume.pdf?alt=media&token=338efb25-bfe3-4df1-aeb3-3707e7f0408b";
+  }, []);
+
+  return null;
+}
+
+export default ResumePage;
+</file>
+
+<file path="globals.css">
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+</file>
+
+<file path="layout.tsx">
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+import "./globals.css";
+import { ThemeProvider } from "../components/theme-provider";
+import DynamicFavicon from "@/components/dynamic-favicon";
+
+const geistSans = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+  weight: "100 900",
+});
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  weight: "100 900",
+});
+
+export const metadata: Metadata = {
+  title: "Jai's Corner of the Internet",
+  description: "A personal website and blog by Dhananjai Senthil Kumar.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <ThemeProvider>
+          <DynamicFavicon />
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
+</file>
+
+<file path="page.tsx">
+import React from "react";
+import FloatingNetworkBackground from "@/components/floating-network";
+import { Content } from "@/components/landing";
+
+const App: React.FC = () => {
+  return (
+    <FloatingNetworkBackground nodeCount={30} connectionDistance={150} maxNodes={70}>
+      <Content />
+    </FloatingNetworkBackground>
+  );
+};
+
+export default App;
+</file>
+
+</files>
