@@ -227,7 +227,6 @@ const AboutPage: React.FC = () => {
               <div className="text-lg space-y-2">
                 {[
                   "I'm a recent Computer Science graduate from Northeastern University and an impact-driven developer who's passionate about building technology that genuinely makes a difference. I love creating products that people actually use and find helpful — whether it's streamlining workflows, solving everyday problems, or opening up new possibilities.",
-                  "I may not be the biggest or strongest in the room, but I'm often the ambitious, determined, and somewhat insane guy 😂 who dreams big and isn't afraid to tackle complex challenges. I believe the best technology feels invisible to users while solving real problems behind the scenes.",
                   "I'm on a continuous journey of learning, building, and growing — both as a developer and as a person. I believe in sharing my work, connecting with others, and contributing to the tech community.",
                   "Feel free to reach out to me on any of the platforms below:"
                 ].map((text, index) => (
